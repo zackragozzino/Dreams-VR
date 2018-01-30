@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,13 +12,13 @@ public class PortalTeleporter : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//If the player is entering the portal
+		//If the player enters a portal
 		if (playerIsOverlapping)
 		{
 			Vector3 portalToPlayer = player.position - transform.position;
 			float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
 
-			// If true, player has moved across the portal and is entering from the correct side
+			// If true, the player has moved across the portal
 			if (dotProduct < 0f)
 			{
 				// Teleport
@@ -33,7 +33,7 @@ public class PortalTeleporter : MonoBehaviour {
 			}
 		}
 	}
-		
+
 	void OnTriggerEnter (Collider other)
 	{
 		if (other.tag == "Player")
