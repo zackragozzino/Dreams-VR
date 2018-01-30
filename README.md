@@ -1,4 +1,6 @@
- Dreams-VR
+
+
+Dreams-VR
 
 ## GIT commands
 ### From the beginning
@@ -27,4 +29,14 @@
 - git push origin YOUR_BRANCH
   - (this will push your local commit to your branch remotely)
 - REPEAT THE PROCESS
+
+### If things go wrong
+- if you have not done "git add .", then you can do the following: 
+  - git checkout .
+  - this will remove all changes
+- if you have done "git add ." but have not done "git commit -m 'MESSAGE HERE'"
+  - git reset HEAD . (this will unstage it)
+  - git checkout . (this will remove all changes)
+- if you have done "git commit -m 'MESSAGE HERE'" 
+  - git revert DESIRED_COMMIT_ID
 
