@@ -8,12 +8,13 @@ public class PortalTeleporter : MonoBehaviour {
 	public Transform reciever;
 
 	private bool playerIsOverlapping = false;
+	public bool canTeleport = true;
 
 	// Update is called once per frame
 	void Update () {
 
 		//If the player enters a portal
-		if (playerIsOverlapping)
+		if (playerIsOverlapping && canTeleport)
 		{
 			Vector3 portalToPlayer = player.position - transform.position;
 			float dotProduct = Vector3.Dot(transform.up, portalToPlayer);
