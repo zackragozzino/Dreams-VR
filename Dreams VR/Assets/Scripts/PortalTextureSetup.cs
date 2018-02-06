@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,12 +10,13 @@ public class PortalTextureSetup : MonoBehaviour {
 	public Material cameraMatA;
 	public Material cameraMatB;
 
+	// Use this for initialization
 	void Start () {
-		
 		/*
-		 * Basically sets up the initial resolution of the portals
-		 * so that they match the resolution of the computer screen
-		 */
+		 * Sets the initial resolution of the portals
+		 * to match the resolution of the computer screen
+		 * This script only runs at the very beginning of runtime
+		 * */
 
 		if (cameraA.targetTexture != null)
 		{
@@ -31,4 +32,5 @@ public class PortalTextureSetup : MonoBehaviour {
 		cameraB.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
 		cameraMatB.mainTexture = cameraB.targetTexture;
 	}
+	
 }
