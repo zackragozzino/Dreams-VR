@@ -210,8 +210,8 @@ MonoBehaviour:
   numStartCrawlers: 0
   maxCrawlers: 10
   radius: 10
-  speed: 1.5
-  crawlers: []
+  speed: 1
+  restTime: 0.5
 --- !u!4 &1351316742
 Transform:
   m_ObjectHideFlags: 0

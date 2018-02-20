@@ -8,12 +8,17 @@ public class CreepyCrawlers : MonoBehaviour {
     public GameObject center;
     public int numStartCrawlers = 0;
     public int maxCrawlers = 10;
-    public float radius = 25.0f;
+    public float radius = 10.0f;
     public float speed = 1.0f;
-    public float restTime = 3;
+    public float restTime = 0.5f;
     private List<GameObject> crawlers;
     private float closest = 1;
-    private bool move = true;
+    private bool move;
+
+    public CreepyCrawlers() {
+        this.crawlers  = new List<GameObject>();
+        this.move = true;
+    }
 
     // Use this for initialization
     void Start () {
@@ -23,32 +28,28 @@ public class CreepyCrawlers : MonoBehaviour {
         for (int i = 0; i < this.maxCrawlers; i++) {
             float x = Mathf.Sin(crawlerAngle) * this.radius;
             float z = Mathf.Cos(crawlerAngle) * this.radius;
-            Vector3 newPos = this.center.transform.position + new Vector3(x, 0.0f, z);
-            print("Instantiate");
-            print(i);
-            print(newPos);
-            crawlers.Add((GameObject)Instantiate(this.crawler, newPos, zeroQuaternion));
+            Vector3 newPos = this.center.transform.position + new Vector3(x, -this.center.transform.position.y, z);
+            GameObject crawlThing = (GameObject)Instantiate(this.crawler, newPos, zeroQuaternion);
+            crawlers.Add(crawlThing);
             crawlerAngle += angleIncrement;
         }
-        StartCoroutine(Wait(5.0f));
     }
     
-    // Update is called once per frame
+// Things I could add
+// -- random directions which are facing the user in general
+// -- move alternating things at different times
+// -- move things in groups
+// -- swarming effect
     void Update () {   
         if (this.move == true) {
             foreach (GameObject c in crawlers) {
                 Vector3 diffVector = this.center.transform.position - c.transform.position;
                 if (diffVector.magnitude >= closest) {
-                    print(diffVector.magnitude);
-                    print("Closest " + closest);
-                    print(diffVector);
                     Vector3 translate = diffVector * this.speed * Time.deltaTime;
                     c.transform.Translate(translate);
-                    print("Hi there!");
-                    print(c.transform.position);
                 }
             }
-            StartCoroutine(Wait(3.0f));
+            StartCoroutine(Wait(this.restTime));
         }
     }
 
