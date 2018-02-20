@@ -8,30 +8,40 @@ public class CreepyCrawlers : MonoBehaviour {
     public GameObject center;
     public int numStartCrawlers = 0;
     public int maxCrawlers = 10;
-    public float radius = 10.0f;
+    public float radius = 5.0f;
     public float speed = 1.0f;
-    public float restTime = 0.5f;
+    public float restTime = 0.3f;
     private List<GameObject> crawlers;
-    private float closest = 1;
-    private bool move;
+    private float closest = 0.3f;
+    private bool moveCloser;
+    private bool generate;
+    private bool crawl;
 
     public CreepyCrawlers() {
         this.crawlers  = new List<GameObject>();
-        this.move = true;
+        this.moveCloser = true;
+        this.generate = true;
+        this.crawl = false;
     }
 
     // Use this for initialization
     void Start () {
-        Quaternion zeroQuaternion = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
-        float crawlerAngle = 0;
-        float angleIncrement = 2 * Mathf.PI / this.maxCrawlers;
-        for (int i = 0; i < this.maxCrawlers; i++) {
-            float x = Mathf.Sin(crawlerAngle) * this.radius;
-            float z = Mathf.Cos(crawlerAngle) * this.radius;
-            Vector3 newPos = this.center.transform.position + new Vector3(x, -this.center.transform.position.y, z);
-            GameObject crawlThing = (GameObject)Instantiate(this.crawler, newPos, zeroQuaternion);
-            crawlers.Add(crawlThing);
-            crawlerAngle += angleIncrement;
+        InvokeRepeating("GenerateInCircle", 0.0f, 0.4f);  
+    }
+
+    void GenerateInCircle() {
+        if (this.generate == true) {
+            float crawlerAngle = 0;
+            float angleIncrement = 2 * Mathf.PI / this.maxCrawlers;
+            for (int i = 0; i < this.maxCrawlers; i++) {
+                float r = Random.Range(-1.0f, 1.0f);
+                float x = Mathf.Sin(crawlerAngle  + r) * this.radius + this.center.transform.position.x;
+                float z = Mathf.Cos(crawlerAngle + r) * this.radius + this.center.transform.position.z;
+                Vector3 newPos = new Vector3(x + r, 0.0f, z + r);
+                GameObject crawlThing = (GameObject)Instantiate(this.crawler, newPos, Quaternion.identity);
+                crawlers.Add(crawlThing);
+                crawlerAngle += angleIncrement;
+            }
         }
     }
     
@@ -41,21 +51,35 @@ public class CreepyCrawlers : MonoBehaviour {
 // -- move things in groups
 // -- swarming effect
     void Update () {   
-        if (this.move == true) {
-            foreach (GameObject c in crawlers) {
-                Vector3 diffVector = this.center.transform.position - c.transform.position;
-                if (diffVector.magnitude >= closest) {
-                    Vector3 translate = diffVector * this.speed * Time.deltaTime;
-                    c.transform.Translate(translate);
-                }
+        foreach (GameObject c in crawlers) {
+            float r = Random.Range(-1.0f, 1.0f);
+            Vector3 towardsCenter = this.center.transform.position - c.transform.position;
+            if (towardsCenter.magnitude > closest && this.moveCloser) {
+                Vector3 translate = (towardsCenter + new Vector3(r, 0.0f, r))* this.speed * Time.deltaTime;
+                c.transform.Translate(translate);
             }
-            StartCoroutine(Wait(this.restTime));
+            else {
+                this.moveCloser = false;
+                Vector3 tangent;
+                Vector3 t1 = Vector3.Cross( towardsCenter, Vector3.forward );
+                Vector3 t2 = Vector3.Cross( towardsCenter, Vector3.up );
+                if ( t1.magnitude > t2.magnitude ) {
+                    tangent = t2;
+                } else {
+                    tangent = t2;
+                }
+                // (new Vector3(2*r, 0.0f, 2*r) - towardsCenter)
+                Vector3 newDir = new Vector3(tangent.x + r*2, 0.0f, tangent.z + r*2);
+                Vector3 translate = newDir * this.speed * Time.deltaTime;
+                c.transform.Translate(translate);
+            }
         }
+        StartCoroutine(Wait(this.restTime));
     }
 
     private IEnumerator Wait(float timeWait) {
-        this.move = false;
+        this.moveCloser = false;
         yield return new WaitForSecondsRealtime(timeWait);
-        this.move = true;
+        this.moveCloser = true;
     }
 }
