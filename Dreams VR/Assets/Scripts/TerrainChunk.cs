@@ -111,8 +111,6 @@ public class TerrainChunk {
 						lodMesh.RequestMesh (heightMap, meshSettings);
 					}
 				}
-
-
 			}
 
 			if (wasVisible != visible) {

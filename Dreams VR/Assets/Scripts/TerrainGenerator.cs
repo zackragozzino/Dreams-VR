@@ -27,6 +27,8 @@ public class TerrainGenerator : MonoBehaviour {
 	Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
 	List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
+	public GameObject objectPopulator;
+
 	void Start() {
 
 		textureSettings.ApplyToMaterial (mapMaterial);
