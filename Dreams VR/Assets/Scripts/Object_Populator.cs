@@ -31,7 +31,7 @@ public class Object_Populator : MonoBehaviour {
 		textureData.UpdateMeshHeights (terrainMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
 		HeightMap heightMap = HeightMapGenerator.GenerateHeightMap (meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, Vector2.zero);
 
-		TextureFromHeightMap(heightMap);
+		//TextureFromHeightMap(heightMap);
 	}
 
 	public void DrawMapInEditor() {
@@ -83,8 +83,8 @@ public class Object_Populator : MonoBehaviour {
 				//colourMap [y * width + x] = Color.Lerp (Color.black, Color.white, Mathf.InverseLerp(heightMap.minValue,heightMap.maxValue,heightMap.values [x, y]));
 				//colourMap [y * width x] = Mathf.Lerp(1, 0,  Mathf.InverseLerp(heightMap.minValue,heightMap.maxValue,heightMap.values [x, y]));
 				print(heightMap.values[x,y]);
-				if (heightMap.values [x, y] > 0.7f) {
-					Instantiate (testMesh, new Vector3 (x - (width/2f), 0, y - (height/2f)), Quaternion.identity, this.transform);
+				if (heightMap.values [x, y] > 0.9f) {
+					Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
 				}
 			}
 		}

@@ -28,6 +28,8 @@ public class TerrainChunk {
 	MeshSettings meshSettings;
 	Transform viewer;
 
+	Object_Populator ObjectPopulator;
+
 	public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer, Material material) {
 		this.coord = coord;
 		this.detailLevels = detailLevels;
@@ -46,6 +48,8 @@ public class TerrainChunk {
 		meshFilter = meshObject.AddComponent<MeshFilter>();
 		meshCollider = meshObject.AddComponent<MeshCollider>();
 		meshRenderer.material = material;
+		InitObjectPopulator ();
+		
 
 		meshObject.transform.position = new Vector3(position.x,0,position.y);
 		meshObject.transform.parent = parent;
@@ -62,6 +66,21 @@ public class TerrainChunk {
 
 		maxViewDst = detailLevels [detailLevels.Length - 1].visibleDstThreshold;
 
+	}
+
+	void InitObjectPopulator(){
+		Object_Populator ParentPopulator = GameObject.Find ("Object_Populator").GetComponent<Object_Populator> ();
+
+		ObjectPopulator = meshObject.AddComponent<Object_Populator> ();
+		ObjectPopulator.textureRender = meshRenderer;
+		ObjectPopulator.meshFilter = meshFilter;
+		ObjectPopulator.meshRenderer = meshRenderer;
+
+		ObjectPopulator.meshSettings = ParentPopulator.meshSettings;
+		ObjectPopulator.heightMapSettings = ParentPopulator.heightMapSettings;
+		ObjectPopulator.textureData = ParentPopulator.textureData;
+		ObjectPopulator.terrainMaterial = ParentPopulator.terrainMaterial;
+		ObjectPopulator.testMesh = ParentPopulator.testMesh;
 	}
 
 	public void Load() {
