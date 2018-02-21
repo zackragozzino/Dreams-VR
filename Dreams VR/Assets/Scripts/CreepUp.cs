@@ -7,7 +7,7 @@ public class CreepUp : MonoBehaviour {
 	private Transform playerT;
 	private float distance;
 	private bool visible = false;
-	public float moveSpeed = 15f;
+	public float moveSpeed = 25f;
 	public float rotateSpeed = 0.5f;
 
 	void Start()
@@ -24,8 +24,14 @@ public class CreepUp : MonoBehaviour {
 	{
 		visible = true;
 		Debug.Log ("Visible!");
-		if (distance < 40 && distance > 15) {
+		if ( distance > 9) {
 			FindObjectOfType<AudioManager> ().Play ("FirstJumpScare");
+		}
+		//too close!
+		if (distance < 10) {
+			//CameraShake cs = Player.GetComponentInChildren<CameraShake> ();
+			//cs.shakecamera();
+			FindObjectOfType<AudioManager>().Play ("LastJumpScare");
 		}
 		/*Possibly use lineCast to see if blocked*/
 	}
@@ -33,7 +39,7 @@ public class CreepUp : MonoBehaviour {
 	{
 		// creep up
 		distance = Vector3.Distance (transform.position, playerT.position);
-		if (!visible && distance > 10) {
+		if (!visible && distance > 5) {
 			float step = moveSpeed * Time.deltaTime;
 			transform.position = Vector3.MoveTowards (transform.position, playerT.position, step);
 		}
@@ -46,10 +52,5 @@ public class CreepUp : MonoBehaviour {
 			transform.rotation = Quaternion.LookRotation (newDir);
 		}
 		// too close!
-		if (distance < 13) {
-			CameraShake cs = Player.GetComponentInChildren<CameraShake> ();
-			cs.shakecamera();
-			FindObjectOfType<AudioManager>().Play ("LastJumpScare");
-		}
 	}
 }
