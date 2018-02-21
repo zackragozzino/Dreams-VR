@@ -18,6 +18,10 @@ public class Object_Populator : MonoBehaviour {
 
 	public Vector2 sampleCentre;
 
+	public Object_Populator(){
+
+	}
+
 	void Start(){
 		ThreadedDataRequester.RequestData(() => HeightMapGenerator.GenerateHeightMap (meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, sampleCentre), OnHeightMapReceived);
 	}
