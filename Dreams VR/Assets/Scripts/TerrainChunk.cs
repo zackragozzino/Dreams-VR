@@ -73,13 +73,12 @@ public class TerrainChunk {
 
 		ObjectPopulator = meshObject.AddComponent<Object_Populator> ();
 		ObjectPopulator.textureRender = meshRenderer;
-		ObjectPopulator.meshFilter = meshFilter;
-		ObjectPopulator.meshRenderer = meshRenderer;
+
+		ObjectPopulator.sampleCentre = sampleCentre;
 
 		ObjectPopulator.meshSettings = ParentPopulator.meshSettings;
 		ObjectPopulator.heightMapSettings = ParentPopulator.heightMapSettings;
 		ObjectPopulator.textureData = ParentPopulator.textureData;
-		ObjectPopulator.terrainMaterial = ParentPopulator.terrainMaterial;
 		ObjectPopulator.testMesh = ParentPopulator.testMesh;
 	}
 

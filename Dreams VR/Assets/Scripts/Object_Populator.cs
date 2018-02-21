@@ -5,47 +5,26 @@ using UnityEngine;
 public class Object_Populator : MonoBehaviour {
 
 	public Renderer textureRender;
-	public MeshFilter meshFilter;
-	public MeshRenderer meshRenderer;
-
-
-	public enum DrawMode {NoiseMap, Mesh, FalloffMap};
-	public DrawMode drawMode;
 
 	public MeshSettings meshSettings;
 	public HeightMapSettings heightMapSettings;
 	public TextureData textureData;
 
-	public Material terrainMaterial;
 
 	public GameObject testMesh;
 
+	HeightMap heightMap;
+	bool heightMapReceived;
 
-
-	[Range(0,MeshSettings.numSupportedLODs-1)]
-	public int editorPreviewLOD;
-	public bool autoUpdate;
+	public Vector2 sampleCentre;
 
 	void Start(){
-		textureData.ApplyToMaterial (terrainMaterial);
-		textureData.UpdateMeshHeights (terrainMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
-		HeightMap heightMap = HeightMapGenerator.GenerateHeightMap (meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, Vector2.zero);
-
-		//TextureFromHeightMap(heightMap);
+		ThreadedDataRequester.RequestData(() => HeightMapGenerator.GenerateHeightMap (meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, sampleCentre), OnHeightMapReceived);
 	}
 
 	public void DrawMapInEditor() {
-		textureData.ApplyToMaterial (terrainMaterial);
-		textureData.UpdateMeshHeights (terrainMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
 		HeightMap heightMap = HeightMapGenerator.GenerateHeightMap (meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, Vector2.zero);
-
-		if (drawMode == DrawMode.NoiseMap) {
-			DrawTexture (TextureGenerator.TextureFromHeightMap (heightMap));
-		} else if (drawMode == DrawMode.Mesh) {
-			DrawMesh (MeshGenerator.GenerateTerrainMesh (heightMap.values,meshSettings, editorPreviewLOD));
-		} else if (drawMode == DrawMode.FalloffMap) {
-			DrawTexture(TextureGenerator.TextureFromHeightMap(new HeightMap(FalloffGenerator.GenerateFalloffMap(meshSettings.numVertsPerLine),0,1)));
-		}
+		DrawTexture (TextureGenerator.TextureFromHeightMap (heightMap));
 	}
 
 	public void DrawTexture(Texture2D texture) {
@@ -53,42 +32,36 @@ public class Object_Populator : MonoBehaviour {
 		textureRender.transform.localScale = new Vector3 (texture.width, 1, texture.height) /10f;
 
 		textureRender.gameObject.SetActive (true);
-		meshFilter.gameObject.SetActive (false);
 	}
-
-	public void DrawMesh(MeshData meshData) {
-		meshFilter.sharedMesh = meshData.CreateMesh ();
-
-		textureRender.gameObject.SetActive (false);
-		meshFilter.gameObject.SetActive (true);
-	}
+		
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-	public static Texture2D TextureFromColourMap(Color[] colourMap, int width, int height) {
-		Texture2D texture = new Texture2D (width, height);
-		texture.filterMode = FilterMode.Point;
-		texture.wrapMode = TextureWrapMode.Clamp;
-		texture.SetPixels (colourMap);
-		texture.Apply ();
-		return texture;
+	void OnHeightMapReceived(object heightMapObject) {
+		this.heightMap = (HeightMap)heightMapObject;
+		heightMapReceived = true;
+
+		TextureFromHeightMap ();
 	}
 
-	public void TextureFromHeightMap(HeightMap heightMap) {
+	public void TextureFromHeightMap() {
 		int width = heightMap.values.GetLength (0);
 		int height = heightMap.values.GetLength (1);
 
-		Color[] colourMap = new Color[width * height];
-		float[] noiseMap = new float[width * height];
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				//colourMap [y * width + x] = Color.Lerp (Color.black, Color.white, Mathf.InverseLerp(heightMap.minValue,heightMap.maxValue,heightMap.values [x, y]));
-				//colourMap [y * width x] = Mathf.Lerp(1, 0,  Mathf.InverseLerp(heightMap.minValue,heightMap.maxValue,heightMap.values [x, y]));
-				print(heightMap.values[x,y]);
-				if (heightMap.values [x, y] > 0.9f) {
-					Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+		if (heightMapReceived) {
+
+			//Instantiate (testMesh, new Vector3 (this.transform.position.x - (width / 2f), 0, this.transform.position.z - (height / 2f)), Quaternion.identity, this.transform);
+
+
+			float[] noiseMap = new float[width * height];
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					//colourMap [y * width + x] = Color.Lerp (Color.black, Color.white, Mathf.InverseLerp(heightMap.minValue,heightMap.maxValue,heightMap.values [x, y]));
+					//colourMap [y * width x] = Mathf.Lerp(1, 0,  Mathf.InverseLerp(heightMap.minValue,heightMap.maxValue,heightMap.values [x, y]));
+					//print(heightMap.values[x,y]);
+					if (heightMap.values [x, y] > 0.9f) {
+						Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+					}
 				}
 			}
 		}
-
-		//return TextureFromColourMap (colourMap, width, height);
 	}
 }

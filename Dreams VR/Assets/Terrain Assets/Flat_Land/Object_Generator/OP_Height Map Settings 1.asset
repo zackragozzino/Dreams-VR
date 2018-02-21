@@ -18,7 +18,7 @@ MonoBehaviour:
     octaves: 6
     persistance: 1
     lacunarity: 1
-    seed: 200
+    seed: 100
     offset: {x: 0, y: 0}
   useFalloff: 1
   heightMultiplier: 1
