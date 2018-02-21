@@ -37,32 +37,48 @@ public class Object_Populator : MonoBehaviour {
 
 		textureRender.gameObject.SetActive (true);
 	}
+
+	void OnValuesUpdated() {
+		if (!Application.isPlaying) {
+			DrawMapInEditor ();
+		}
+	}
 		
-	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	void OnHeightMapReceived(object heightMapObject) {
 		this.heightMap = (HeightMap)heightMapObject;
 		heightMapReceived = true;
 
-		TextureFromHeightMap ();
+		Populate ();
 	}
 
-	public void TextureFromHeightMap() {
+	void OnValidate() {
+
+		if (meshSettings != null) {
+			meshSettings.OnValuesUpdated -= OnValuesUpdated;
+			meshSettings.OnValuesUpdated += OnValuesUpdated;
+		}
+		if (heightMapSettings != null) {
+			heightMapSettings.OnValuesUpdated -= OnValuesUpdated;
+			heightMapSettings.OnValuesUpdated += OnValuesUpdated;
+		}
+
+	}
+
+	public void Populate() {
 		int width = heightMap.values.GetLength (0);
 		int height = heightMap.values.GetLength (1);
 
+		GameObject[] assets = transform.GetComponentInParent<AssetMaster> ().forestAssets;
+
 		if (heightMapReceived) {
-
-			//Instantiate (testMesh, new Vector3 (this.transform.position.x - (width / 2f), 0, this.transform.position.z - (height / 2f)), Quaternion.identity, this.transform);
-
-
 			float[] noiseMap = new float[width * height];
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					//colourMap [y * width + x] = Color.Lerp (Color.black, Color.white, Mathf.InverseLerp(heightMap.minValue,heightMap.maxValue,heightMap.values [x, y]));
-					//colourMap [y * width x] = Mathf.Lerp(1, 0,  Mathf.InverseLerp(heightMap.minValue,heightMap.maxValue,heightMap.values [x, y]));
-					//print(heightMap.values[x,y]);
-					if (heightMap.values [x, y] > 0.9f) {
-						Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+					if (heightMap.values [x, y] > 0.7f) {
+						GameObject asset = Instantiate (assets[Random.Range(0, assets.Length)], new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+						//GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+						Destroy (asset.GetComponent<CapsuleCollider> ());
+						asset.transform.localScale = asset.transform.localScale * 10 * Random.value;
 					}
 				}
 			}

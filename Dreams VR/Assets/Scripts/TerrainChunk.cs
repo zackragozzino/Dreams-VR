@@ -48,11 +48,11 @@ public class TerrainChunk {
 		meshFilter = meshObject.AddComponent<MeshFilter>();
 		meshCollider = meshObject.AddComponent<MeshCollider>();
 		meshRenderer.material = material;
-		InitObjectPopulator ();
 		
 
 		meshObject.transform.position = new Vector3(position.x,0,position.y);
 		meshObject.transform.parent = parent;
+		InitObjectPopulator ();
 		SetVisible(false);
 
 		lodMeshes = new LODMesh[detailLevels.Length];
@@ -69,17 +69,17 @@ public class TerrainChunk {
 	}
 
 	void InitObjectPopulator(){
-		Object_Populator ParentPopulator = GameObject.Find ("Object_Populator").GetComponent<Object_Populator> ();
+		//Object_Populator ParentPopulator = GameObject.Find ("Object_Populator").GetComponent<Object_Populator> ();
+		Object_Populator parentPopulator = meshObject.GetComponentInParent<AssetMaster>().ObjectPopulator;
 
 		ObjectPopulator = meshObject.AddComponent<Object_Populator> ();
 		ObjectPopulator.textureRender = meshRenderer;
-
 		ObjectPopulator.sampleCentre = sampleCentre;
 
-		ObjectPopulator.meshSettings = ParentPopulator.meshSettings;
-		ObjectPopulator.heightMapSettings = ParentPopulator.heightMapSettings;
-		ObjectPopulator.textureData = ParentPopulator.textureData;
-		ObjectPopulator.testMesh = ParentPopulator.testMesh;
+		ObjectPopulator.meshSettings = parentPopulator.meshSettings;
+		ObjectPopulator.heightMapSettings = parentPopulator.heightMapSettings;
+		ObjectPopulator.textureData = parentPopulator.textureData;
+		ObjectPopulator.testMesh = parentPopulator.testMesh;
 	}
 
 	public void Load() {
