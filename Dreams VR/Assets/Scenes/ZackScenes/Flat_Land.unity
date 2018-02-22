@@ -113,13 +113,10 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< HEAD
 --- !u!1 &31695103 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100006, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 2}
   m_PrefabInternal: {fileID: 249453985}
-=======
->>>>>>> 0971743c23ffba7237ea9b8510c5cca4ce0be4b8
 --- !u!1001 &249453985
 Prefab:
   m_ObjectHideFlags: 0
@@ -348,11 +345,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 522957207}
-<<<<<<< HEAD
-  m_Mesh: {fileID: 1287089493}
-=======
   m_Mesh: {fileID: 1577067834}
->>>>>>> 0971743c23ffba7237ea9b8510c5cca4ce0be4b8
 --- !u!4 &522957210
 Transform:
   m_ObjectHideFlags: 0
