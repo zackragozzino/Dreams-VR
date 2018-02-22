@@ -26,7 +26,10 @@ public class CreepyCrawlers : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        InvokeRepeating("GenerateInCircle", 0.0f, 0.4f);  
+        InvokeRepeating("GenerateInCircle", 0.0f, 0.4f);
+
+		if (center == null)
+			center = GameObject.FindGameObjectWithTag ("Player");
     }
 
     void GenerateInCircle() {
@@ -39,6 +42,7 @@ public class CreepyCrawlers : MonoBehaviour {
                 float z = Mathf.Cos(crawlerAngle + r) * this.radius + this.center.transform.position.z;
                 Vector3 newPos = new Vector3(x + r, 0.0f, z + r);
                 GameObject crawlThing = (GameObject)Instantiate(this.crawler, newPos, Quaternion.identity);
+				crawlThing.transform.parent = transform;
                 crawlers.Add(crawlThing);
                 crawlerAngle += angleIncrement;
             }

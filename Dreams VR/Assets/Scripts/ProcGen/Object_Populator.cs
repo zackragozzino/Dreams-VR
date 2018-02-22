@@ -69,6 +69,7 @@ public class Object_Populator : MonoBehaviour {
 		int height = heightMap.values.GetLength (1);
 
 		GameObject[] assets = transform.GetComponentInParent<AssetMaster> ().forestAssets;
+		GameObject[] urbanAssets = transform.GetComponentInParent<AssetMaster> ().urbanAssets;
 
 		if (heightMapReceived) {
 			float[] noiseMap = new float[width * height];
@@ -77,8 +78,18 @@ public class Object_Populator : MonoBehaviour {
 					if (heightMap.values [x, y] > 0.7f) {
 						GameObject asset = Instantiate (assets[Random.Range(0, assets.Length)], new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
 						//GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
-						Destroy (asset.GetComponent<CapsuleCollider> ());
 						asset.transform.localScale = asset.transform.localScale * 10 * Random.value;
+					}
+
+					if(heightMap.values[x,y] < 0.0){
+						//GameObject asset = Instantiate (urbanAssets[Random.Range(0, urbanAssets.Length)], new Vector3 (this.transform.position.x + x - (width/2f), Random.Range(5,15), this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), Random.Range(20,100), this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+
+						Vector3 dir = new Vector3 (20, 0, 0);
+						asset.AddComponent<Rotater> ().RotationPerSecond = dir;
+
+						asset.transform.localScale = asset.transform.localScale * 10 * Random.value;
+						asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 					}
 				}
 			}
