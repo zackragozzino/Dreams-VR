@@ -69,7 +69,7 @@ public class Object_Populator : MonoBehaviour {
 		int height = heightMap.values.GetLength (1);
 		AssetMaster assetMaster = transform.GetComponentInParent<AssetMaster> ();
 
-		GameObject[] assets = assetMaster.urbanAssets;
+		GameObject[] assets = assetMaster.forestAssets;
 		GameObject[] urbanAssets = assetMaster.urbanAssets;
 
 		if (heightMapReceived && assetMaster.generateAssets) {
