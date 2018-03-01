@@ -69,7 +69,6 @@ public class Object_Populator : MonoBehaviour {
 		int height = heightMap.values.GetLength (1);
 		AssetMaster assetMaster = transform.GetComponentInParent<AssetMaster> ();
 
-		GameObject[] assets = assetMaster.forestAssets;
 		GameObject[] urbanAssets = assetMaster.urbanAssets;
 
 		if (heightMapReceived && assetMaster.generateAssets) {
@@ -77,10 +76,11 @@ public class Object_Populator : MonoBehaviour {
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
 					if (heightMap.values [x, y] > 0.7f) {
-						GameObject asset = Instantiate (assets[Random.Range(0, assets.Length)], new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+						//GameObject asset = Instantiate (assets[Random.Range(0, assets.Length)], new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
 						//GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
 						//asset.transform.localScale = asset.transform.localScale * (10 * Random.value + 4);
-						asset.transform.localScale = asset.transform.localScale * 0.5f;
+						//asset.transform.localScale = asset.transform.localScale * 0.5f;
+						assetMaster.generateObject (x, y, height, width, this.transform);
 					}
 
 					if(heightMap.values[x,y] < 0.0){
