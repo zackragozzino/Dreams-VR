@@ -8,7 +8,8 @@ public class ItFollows : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
-		GameObject followerClone = (GameObject)Instantiate(follower, player.transform.position + new Vector3(0,0,-60), Quaternion.identity);
+		Vector3 playerPos = player.transform.position;
+		GameObject followerClone = (GameObject)Instantiate(follower, new Vector3(playerPos.x, 0, playerPos.z + 100), Quaternion.identity);
 	}
 	
 	// Update is called once per frame
