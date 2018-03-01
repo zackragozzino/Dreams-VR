@@ -54,7 +54,7 @@ public class CreepUp : MonoBehaviour {
 		distance = Vector3.Distance (transform.position, playerT.position);
 		if (!visible && encountered && distance > 5) {
 			float step = moveSpeed * Time.deltaTime;
-			transform.position = Vector3.MoveTowards (transform.position, playerT.position, step);
+			transform.position = Vector3.MoveTowards (transform.position, new Vector3(playerT.position.x, 0, playerT.position.z), step);
 		}
 		// rotate
 		if (visible) {

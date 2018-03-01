@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4948703965527044}
   - component: {fileID: 114775411329380924}
   m_Layer: 0
-  m_Name: Crawler
+  m_Name: CrawlerScript
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
