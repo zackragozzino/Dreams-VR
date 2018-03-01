@@ -44,7 +44,7 @@ public class CreepyCrawlers : MonoBehaviour {
                 float r = Random.Range(-1.0f, 1.0f);
                 float x = Mathf.Sin(crawlerAngle  + r) * this.radius + this.center.transform.position.x;
                 float z = Mathf.Cos(crawlerAngle + r) * this.radius + this.center.transform.position.z;
-                Vector3 newPos = new Vector3(x + r, 0.0f, z + r);
+                Vector3 newPos = new Vector3(x + r, 0.3f, z + r);
                 GameObject crawlThing = (GameObject)Instantiate(this.crawler, newPos, Quaternion.identity);
 				crawlThing.transform.parent = transform;
                 crawlers.Add(crawlThing);

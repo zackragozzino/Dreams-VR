@@ -55,7 +55,7 @@ MonoBehaviour:
   center: {fileID: 0}
   numStartCrawlers: 0
   maxCrawlers: 10
-  radius: 5
-  speed: 1
+  radius: 20
+  speed: 0.7
   restTime: 0.3
   timeUntilDisperse: 10

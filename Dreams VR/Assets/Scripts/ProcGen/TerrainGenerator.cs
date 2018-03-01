@@ -79,7 +79,7 @@ public class TerrainGenerator : MonoBehaviour {
 						newChunk.Load ();
 
 						totalChunks++;
-						print (totalChunks);
+						//print (totalChunks);
 					}
 				}
 
