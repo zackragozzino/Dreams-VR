@@ -9,19 +9,27 @@ public class Director : MonoBehaviour {
 	private int timerMin = 5;
 	private int timerMax = 30;
 
+	private GameObject player;
+
 	// Use this for initialization
 	void Start () {
 		timer = Random.Range (timerMin, timerMax);
+		player = GameObject.FindGameObjectWithTag ("Player");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		timer -= Time.deltaTime;
+		/*timer -= Time.deltaTime;
 
 		if (timer <= 0) {
 			AddScript ();
 			timer = Random.Range (timerMin, timerMax);
+		}*/
+
+		if (Input.GetKeyDown (KeyCode.G)) {
+			Instantiate (dreamScripts [0], player.transform.position, Quaternion.identity, this.transform);
+			Debug.Log ("test");
 		}
 		
 	}
