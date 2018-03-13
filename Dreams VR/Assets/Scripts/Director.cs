@@ -31,6 +31,10 @@ public class Director : MonoBehaviour {
 			Instantiate (dreamScripts [0], player.transform.position, Quaternion.identity, this.transform);
 			Debug.Log ("test");
 		}
+
+		if (Input.GetKeyDown (KeyCode.H)) {
+			Instantiate (this, new Vector3 (this.transform.position.x, this.transform.position.y - 500, this.transform.position.z), Quaternion.identity, transform);
+		}
 		
 	}
 
