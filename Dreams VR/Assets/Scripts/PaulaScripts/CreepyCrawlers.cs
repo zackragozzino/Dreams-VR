@@ -31,7 +31,7 @@ public class CreepyCrawlers : MonoBehaviour {
     void Start () {
         InvokeRepeating("GenerateInCircle", 0.0f, 0.4f);
         Invoke("setDisperseToTrue", this.timeUntilDisperse);
-
+		FindObjectOfType<AudioManager> ().Play ("Creepy Crawlies");
 		if (center == null)
 			center = GameObject.FindGameObjectWithTag ("Player");
     }
@@ -44,7 +44,7 @@ public class CreepyCrawlers : MonoBehaviour {
                 float r = Random.Range(-1.0f, 1.0f);
                 float x = Mathf.Sin(crawlerAngle  + r) * this.radius + this.center.transform.position.x;
                 float z = Mathf.Cos(crawlerAngle + r) * this.radius + this.center.transform.position.z;
-                Vector3 newPos = new Vector3(x + r, 0.0f, z + r);
+                Vector3 newPos = new Vector3(x + r, 0.3f, z + r);
                 GameObject crawlThing = (GameObject)Instantiate(this.crawler, newPos, Quaternion.identity);
 				crawlThing.transform.parent = transform;
                 crawlers.Add(crawlThing);
@@ -60,6 +60,12 @@ public class CreepyCrawlers : MonoBehaviour {
 // -- swarming effect
     void Update () {  
         foreach (GameObject c in crawlers.ToArray()) {
+			if (c.transform.position.y > center.transform.position.y * 3) {
+				Destroy(c, 0.2f);
+				this.crawlers.Remove(c);
+			}
+				
+
             if (this.disperse) {
                 moveCrawlerAway(c);
             }
@@ -68,11 +74,14 @@ public class CreepyCrawlers : MonoBehaviour {
             }
         }
         StartCoroutine(Wait(this.restTime));
+
+		if(this.crawlers.Count == 0)
+			FindObjectOfType<AudioManager> ().Pause("Creepy Crawlies");
     }
 
     private void moveCrawler(GameObject c) {
         float r = Random.Range(-1.0f, 1.0f);
-        Vector3 towardsCenter = this.center.transform.position - c.transform.position;
+		Vector3 towardsCenter = new Vector3(this.center.transform.position.x, 0, this.center.transform.position.z)- c.transform.position;
         if (towardsCenter.magnitude > closest && this.moveCloser) {
             Vector3 translate = (towardsCenter + new Vector3(r, 0.0f, r))* this.speed * Time.deltaTime;
             c.transform.Translate(translate);
@@ -107,11 +116,11 @@ public class CreepyCrawlers : MonoBehaviour {
 
     private void moveCrawlerAway(GameObject c) {
         float r = Random.Range(-1.0f, 1.0f);
-        Vector3 awayFromCenter = c.transform.position - this.center.transform.position;
+		Vector3 awayFromCenter = c.transform.position - new Vector3(this.center.transform.position.x, 0, this.center.transform.position.z);
         Vector3 translate = (awayFromCenter + new Vector3(r, 0.0f, r))* this.speed * Time.deltaTime;
         c.transform.Translate(translate);
         print("move away");
-        if (awayFromCenter.magnitude > (2.0f * this.radius)) {
+		if (awayFromCenter.magnitude > (this.radius)) {
             Destroy(c, 0.2f);
             this.crawlers.Remove(c);
             print("destroy!!");

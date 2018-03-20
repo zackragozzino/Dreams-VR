@@ -26,18 +26,22 @@ public class CreepUp : MonoBehaviour {
 	}
 	void OnBecameVisible()
 	{
-		encountered = true;
+		if (!encountered) {
+			encountered = true;
+			FindObjectOfType<AudioManager> ().Play ("FirstJumpScare");
+		}
 		visible = true;
 		Debug.Log ("Visible!");
 		if ( distance > 9) {
-			FindObjectOfType<AudioManager> ().Play ("FirstJumpScare");
+			//FindObjectOfType<AudioManager> ().Play ("FirstJumpScare");
 		}
 		//too close!
 		if (distance < 10) {
 			//CameraShake cs = Player.GetComponentInChildren<CameraShake> ();
 			//cs.shakecamera();
-			FindObjectOfType<AudioManager> ().Play ("LastJumpScare");
+			//FindObjectOfType<AudioManager> ().Play ("LastJumpScare");
 			if (lastView == false) {
+				FindObjectOfType<AudioManager> ().Play ("LastJumpScare");
 				timer = 5.0f;
 				lastView = true;
 			}
@@ -50,7 +54,7 @@ public class CreepUp : MonoBehaviour {
 		distance = Vector3.Distance (transform.position, playerT.position);
 		if (!visible && encountered && distance > 5) {
 			float step = moveSpeed * Time.deltaTime;
-			transform.position = Vector3.MoveTowards (transform.position, playerT.position, step);
+			transform.position = Vector3.MoveTowards (transform.position, new Vector3(playerT.position.x, 0, playerT.position.z), step);
 		}
 		// rotate
 		if (visible) {
@@ -63,6 +67,7 @@ public class CreepUp : MonoBehaviour {
 		if (lastView) {
 			timer -= Time.deltaTime;
 			if (timer <= 0) {
+				FindObjectOfType<AudioManager> ().Pause ("FirstJumpScare");
 				Destroy (gameObject);
 			}
 		}
