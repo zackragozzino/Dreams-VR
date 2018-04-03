@@ -19,7 +19,7 @@ public class DoorController : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		if (other.tag == "Player") {
 			doorAnimation.Play ("Door_open");
-		} else {
+		} else if(other.tag == "EnvironmentObject"){
 			Destroy (other.gameObject);
 		}
 	}

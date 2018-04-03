@@ -5,6 +5,9 @@ using UnityEngine;
 public class Director : MonoBehaviour {
 
 	public GameObject[] dreamScripts;
+	public float doorSpawnRate = 10f; 
+	public GameObject doorPortal;
+
 	private float timer;
 	private int timerMin = 5;
 	private int timerMax = 30;
@@ -15,6 +18,7 @@ public class Director : MonoBehaviour {
 	void Start () {
 		timer = Random.Range (timerMin, timerMax);
 		player = GameObject.FindGameObjectWithTag ("Player");
+		StartCoroutine (GeneratePortal ());
 	}
 	
 	// Update is called once per frame
@@ -31,12 +35,22 @@ public class Director : MonoBehaviour {
 			Instantiate (dreamScripts [0], player.transform.position, Quaternion.identity, this.transform);
 			Debug.Log ("test");
 		}
-
-		if (Input.GetKeyDown (KeyCode.H)) {
-			Instantiate (this, new Vector3 (this.transform.position.x, this.transform.position.y - 500, this.transform.position.z), Quaternion.identity, transform);
-		}
 		
 	}
+
+	//This code is kind of basic and should be updated to reflect player movement, not time elapsed
+	IEnumerator GeneratePortal(){
+		yield return new WaitForSeconds(doorSpawnRate);
+
+		Vector3 doorPos = new Vector3 (player.transform.position.x + Random.Range (50, 80), doorPortal.transform.position.y, player.transform.position.z + Random.Range (50, 80));
+		GameObject spawnedDoor = Instantiate (doorPortal, doorPos, doorPortal.transform.rotation, this.transform);
+		spawnedDoor.transform.LookAt (player.transform.position);
+		spawnedDoor.transform.rotation = Quaternion.Euler (0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+
+		//Debug.Log ("Door spawned: " + doorPos);
+		StartCoroutine (GeneratePortal ());
+	}
+		
 
 	void AddScript(){
 		GameObject dreamScript = Instantiate (dreamScripts [Random.Range (0, dreamScripts.Length)], this.transform.position, Quaternion.identity, this.transform);
