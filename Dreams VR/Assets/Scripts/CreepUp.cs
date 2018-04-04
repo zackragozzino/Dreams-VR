@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CreepUp : MonoBehaviour {
-	public GameObject Player;
+	private GameObject Player;
 	private Transform playerT;
 	private float distance;
 	private bool visible = false;
-	public float moveSpeed = 15f;
+	private bool lastView = false;
+	private bool encountered = false;
+	public float moveSpeed = 25f;
 	public float rotateSpeed = 0.5f;
+	private float timer;
 
 	void Start()
 	{
+		Player = GameObject.FindGameObjectWithTag ("Player");
 		playerT = Player.GetComponent<Transform> ();
 		distance = Vector3.Distance (transform.position, playerT.position);
 	}
@@ -22,10 +26,25 @@ public class CreepUp : MonoBehaviour {
 	}
 	void OnBecameVisible()
 	{
+		if (!encountered) {
+			encountered = true;
+			FindObjectOfType<AudioManager> ().Play ("FirstJumpScare");
+		}
 		visible = true;
 		Debug.Log ("Visible!");
-		if (distance < 40 && distance > 15) {
-			FindObjectOfType<AudioManager> ().Play ("FirstJumpScare");
+		if ( distance > 9) {
+			//FindObjectOfType<AudioManager> ().Play ("FirstJumpScare");
+		}
+		//too close!
+		if (distance < 10) {
+			//CameraShake cs = Player.GetComponentInChildren<CameraShake> ();
+			//cs.shakecamera();
+			//FindObjectOfType<AudioManager> ().Play ("LastJumpScare");
+			if (lastView == false) {
+				FindObjectOfType<AudioManager> ().Play ("LastJumpScare");
+				timer = 5.0f;
+				lastView = true;
+			}
 		}
 		/*Possibly use lineCast to see if blocked*/
 	}
@@ -33,9 +52,9 @@ public class CreepUp : MonoBehaviour {
 	{
 		// creep up
 		distance = Vector3.Distance (transform.position, playerT.position);
-		if (!visible && distance > 10) {
+		if (!visible && encountered && distance > 5) {
 			float step = moveSpeed * Time.deltaTime;
-			transform.position = Vector3.MoveTowards (transform.position, playerT.position, step);
+			transform.position = Vector3.MoveTowards (transform.position, new Vector3(playerT.position.x, 0, playerT.position.z), step);
 		}
 		// rotate
 		if (visible) {
@@ -45,11 +64,13 @@ public class CreepUp : MonoBehaviour {
 			Debug.DrawRay (transform.position, newDir, Color.red);
 			transform.rotation = Quaternion.LookRotation (newDir);
 		}
-		// too close!
-		if (distance < 13) {
-			CameraShake cs = Player.GetComponentInChildren<CameraShake> ();
-			cs.shakecamera();
-			FindObjectOfType<AudioManager>().Play ("LastJumpScare");
+		if (lastView) {
+			timer -= Time.deltaTime;
+			if (timer <= 0) {
+				FindObjectOfType<AudioManager> ().Pause ("FirstJumpScare");
+				Destroy (gameObject);
+			}
 		}
+		// too close!
 	}
 }
