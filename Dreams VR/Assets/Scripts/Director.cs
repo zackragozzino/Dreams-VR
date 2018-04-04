@@ -13,18 +13,17 @@ public class Director : MonoBehaviour {
 	private int timerMin = 5;
 	private int timerMax = 30;
 
-	private GameObject player;
-	private GameObject mapGenerator;
+	public GameObject player;
+	public GameObject mapGenerator;
+	private SceneLoader sceneLoader;
 
-	private Scene currentScene; 
+	private Scene currentScene;
 
 	// Use this for initialization
 	void Start () {
 		timer = Random.Range (timerMin, timerMax);
 
-		SceneManager.sceneLoaded += OnSceneLoaded;
-
-		StartCoroutine (LoadAsynchronously ());
+		sceneLoader = this.GetComponent<SceneLoader> ();
 	}
 	
 	// Update is called once per frame
@@ -37,50 +36,24 @@ public class Director : MonoBehaviour {
 			timer = Random.Range (timerMin, timerMax);
 		}*/
 
-		if (Input.GetKeyDown (KeyCode.G)) {
+
+		//Instantiates the crawler script. Used for testing purposes
+		/*if (Input.GetKeyDown (KeyCode.G)) {
 			Instantiate (dreamScripts [0], player.transform.position, Quaternion.identity, this.transform);
-		}
-
-		if (Input.GetKeyDown (KeyCode.K)) {
-			//StartCoroutine (LoadAsynchronously ());
-			StartCoroutine(DestroyAndQueueScene());
-
-		}
+		}*/
 		
 	}
 
-	public void GenerateNewWorld(){
-		StartCoroutine(DestroyAndQueueScene());
-	}
-
-	IEnumerator LoadAsynchronously(){
-		AsyncOperation operation = SceneManager.LoadSceneAsync ("Flat_Land", LoadSceneMode.Additive);
-		while (!operation.isDone) {
-			float progress = Mathf.Clamp01 (operation.progress / .9f);
-			Debug.Log ("Loading ... " + progress * 100f + "%");
-			yield return null;
-		}
-		//Reset player and map generator  reference
-		player = GameObject.FindGameObjectWithTag ("Player");
-		mapGenerator = GameObject.FindGameObjectWithTag ("MapGenerator");
-		//Start producing portals now that the scene is loaded
+	public void startPortalGeneration(){
 		StartCoroutine (GeneratePortal ());
 	}
 
-	IEnumerator DestroyAndQueueScene(){
+	public void stopPortalGeneration(){
 		StopCoroutine (GeneratePortal ());
-
-		AsyncOperation operation = SceneManager.UnloadSceneAsync (currentScene);
-		while (!operation.isDone) {
-			yield return null;
-		}
-		StartCoroutine (LoadAsynchronously ());
 	}
 
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode){
-		Debug.Log ("Scene loaded: " + scene.name);
-		currentScene = scene;
-		//SceneManager.LoadScene -= OnSceneLoaded;
+	public void GenerateNewWorld(){
+		sceneLoader.loadNewScene ();
 	}
 
 	//This code is kind of basic and should be updated to reflect player movement, not time elapsed
