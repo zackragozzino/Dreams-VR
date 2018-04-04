@@ -24,10 +24,10 @@ public class DoorController : MonoBehaviour {
 		}
 	}
 
-	/*void OnTriggerExit(Collider other){
+	void OnTriggerExit(Collider other){
 		if (other.tag == "Player") {
 			doorAnimation.Play ("Door_Close");
 		}
-	}*/
+	}
 
 }
