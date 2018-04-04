@@ -6,5 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/ZackScenes/Master.unity
+    guid: 2666196c217a933488d3b7a07c9eb1d3
+  - enabled: 1
     path: Assets/Scenes/ZackScenes/Flat_Land.unity
     guid: 57a9637b501b4c64cb5edbc6cac0cea5
