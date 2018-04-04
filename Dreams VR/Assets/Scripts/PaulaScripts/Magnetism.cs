@@ -28,6 +28,7 @@ public class Magnetism : MonoBehaviour {
       }
       rigidbody.constraints = RigidbodyConstraints.FreezePositionY | 
          RigidbodyConstraints.FreezeRotationX |
+         RigidbodyConstraints.FreezeRotationY | 
          RigidbodyConstraints.FreezeRotationZ;
    }
 
