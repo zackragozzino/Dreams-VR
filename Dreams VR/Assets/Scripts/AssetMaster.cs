@@ -36,7 +36,8 @@ public class AssetMaster : MonoBehaviour {
 
 	public void generateObject(int x, int y, int width, int height, Transform parent){
 		GameObject asset = starterEnvironmentAssets [Random.Range (0, starterEnvironmentAssets.Length)];
-		asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width/2f), 0, parent.position.z + y - (height/2f)), asset.transform.rotation, parent);
+		asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width/2f), parent.position.y, parent.position.z + y - (height/2f)), asset.transform.rotation, parent);
+		asset.tag = "EnvironmentObject";
 
 		if (starterEnvironment == StarterEnvironment.forest) {
 			asset.transform.localScale = asset.transform.localScale * (10 * Random.value + 4);
