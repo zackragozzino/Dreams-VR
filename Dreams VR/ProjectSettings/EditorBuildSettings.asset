@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ZackScenes/Flat_Land.unity
     guid: 57a9637b501b4c64cb5edbc6cac0cea5
+  - enabled: 1
+    path: Assets/Scenes/ZackScenes/VRFlat_Land.unity
+    guid: 35ee0016377069d478cb0e11efa1eaf6

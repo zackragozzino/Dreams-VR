@@ -17,7 +17,8 @@ public class DoorController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
-		if (other.tag == "Player") {
+		if(other.gameObject.transform.parent.tag == "MainCamera"){
+		//if (other.tag == "Player") {
 			doorAnimation.Play ("Door_open");
 		} else if(other.tag == "EnvironmentObject"){
 			Destroy (other.gameObject);

@@ -13,15 +13,25 @@ public class Director : MonoBehaviour {
 	private int timerMin = 5;
 	private int timerMax = 30;
 
-	public GameObject player;
 	public GameObject mapGenerator;
 	private SceneLoader sceneLoader;
+
+	private GameObject player;
+	public GameObject VR_Rig;
+	public GameObject simulator_Rig;
+
+	private VRTK.VRTK_SDKManager sdkManager;
+
+	public GameObject startScreen;
+	
 
 	private Scene currentScene;
 
 	// Use this for initialization
 	void Start () {
 		timer = Random.Range (timerMin, timerMax);
+
+		sdkManager = VRTK.VRTK_SDKManager.instance;
 
 		sceneLoader = this.GetComponent<SceneLoader> ();
 	}
@@ -42,6 +52,26 @@ public class Director : MonoBehaviour {
 			Instantiate (dreamScripts [0], player.transform.position, Quaternion.identity, this.transform);
 		}*/
 		
+	}
+
+	public GameObject getPlayer(){
+		return player;
+	}
+
+	public void enableVR(){
+		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
+		sdkManager.TryLoadSDKSetup (0, true, setups);
+		player = VR_Rig;
+		startScreen.SetActive (false);
+		sceneLoader.loadFirstScene ();
+	}
+
+	public void enableSimulator(){
+		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
+		sdkManager.TryLoadSDKSetup (1, true, setups);
+		player = simulator_Rig;
+		startScreen.SetActive (false);
+		sceneLoader.loadFirstScene ();
 	}
 
 	public void startPortalGeneration(){

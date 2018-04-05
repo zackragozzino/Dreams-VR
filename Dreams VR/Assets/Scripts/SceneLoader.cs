@@ -13,6 +13,11 @@ public class SceneLoader : MonoBehaviour {
 		director = this.GetComponent<Director> ();
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
+
+		//StartCoroutine (LoadAsynchronously ());
+	}
+
+	public void loadFirstScene(){
 		StartCoroutine (LoadAsynchronously ());
 	}
 
@@ -28,8 +33,10 @@ public class SceneLoader : MonoBehaviour {
 			yield return null;
 		}
 		//Reset player and map generator  reference
-		director.player = GameObject.FindGameObjectWithTag ("Player");
+		//director.player = GameObject.FindGameObjectWithTag ("Player");
 		director.mapGenerator = GameObject.FindGameObjectWithTag ("MapGenerator");
+		director.mapGenerator.GetComponent<TerrainGenerator> ().viewer = director.getPlayer ().transform;
+		director.getPlayer ().transform.position = new Vector3 (0, 1.55f, 0);
 		//Start producing portals now that the scene is loaded
 		director.startPortalGeneration ();
 	}
