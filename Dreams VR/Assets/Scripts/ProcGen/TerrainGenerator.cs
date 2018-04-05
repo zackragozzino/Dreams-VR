@@ -31,6 +31,9 @@ public class TerrainGenerator : MonoBehaviour {
 
 	void Start() {
 
+		if (viewer == null)
+			viewer = GameObject.FindGameObjectWithTag ("GameController").GetComponent<Director> ().getPlayer ().transform;
+
 		textureSettings.ApplyToMaterial (mapMaterial);
 		textureSettings.UpdateMeshHeights (mapMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
 
