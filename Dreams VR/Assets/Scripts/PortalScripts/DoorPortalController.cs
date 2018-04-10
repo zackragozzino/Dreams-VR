@@ -17,7 +17,6 @@ public class DoorPortalController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
-		Debug.Log (other.gameObject.name);
 		if (other.tag == "Player") {
 			Debug.Log ("Entering....");
 			director.GenerateNewWorld ();

@@ -343,6 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2143197229}
   reciever: {fileID: 506863143}
+  doorReciever: {fileID: 0}
 --- !u!65 &63226737
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1139,6 +1140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2143197229}
   reciever: {fileID: 63226735}
+  doorReciever: {fileID: 0}
 --- !u!65 &506863145
 BoxCollider:
   m_ObjectHideFlags: 0

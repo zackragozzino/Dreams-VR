@@ -23,7 +23,6 @@ public class Director : MonoBehaviour {
 	private VRTK.VRTK_SDKManager sdkManager;
 
 	public GameObject startScreen;
-	
 
 	private Scene currentScene;
 
