@@ -19,8 +19,14 @@ public class SceneLoader : MonoBehaviour {
 
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.M)) {
-			StartCoroutine (DestroyAndQueueScene());
+			loadSceneButton ();
 		}
+	}
+
+	public void loadSceneButton(){
+		Debug.Log ("pressed");
+		director.getEnvironmentChoice ();
+		StartCoroutine(DestroyAndQueueScene ());
 	}
 
 	public void loadFirstScene(){
@@ -32,20 +38,19 @@ public class SceneLoader : MonoBehaviour {
 	}
 
 	IEnumerator LoadUsingSteamVR(){
-		SteamVR_LoadLevel.Begin ("Flat_Land");
+		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = false;
 
-		Debug.Log ("loading...");
+		SteamVR_LoadLevel.Begin ("Flat_Land");
 		while (SteamVR_LoadLevel.loading) {
 			yield return null;
 		}
-
-		Debug.Log ("Ready");
+		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = true;
 
 		//Reset player and map generator  reference
 		//director.player = GameObject.FindGameObjectWithTag ("Player");
 		director.mapGenerator = GameObject.FindGameObjectWithTag ("MapGenerator");
 		director.mapGenerator.GetComponent<TerrainGenerator> ().viewer = director.getPlayer ().transform;
-		director.getPlayer ().transform.position = new Vector3 (0, 3.55f, 0);
+		director.getPlayer ().transform.position = new Vector3 (0, 0.01f, 0);
 		//Start producing portals now that the scene is loaded
 		director.startPortalGeneration ();
 

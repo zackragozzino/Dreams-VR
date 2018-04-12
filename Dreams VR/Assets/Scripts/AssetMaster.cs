@@ -6,7 +6,7 @@ public class AssetMaster : MonoBehaviour {
 
 	public Object_Populator ObjectPopulator;
 	public bool generateAssets;
-	public enum StarterEnvironment {forest, urban, furniture, palm};
+	public enum StarterEnvironment {forest, urban, furniture, palm, upsideDown};
 	public StarterEnvironment starterEnvironment;
 
 	public GameObject[] forestAssets;
@@ -17,6 +17,11 @@ public class AssetMaster : MonoBehaviour {
 	private GameObject[] starterEnvironmentAssets;
 
 	void Start(){
+		Director director = GameObject.FindGameObjectWithTag ("GameController").GetComponent<Director> ();
+
+		if (director != null)
+			starterEnvironment = director.environment;
+
 		setStarterAssets ();
 	}
 
@@ -40,7 +45,7 @@ public class AssetMaster : MonoBehaviour {
 		asset.tag = "EnvironmentObject";
 
 		if (starterEnvironment == StarterEnvironment.forest) {
-			asset.transform.localScale = asset.transform.localScale * (10 * Random.value + 4);
+			asset.transform.localScale = asset.transform.localScale * (5 * Random.value + 4);
 		} else if (starterEnvironment == StarterEnvironment.urban) {
 			asset.transform.localScale = asset.transform.localScale * 0.5f;
 		} else if (starterEnvironment == StarterEnvironment.furniture) {

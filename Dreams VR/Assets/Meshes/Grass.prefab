@@ -1,42 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &151728
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1208632884771990}
+  m_IsPrefabParent: 1
+--- !u!1 &1208632884771990
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 461764}
-  - component: {fileID: 3334430}
-  - component: {fileID: 2359734}
-  - component: {fileID: 6496142}
+  - component: {fileID: 4536715258923682}
+  - component: {fileID: 193904480505802724}
+  - component: {fileID: 33982469104693162}
+  - component: {fileID: 23730431740823898}
   m_Layer: 0
-  m_Name: crate
+  m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &461764
+--- !u!4 &4536715258923682
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151728}
+  m_GameObject: {fileID: 1208632884771990}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.53385854, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &2359734
+--- !u!23 &23730431740823898
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151728}
+  m_GameObject: {fileID: 1208632884771990}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -45,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: f73bb2705a4fb944fa5f03c3d184f7ed, type: 2}
+  - {fileID: 21395902707998326, guid: 65b906539f0e25a48b7be9253d518ed7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -65,35 +76,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &3334430
+--- !u!33 &33982469104693162
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151728}
-  m_Mesh: {fileID: 4300020, guid: ba0835dbf494a7847a5df5464b10e60b, type: 3}
---- !u!64 &6496142
-MeshCollider:
+  m_GameObject: {fileID: 1208632884771990}
+  m_Mesh: {fileID: 43170753580831696, guid: 65b906539f0e25a48b7be9253d518ed7, type: 2}
+--- !u!193 &193904480505802724
+Tree:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151728}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300020, guid: ba0835dbf494a7847a5df5464b10e60b, type: 3}
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 151728}
-  m_IsPrefabParent: 1
+  m_GameObject: {fileID: 1208632884771990}
+  m_SpeedTreeWindAsset: {fileID: 0}
+  m_TreeData: {fileID: 114846583548037856, guid: 65b906539f0e25a48b7be9253d518ed7,
+    type: 2}

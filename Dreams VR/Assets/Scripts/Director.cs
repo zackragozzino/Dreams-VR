@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Director : MonoBehaviour {
 
@@ -21,6 +22,9 @@ public class Director : MonoBehaviour {
 	public GameObject simulator_Rig;
 
 	private VRTK.VRTK_SDKManager sdkManager;
+
+	public AssetMaster.StarterEnvironment environment;
+	public Dropdown dropdown;
 
 	public GameObject startScreen;
 
@@ -66,11 +70,30 @@ public class Director : MonoBehaviour {
 	}
 
 	public void enableSimulator(){
+		getEnvironmentChoice ();
 		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
 		sdkManager.TryLoadSDKSetup (1, true, setups);
 		player = simulator_Rig;
 		startScreen.SetActive (false);
 		sceneLoader.loadFirstScene ();
+	}
+
+	public void getEnvironmentChoice(){
+		switch (dropdown.value)
+		{
+		case 0:
+			environment = AssetMaster.StarterEnvironment.forest;
+			break;
+		case 1:
+			environment = AssetMaster.StarterEnvironment.palm;
+			break;
+		case 2:
+			environment = AssetMaster.StarterEnvironment.furniture;
+			break;
+		case 3:
+			environment = AssetMaster.StarterEnvironment.upsideDown;
+			break;
+		}
 	}
 
 	public void startPortalGeneration(){
