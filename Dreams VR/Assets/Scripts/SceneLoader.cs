@@ -53,6 +53,9 @@ public class SceneLoader : MonoBehaviour {
 		//Start producing portals now that the scene is loaded
 		director.startPortalGeneration ();
 
+
+
+		//director.mapGenerator.AddComponent<Magnetism> ();
 	}
 
 	IEnumerator LoadAsynchronously(){

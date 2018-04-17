@@ -9,12 +9,17 @@ public class Magnetism : MonoBehaviour {
 	public int effectiveRadius = 10;
 	public float magneticStrength = 1;
 
+	private Director director;
+
 	// Use this for initialization
 	void Start () {
+		director = GameObject.FindGameObjectWithTag ("GameController").GetComponent<Director> ();
+
 		if (player == null) {
-			player = GameObject.FindGameObjectWithTag ("Player");
+			//player = GameObject.FindGameObjectWithTag ("Player");
+			player = director.getPlayer ();
 		}
-      magnets = GameObject.FindGameObjectsWithTag("Magnet");
+		magnets = GameObject.FindGameObjectsWithTag( "EnvironmentObject");
       foreach (GameObject magnet in magnets) {
          checkRigidbody(magnet);
          checkCollider(magnet);

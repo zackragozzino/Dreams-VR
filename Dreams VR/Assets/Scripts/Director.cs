@@ -91,6 +91,9 @@ public class Director : MonoBehaviour {
 			environment = AssetMaster.StarterEnvironment.furniture;
 			break;
 		case 3:
+			environment = AssetMaster.StarterEnvironment.urban;
+			break;
+		case 4:
 			environment = AssetMaster.StarterEnvironment.upsideDown;
 			break;
 		}

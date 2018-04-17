@@ -21,7 +21,7 @@ public class DoorController : MonoBehaviour {
 		//if (other.tag == "Player") {
 			doorAnimation.Play ("Door_open");
 		} else if(other.tag == "EnvironmentObject"){
-			Destroy (other.gameObject);
+			//Destroy (other.gameObject);
 		}
 	}
 
