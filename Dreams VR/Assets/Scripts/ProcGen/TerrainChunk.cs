@@ -50,7 +50,7 @@ public class TerrainChunk {
 		meshRenderer.material = material;
 		
 
-		meshObject.transform.position = new Vector3(position.x,0,position.y);
+		meshObject.transform.position = new Vector3(position.x,parent.position.y,position.y);
 		meshObject.transform.parent = parent;
 		InitObjectPopulator ();
 		SetVisible(false);
