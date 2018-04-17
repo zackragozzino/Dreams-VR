@@ -24,7 +24,6 @@ public class SceneLoader : MonoBehaviour {
 	}
 
 	public void loadSceneButton(){
-		Debug.Log ("pressed");
 		director.getEnvironmentChoice ();
 		StartCoroutine(DestroyAndQueueScene ());
 	}
