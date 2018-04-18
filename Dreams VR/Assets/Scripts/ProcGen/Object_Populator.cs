@@ -75,20 +75,23 @@ public class Object_Populator : MonoBehaviour {
 			float[] noiseMap = new float[width * height];
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					if (heightMap.values [x, y] > 0.7f) {
+					/*if (heightMap.values [x, y] < 0.01f && assetMaster.starterEnvironment == AssetMaster.StarterEnvironment.upsideDown) {
+						GameObject asset = Instantiate (assetMaster.urbanAssets[Random.Range(0, urbanAssets.Length)], new Vector3 (this.transform.position.x + x - (width/2f), Random.Range(5,15), this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+						asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
+					}*/
+
+					/*if (heightMap.values [x, y] > 0.7f && assetMaster.starterEnvironment != AssetMaster.StarterEnvironment.upsideDown) {
 						//GameObject asset = Instantiate (assets[Random.Range(0, assets.Length)], new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
 						//GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
 						//asset.transform.localScale = asset.transform.localScale * (10 * Random.value + 4);
 						//asset.transform.localScale = asset.transform.localScale * 0.5f;
-						assetMaster.generateObject (x, y, height, width, this.transform);
-					}
-
-					if (heightMap.values [x, y] > 0.65f) {
-						//GameObject asset = Instantiate (assetMaster.grass, new Vector3 (this.transform.position.x + x - (width/2f), 0, this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
-					}
+						assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y]);
+					}*/
+					
+					assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y]);
 
 					if(heightMap.values[x,y] < 0.0){
-						//GameObject asset = Instantiate (urbanAssets[Random.Range(0, urbanAssets.Length)], new Vector3 (this.transform.position.x + x - (width/2f), Random.Range(5,15), this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+						
 						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), Random.Range(20,100), this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
 
 						asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));

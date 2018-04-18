@@ -13,11 +13,49 @@ public class SceneLoader : MonoBehaviour {
 		director = this.GetComponent<Director> ();
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
+
+		//StartCoroutine (LoadAsynchronously ());
+	}
+
+	void Update(){
+		if (Input.GetKeyDown (KeyCode.M)) {
+			loadSceneButton ();
+		}
+	}
+
+	public void loadSceneButton(){
+		director.getEnvironmentChoice ();
+		StartCoroutine(DestroyAndQueueScene ());
+	}
+
+	public void loadFirstScene(){
 		StartCoroutine (LoadAsynchronously ());
 	}
 
 	public void loadNewScene(){
 		StartCoroutine(DestroyAndQueueScene());
+	}
+
+	IEnumerator LoadUsingSteamVR(){
+		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = false;
+
+		SteamVR_LoadLevel.Begin ("Flat_Land");
+		while (SteamVR_LoadLevel.loading) {
+			yield return null;
+		}
+		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = true;
+
+		//Reset player and map generator  reference
+		//director.player = GameObject.FindGameObjectWithTag ("Player");
+		director.mapGenerator = GameObject.FindGameObjectWithTag ("MapGenerator");
+		director.mapGenerator.GetComponent<TerrainGenerator> ().viewer = director.getPlayer ().transform;
+		director.getPlayer ().transform.position = new Vector3 (0, 0.01f, 0);
+		//Start producing portals now that the scene is loaded
+		director.startPortalGeneration ();
+
+
+
+		//director.mapGenerator.AddComponent<Magnetism> ();
 	}
 
 	IEnumerator LoadAsynchronously(){
@@ -28,8 +66,10 @@ public class SceneLoader : MonoBehaviour {
 			yield return null;
 		}
 		//Reset player and map generator  reference
-		director.player = GameObject.FindGameObjectWithTag ("Player");
+		//director.player = GameObject.FindGameObjectWithTag ("Player");
 		director.mapGenerator = GameObject.FindGameObjectWithTag ("MapGenerator");
+		director.mapGenerator.GetComponent<TerrainGenerator> ().viewer = director.getPlayer ().transform;
+		director.getPlayer ().transform.position = new Vector3 (0, 3.55f, 0);
 		//Start producing portals now that the scene is loaded
 		director.startPortalGeneration ();
 	}
@@ -41,7 +81,8 @@ public class SceneLoader : MonoBehaviour {
 		while (!operation.isDone) {
 			yield return null;
 		}
-		StartCoroutine (LoadAsynchronously ());
+		//StartCoroutine (LoadAsynchronously ());
+		StartCoroutine (LoadUsingSteamVR ());
 	}
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode){

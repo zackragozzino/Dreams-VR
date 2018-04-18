@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Director : MonoBehaviour {
 
@@ -13,15 +14,27 @@ public class Director : MonoBehaviour {
 	private int timerMin = 5;
 	private int timerMax = 30;
 
-	public GameObject player;
 	public GameObject mapGenerator;
 	private SceneLoader sceneLoader;
+
+	private GameObject player;
+	public GameObject VR_Rig;
+	public GameObject simulator_Rig;
+
+	private VRTK.VRTK_SDKManager sdkManager;
+
+	public AssetMaster.StarterEnvironment environment;
+	public Dropdown dropdown;
+
+	public GameObject startScreen;
 
 	private Scene currentScene;
 
 	// Use this for initialization
 	void Start () {
 		timer = Random.Range (timerMin, timerMax);
+
+		sdkManager = VRTK.VRTK_SDKManager.instance;
 
 		sceneLoader = this.GetComponent<SceneLoader> ();
 	}
@@ -44,6 +57,48 @@ public class Director : MonoBehaviour {
 		
 	}
 
+	public GameObject getPlayer(){
+		return player;
+	}
+
+	public void enableVR(){
+		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
+		sdkManager.TryLoadSDKSetup (0, true, setups);
+		player = VR_Rig;
+		startScreen.SetActive (false);
+		sceneLoader.loadFirstScene ();
+	}
+
+	public void enableSimulator(){
+		getEnvironmentChoice ();
+		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
+		sdkManager.TryLoadSDKSetup (1, true, setups);
+		player = simulator_Rig;
+		startScreen.SetActive (false);
+		sceneLoader.loadFirstScene ();
+	}
+
+	public void getEnvironmentChoice(){
+		switch (dropdown.value)
+		{
+		case 0:
+			environment = AssetMaster.StarterEnvironment.forest;
+			break;
+		case 1:
+			environment = AssetMaster.StarterEnvironment.palm;
+			break;
+		case 2:
+			environment = AssetMaster.StarterEnvironment.furniture;
+			break;
+		case 3:
+			environment = AssetMaster.StarterEnvironment.urban;
+			break;
+		case 4:
+			environment = AssetMaster.StarterEnvironment.upsideDown;
+			break;
+		}
+	}
+
 	public void startPortalGeneration(){
 		StartCoroutine (GeneratePortal ());
 	}
@@ -53,6 +108,7 @@ public class Director : MonoBehaviour {
 	}
 
 	public void GenerateNewWorld(){
+		environment = (AssetMaster.StarterEnvironment)Random.Range (0, 5);
 		sceneLoader.loadNewScene ();
 	}
 
