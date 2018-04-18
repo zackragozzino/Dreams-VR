@@ -14,11 +14,11 @@ MonoBehaviour:
   autoUpdate: 1
   noiseSettings:
     normalizeMode: 1
-    scale: 45.9
+    scale: 20
     octaves: 6
     persistance: 1
     lacunarity: 1
-    seed: 208
+    seed: 153
     offset: {x: 0, y: 0}
   useFalloff: 1
   heightMultiplier: 1

@@ -24,10 +24,15 @@ public class TerrainGenerator : MonoBehaviour {
 	float meshWorldSize;
 	int chunksVisibleInViewDst;
 
+	int totalChunks = 0;
+
 	Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
 	List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
 	void Start() {
+
+		if (viewer == null)
+			viewer = GameObject.FindGameObjectWithTag ("GameController").GetComponent<Director> ().getPlayer ().transform;
 
 		textureSettings.ApplyToMaterial (mapMaterial);
 		textureSettings.UpdateMeshHeights (mapMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
@@ -75,6 +80,9 @@ public class TerrainGenerator : MonoBehaviour {
 						terrainChunkDictionary.Add (viewedChunkCoord, newChunk);
 						newChunk.onVisibilityChanged += OnTerrainChunkVisibilityChanged;
 						newChunk.Load ();
+
+						totalChunks++;
+						//print (totalChunks);
 					}
 				}
 
