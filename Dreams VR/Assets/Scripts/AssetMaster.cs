@@ -7,7 +7,7 @@ public class AssetMaster : MonoBehaviour {
 	public Object_Populator ObjectPopulator;
 	public bool generateAssets;
 	public enum StarterEnvironment {forest, urban, furniture, palm, upsideDown};
-	public enum SceneMod {none, rotater, bounce, magnet};
+	public enum SceneMod {none, rotater, bounce, magnet, implode};
 	public StarterEnvironment starterEnvironment;
 	public SceneMod sceneMod;
 
@@ -32,6 +32,7 @@ public class AssetMaster : MonoBehaviour {
 		setStarterAssets ();
 
 		//sceneMod = SceneMod.bounce;
+		sceneMod = director.sceneMod;
 	
 		if (director.sceneNum == 0)
 			generateStartingRoom ();
@@ -70,11 +71,13 @@ public class AssetMaster : MonoBehaviour {
 			Vector3 pos = asset.transform.position;
 			asset.transform.position = new Vector3 (pos.x, Random.Range (1, 100), pos.z);
 			asset.AddComponent<Bounce> ().bounciness = 1;
+
+
+
 			break;
-		default:
-			Debug.Log (sceneMod);
+		case SceneMod.implode:
+			asset.AddComponent<Implode> ();
 			break;
-			
 		}
 	}
 
@@ -140,7 +143,7 @@ public class AssetMaster : MonoBehaviour {
 
 		else if (starterEnvironment == StarterEnvironment.upsideDown && noiseVal < 0.01f) {
 			GameObject asset = urbanAssets [Random.Range (0, urbanAssets.Length)];
-			asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width/2f), parent.position.y, parent.position.z + y - (height/2f)), asset.transform.rotation, parent);
+			asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width/2f), Random.Range(20,100), parent.position.z + y - (height/2f)), asset.transform.rotation, parent);
 			//asset.tag = "EnvironmentObject";
 			asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 

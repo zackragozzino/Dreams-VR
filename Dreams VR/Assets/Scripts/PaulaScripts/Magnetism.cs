@@ -36,6 +36,9 @@ public class Magnetism : MonoBehaviour {
 		if (!rigidbody) {
 			rigidbody = item.AddComponent(typeof(Rigidbody)) as Rigidbody;
 		}
+
+		rigidbody.useGravity = false;
+
 		rigidbody.constraints = RigidbodyConstraints.FreezePositionY | 
 			RigidbodyConstraints.FreezeRotationX |
 			RigidbodyConstraints.FreezeRotationY | 
@@ -47,9 +50,10 @@ public class Magnetism : MonoBehaviour {
 		Vector3 difference = magnet.transform.position - player.transform.position;
 		difference = new Vector3(difference.x, 0.0f, difference.z);
 		if (difference.magnitude <= this.effectiveRadius) {
-			Rigidbody rigidbody = magnet.GetComponent(typeof(Rigidbody)) as Rigidbody;
+			Debug.Log (difference.magnitude);
+			/*Rigidbody rigidbody = magnet.GetComponent(typeof(Rigidbody)) as Rigidbody;
 			Vector3 force = difference.normalized * this.magneticStrength;
-			rigidbody.AddForce(force, ForceMode.VelocityChange);
+			rigidbody.AddForce(force, ForceMode.VelocityChange);*/
 		}
 	}
 }

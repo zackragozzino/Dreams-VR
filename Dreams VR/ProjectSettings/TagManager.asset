@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EnvironmentObject
   - MapGenerator
+  - Door
   layers:
   - Default
   - TransparentFX
