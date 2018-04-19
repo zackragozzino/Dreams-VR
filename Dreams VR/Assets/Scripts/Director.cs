@@ -14,6 +14,8 @@ public class Director : MonoBehaviour {
 	private int timerMin = 5;
 	private int timerMax = 30;
 
+	public int sceneNum = 0;
+
 	public GameObject mapGenerator;
 	private SceneLoader sceneLoader;
 
@@ -109,6 +111,8 @@ public class Director : MonoBehaviour {
 
 	public void GenerateNewWorld(){
 		environment = (AssetMaster.StarterEnvironment)Random.Range (0, 5);
+		sceneNum++;
+
 		sceneLoader.loadNewScene ();
 	}
 

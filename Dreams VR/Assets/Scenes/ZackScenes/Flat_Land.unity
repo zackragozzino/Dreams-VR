@@ -529,7 +529,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 522957207}
-  m_Mesh: {fileID: 775422920}
+  m_Mesh: {fileID: 749018590}
 --- !u!4 &522957210
 Transform:
   m_ObjectHideFlags: 0
@@ -835,7 +835,7 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 459816, guid: aae542b8a65f39b49b008fa689ce9804, type: 2}
   m_PrefabInternal: {fileID: 710623528}
---- !u!43 &775422920
+--- !u!43 &749018590
 Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -1251,6 +1251,7 @@ MonoBehaviour:
   ObjectPopulator: {fileID: 854021990}
   generateAssets: 1
   starterEnvironment: 1
+  sceneMod: 0
   forestAssets:
   - {fileID: 108544, guid: d638ef2ca2fe20c4c9c08e125692d3f4, type: 2}
   - {fileID: 199470, guid: ec78ebca7517fb745a45a931cb06d2bd, type: 2}
@@ -1328,6 +1329,21 @@ MonoBehaviour:
   - {fileID: 161618, guid: 03566e50eb2d319468a8720030b6bcf6, type: 2}
   - {fileID: 155934, guid: 2ed7cc7e3c944414d8f3fabb4d533018, type: 2}
   - {fileID: 137888, guid: ecc2762d91d3584429565bde5fbede9e, type: 2}
+  subProps:
+  - {fileID: 155624, guid: f4a8f092e071624499a23e0e7dc3b309, type: 2}
+  - {fileID: 117514, guid: 3b0ff3d7b2afcd3458db36094a47184a, type: 2}
+  - {fileID: 165348, guid: 12f6f5b2c2625db4eaf36fa161879853, type: 2}
+  - {fileID: 120594, guid: f14d519adfda4a4428f2d861cdc8fd38, type: 2}
+  - {fileID: 196868, guid: 22c914c1a9856c648bf7e6edab9978f6, type: 2}
+  - {fileID: 129470, guid: a3710c1617ff8d84d9951b2f8a029f9a, type: 2}
+  - {fileID: 109766, guid: 38291ecd3571d294ead9e9d15c345a6d, type: 2}
+  - {fileID: 191138, guid: 4e2dd32c733005a44b50004d673dc653, type: 2}
+  - {fileID: 110820, guid: f4b6d9b5cf2500e419d8cb4fb82a84eb, type: 2}
+  - {fileID: 161050, guid: 65b6f096056a3644389b3bda6c9e8a80, type: 2}
+  - {fileID: 124576, guid: 4945551f5e101604ab8cd71442e62a7e, type: 2}
+  - {fileID: 155054, guid: f4361284dc70ab044b5b3d136b00d8d1, type: 2}
+  startingRoom: {fileID: 1269033242732534, guid: bd0a697e3d94ddf4b8c07adaa5c64066,
+    type: 2}
 --- !u!4 &1008436975
 Transform:
   m_ObjectHideFlags: 0
