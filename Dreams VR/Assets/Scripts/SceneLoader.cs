@@ -18,9 +18,7 @@ public class SceneLoader : MonoBehaviour {
 	}
 
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.M)) {
-			loadSceneButton ();
-		}
+
 	}
 
 	public void loadSceneButton(){
@@ -36,6 +34,26 @@ public class SceneLoader : MonoBehaviour {
 		StartCoroutine(DestroyAndQueueScene());
 	}
 
+	public IEnumerator loadFinalArea(){
+		director.stopPortalGeneration ();
+
+		AsyncOperation operation = SceneManager.UnloadSceneAsync (currentScene);
+		while (!operation.isDone) {
+			yield return null;
+		}
+
+		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = false;
+
+		SteamVR_LoadLevel.Begin ("Final_Area");
+		while (SteamVR_LoadLevel.loading) {
+			yield return null;
+		}
+
+		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = true;
+
+		director.getPlayer ().transform.position = new Vector3 (0, 0.01f, 0);
+	}
+
 	IEnumerator LoadUsingSteamVR(){
 		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = false;
 
@@ -43,6 +61,7 @@ public class SceneLoader : MonoBehaviour {
 		while (SteamVR_LoadLevel.loading) {
 			yield return null;
 		}
+
 		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = true;
 
 		//Reset player and map generator  reference
@@ -69,9 +88,12 @@ public class SceneLoader : MonoBehaviour {
 		//director.player = GameObject.FindGameObjectWithTag ("Player");
 		director.mapGenerator = GameObject.FindGameObjectWithTag ("MapGenerator");
 		director.mapGenerator.GetComponent<TerrainGenerator> ().viewer = director.getPlayer ().transform;
-		director.getPlayer ().transform.position = new Vector3 (0, 3.55f, 0);
+		director.getPlayer ().transform.position = new Vector3 (0, 0.01f, 0);
 		//Start producing portals now that the scene is loaded
 		director.startPortalGeneration ();
+
+		if (director.sceneNum == 0)
+			director.spawnInitialDoor ();
 	}
 
 	IEnumerator DestroyAndQueueScene(){
@@ -86,7 +108,7 @@ public class SceneLoader : MonoBehaviour {
 	}
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode){
-		Debug.Log ("Scene loaded: " + scene.name);
+		Debug.Log ("Scene loaded: " + scene.name + "-" + director.environment);
 		currentScene = scene;
 		//SceneManager.LoadScene -= OnSceneLoaded;
 	}

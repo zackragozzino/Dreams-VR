@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 478240}
   - component: {fileID: 3324264}
   - component: {fileID: 2336398}
-  - component: {fileID: 6496104}
+  - component: {fileID: 65978587549961530}
   m_Layer: 0
   m_Name: bench_1_2
   m_TagString: Untagged
@@ -25,7 +25,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129470}
   m_LocalRotation: {x: -9.826477e-20, y: 0.7079087, z: -9.826477e-20, w: 0.70630395}
-  m_LocalPosition: {x: 17.051756, y: 0.30646843, z: -8.157229}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -72,20 +72,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129470}
   m_Mesh: {fileID: 4300048, guid: 951723308d8ef1f4eb7387cff594d134, type: 3}
---- !u!64 &6496104
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 129470}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300048, guid: 951723308d8ef1f4eb7387cff594d134, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -97,3 +83,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129470}
   m_IsPrefabParent: 1
+--- !u!65 &65978587549961530
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129470}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.8919685, y: 1.342219, z: 0.9046382}
+  m_Center: {x: 0.012310147, y: 0.6544245, z: -0.09222974}

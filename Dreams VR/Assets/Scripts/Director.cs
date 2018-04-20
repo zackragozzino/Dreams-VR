@@ -14,6 +14,8 @@ public class Director : MonoBehaviour {
 	private int timerMin = 5;
 	private int timerMax = 30;
 
+	public int sceneNum = 0;
+
 	public GameObject mapGenerator;
 	private SceneLoader sceneLoader;
 
@@ -24,6 +26,8 @@ public class Director : MonoBehaviour {
 	private VRTK.VRTK_SDKManager sdkManager;
 
 	public AssetMaster.StarterEnvironment environment;
+	public AssetMaster.SceneMod sceneMod;
+
 	public Dropdown dropdown;
 
 	public GameObject startScreen;
@@ -41,20 +45,10 @@ public class Director : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		/*timer -= Time.deltaTime;
-
-		if (timer <= 0) {
-			AddScript ();
-			timer = Random.Range (timerMin, timerMax);
-		}*/
-
-
-		//Instantiates the crawler script. Used for testing purposes
-		/*if (Input.GetKeyDown (KeyCode.G)) {
-			Instantiate (dreamScripts [0], player.transform.position, Quaternion.identity, this.transform);
-		}*/
-		
+		if (Input.GetKeyDown (KeyCode.M)) {
+			GenerateNewWorld();
+			//StartCoroutine(sceneLoader.loadFinalArea());
+		}
 	}
 
 	public GameObject getPlayer(){
@@ -108,8 +102,39 @@ public class Director : MonoBehaviour {
 	}
 
 	public void GenerateNewWorld(){
-		environment = (AssetMaster.StarterEnvironment)Random.Range (0, 5);
-		sceneLoader.loadNewScene ();
+		environment = (AssetMaster.StarterEnvironment)Random.Range (0, System.Enum.GetValues(typeof(AssetMaster.StarterEnvironment)).Length);
+		sceneNum++;
+	
+		if (sceneNum > 0)
+			sceneMod = (AssetMaster.SceneMod)Random.Range (0,System.Enum.GetValues(typeof(AssetMaster.SceneMod)).Length);
+
+		switch (sceneNum) {
+		case 1:
+			sceneMod = AssetMaster.SceneMod.bounce;
+			environment = AssetMaster.StarterEnvironment.furniture;
+			break;
+		
+		case 2:
+			sceneMod = AssetMaster.SceneMod.rotater;
+			environment = AssetMaster.StarterEnvironment.forest;
+			break;
+		case 3:
+			sceneMod = AssetMaster.SceneMod.none;
+			environment = AssetMaster.StarterEnvironment.upsideDown;
+			break;
+
+		}
+		
+
+		//sceneMod = AssetMaster.SceneMod.magnet;
+		//environment = AssetMaster.StarterEnvironment.furniture;
+
+		if (sceneNum == 4) {
+			StartCoroutine (sceneLoader.loadFinalArea ());
+		} else {
+			Debug.Log ("Scene mod: " + sceneMod);
+			sceneLoader.loadNewScene ();
+		}
 	}
 
 	//This code is kind of basic and should be updated to reflect player movement, not time elapsed
@@ -127,6 +152,13 @@ public class Director : MonoBehaviour {
 
 		//Debug.Log ("Door spawned: " + doorPos);
 		StartCoroutine (GeneratePortal ());
+	}
+
+	public void spawnInitialDoor(){
+		Vector3 pos = doorPortal.transform.position;
+		pos.z = 21.3f;
+
+		GameObject spawnedDoor = Instantiate (doorPortal, pos, doorPortal.transform.rotation, mapGenerator.transform);
 	}
 		
 
