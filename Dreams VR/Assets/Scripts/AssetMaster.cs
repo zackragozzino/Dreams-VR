@@ -17,6 +17,8 @@ public class AssetMaster : MonoBehaviour {
 	public GameObject[] palmTreeAssets;
 	public GameObject[] subProps;
 
+	public GameObject grass;
+
 	public GameObject startingRoom;
 
 	private GameObject[] starterEnvironmentAssets;
@@ -72,8 +74,6 @@ public class AssetMaster : MonoBehaviour {
 			asset.transform.position = new Vector3 (pos.x, Random.Range (1, 100), pos.z);
 			asset.AddComponent<Bounce> ().bounciness = 1;
 
-
-
 			break;
 		case SceneMod.implode:
 			asset.AddComponent<Implode> ();
@@ -85,12 +85,12 @@ public class AssetMaster : MonoBehaviour {
 		Instantiate (startingRoom, startingRoom.transform.position, startingRoom.transform.rotation, this.transform);
 	}
 
-	public void generateObject(int x, int y, int width, int height, Transform parent, float noiseVal){
-
+	public void generateObject(int x, int y, int width, int height, Transform parent, float noiseVal, float heightVal){
+		
 		if (starterEnvironment == StarterEnvironment.forest) {
 			if (noiseVal > 0.7f) {
 				GameObject asset = starterEnvironmentAssets [Random.Range (0, starterEnvironmentAssets.Length)];
-				asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y, parent.position.z + y - (height / 2f)), asset.transform.rotation, parent);
+				asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y+ heightVal, parent.position.z + y - (height / 2f)), asset.transform.rotation, parent);
 				asset.tag = "EnvironmentObject";
 				asset.transform.localScale = asset.transform.localScale * (5 * Random.value + 4);
 
@@ -107,6 +107,10 @@ public class AssetMaster : MonoBehaviour {
 				asset2.tag = "EnvironmentObject";
 			}
 			*/
+
+			if (noiseVal < 0.08) {
+				Instantiate (grass, new Vector3 (parent.position.x + x - (width/2f), parent.position.y + heightVal, parent.position.z + y - (height/2f)), grass.transform.rotation, parent);
+			}
 
 
 			//Vector3 dir = new Vector3 (Random.Range(-5,5), Random.Range(-5,5), Random.Range(-5,5));

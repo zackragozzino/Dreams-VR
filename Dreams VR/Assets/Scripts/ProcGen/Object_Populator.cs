@@ -9,7 +9,8 @@ public class Object_Populator : MonoBehaviour {
 	public MeshSettings meshSettings;
 	public HeightMapSettings heightMapSettings;
 	public TextureData textureData;
-
+	//public HeightMap meshHeightMap;
+	public float[,] meshHeightMap;
 
 	public GameObject testMesh;
 
@@ -68,7 +69,7 @@ public class Object_Populator : MonoBehaviour {
 		int width = heightMap.values.GetLength (0);
 		int height = heightMap.values.GetLength (1);
 		AssetMaster assetMaster = transform.GetComponentInParent<AssetMaster> ();
-
+		
 		GameObject[] urbanAssets = assetMaster.urbanAssets;
 
 		if (heightMapReceived && assetMaster.generateAssets) {
@@ -88,7 +89,7 @@ public class Object_Populator : MonoBehaviour {
 						assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y]);
 					}*/
 					
-					assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y]);
+				assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y], meshHeightMap[x,y]);
 
 					if(heightMap.values[x,y] < 0.0){
 						
