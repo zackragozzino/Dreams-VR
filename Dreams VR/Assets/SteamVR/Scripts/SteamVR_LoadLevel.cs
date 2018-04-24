@@ -32,7 +32,7 @@ public class SteamVR_LoadLevel : MonoBehaviour
 	public string internalProcessArgs;
 
 	// If true, call LoadLevelAdditiveAsync instead of LoadLevelAsync.
-	public bool loadAdditive;
+	public bool loadAdditive = true;
 
 	// Async load causes crashes in some apps.
 	public bool loadAsync = true;

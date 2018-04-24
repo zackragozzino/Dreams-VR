@@ -51,7 +51,8 @@ namespace VRTK
 
         protected virtual void OnHeadsetCollisionDetect(object sender, HeadsetCollisionEventArgs e)
         {
-            Invoke("StartFade", timeTillFade);
+			if(!e.collider.isTrigger)
+            	Invoke("StartFade", timeTillFade);
         }
 
         protected virtual void OnHeadsetCollisionEnded(object sender, HeadsetCollisionEventArgs e)

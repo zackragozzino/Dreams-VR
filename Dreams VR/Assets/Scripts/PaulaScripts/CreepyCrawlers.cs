@@ -4,42 +4,42 @@ using System.Collections;
 
 public class CreepyCrawlers : MonoBehaviour {
 
-    public GameObject crawler;
-    public GameObject center;
-    public int numStartCrawlers = 0;
-    public int maxCrawlers = 10;
-    public float radius = 5.0f;
-    public float speed = 1.0f;
-    public float restTime = 0.3f;
-    public float timeUntilDisperse = 10.0f;
-    private List<GameObject> crawlers;
-    private float closest = 0.3f;
-    private bool moveCloser;
-    private bool disperse;
-    private bool generate;
-    private bool crawl;
+   public GameObject crawler;
+   public GameObject center;
+   public int numStartCrawlers = 0;
+   public int maxCrawlers = 10;
+   public float radius = 5.0f;
+   public float speed = 1.0f;
+   public float restTime = 0.3f;
+   public float timeUntilDisperse = 10.0f;
+   private List<GameObject> crawlers;
+   private float closest = 0.3f;
+   private bool moveCloser;
+   private bool disperse;
+   private bool generate;
+   private bool crawl;
 
-    public CreepyCrawlers() {
-        this.crawlers  = new List<GameObject>();
-        this.moveCloser = true;
-        this.generate = true;
-        this.crawl = false;
-        this.disperse = false;
-    }
+   public CreepyCrawlers() {
+      this.crawlers  = new List<GameObject>();
+      this.moveCloser = true;
+      this.generate = true;
+      this.crawl = false;
+      this.disperse = false;
+   }
 
-    // Use this for initialization
-    void Start () {
+   // Use this for initialization
+   void Start () {
       // create crawlers around player
       InvokeRepeating("GenerateInCircle", 0.0f, 0.4f);
       // set timer until dispersal
       Invoke("setDisperseToTrue", this.timeUntilDisperse);
       // Play crawling sound
-		FindObjectOfType<AudioManager> ().Play ("Creepy Crawlies");
-		if (center == null)
-			center = GameObject.FindGameObjectWithTag ("Player");
-    }
+      FindObjectOfType<AudioManager> ().Play ("Creepy Crawlies");
+      if (center == null)
+         center = GameObject.FindGameObjectWithTag ("Player");
+   }
 
-    void GenerateInCircle() {
+   void GenerateInCircle() {
       if (this.generate == true) {
          float crawlerAngle = 0;
          float angleIncrement = 2 * Mathf.PI / this.maxCrawlers;
@@ -54,8 +54,8 @@ public class CreepyCrawlers : MonoBehaviour {
                crawlerAngle += angleIncrement;
          }
       }
-    }
-    
+   }
+   
    void Update () {  
       // for each crawler
       foreach (GameObject c in crawlers.ToArray()) {
@@ -79,11 +79,11 @@ public class CreepyCrawlers : MonoBehaviour {
       StartCoroutine(Wait(this.restTime));
 
       // if there are no more crawlers, stop the crawling sound
-		if(this.crawlers.Count == 0)
-			FindObjectOfType<AudioManager> ().Pause("Creepy Crawlies");
-    }
+      if(this.crawlers.Count == 0)
+         FindObjectOfType<AudioManager> ().Pause("Creepy Crawlies");
+   }
 
-    private void moveCrawler(GameObject c, Vector3 towardsCenter) {
+   private void moveCrawler(GameObject c, Vector3 towardsCenter) {
       float r = Random.Range(-1.0f, 1.0f);
       // if in radius and moveCloser == true
       if (towardsCenter.magnitude > closest && this.moveCloser) {
@@ -106,27 +106,27 @@ public class CreepyCrawlers : MonoBehaviour {
          Vector3 translate = newDir * this.speed * Time.deltaTime;
          c.transform.Translate(translate);
       }
-    }
+   }
 
-    private IEnumerator Wait(float timeWait) {
-        this.moveCloser = false;
-        yield return new WaitForSecondsRealtime(timeWait);
-        this.moveCloser = true;
-    }
+   private IEnumerator Wait(float timeWait) {
+      this.moveCloser = false;
+      yield return new WaitForSecondsRealtime(timeWait);
+      this.moveCloser = true;
+   }
 
-    private void setDisperseToTrue() {
-        this.disperse = true;
-        this.generate = false;
-    }
+   private void setDisperseToTrue() {
+      this.disperse = true;
+      this.generate = false;
+   }
 
-    private void moveCrawlerAway(GameObject c, Vector3 awayFromCenter) {
+   private void moveCrawlerAway(GameObject c, Vector3 awayFromCenter) {
       float r = Random.Range(-1.0f, 1.0f);
       Vector3 translate = (awayFromCenter + new Vector3(r, 0.0f, r))* this.speed * Time.deltaTime;
       c.transform.Translate(translate);
       // if further than the effective radius, then just delete
-		if (awayFromCenter.magnitude > (this.radius)) {
+      if (awayFromCenter.magnitude > (this.radius)) {
             Destroy(c, 0.2f);
             this.crawlers.Remove(c);
-        }
-    }
+      }
+   }
 }

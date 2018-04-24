@@ -6,6 +6,7 @@ public class PortalTeleporter : MonoBehaviour {
 
 	public Transform player;
 	public Transform reciever;
+	public Animator doorReciever;
 
 	private bool playerIsOverlapping = false;
 
@@ -28,6 +29,9 @@ public class PortalTeleporter : MonoBehaviour {
 				player.position = reciever.position + positionOffset;
 
 				playerIsOverlapping = false;
+
+				if (doorReciever != null)
+					doorReciever.Play ("Door_Close");
 			}
 		}
 	}

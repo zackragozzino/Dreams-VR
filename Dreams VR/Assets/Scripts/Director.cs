@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Director : MonoBehaviour {
 
@@ -13,9 +14,23 @@ public class Director : MonoBehaviour {
 	private int timerMin = 5;
 	private int timerMax = 30;
 
-	public GameObject player;
+	public int sceneNum = 0;
+
 	public GameObject mapGenerator;
 	private SceneLoader sceneLoader;
+
+	private GameObject player;
+	public GameObject VR_Rig;
+	public GameObject simulator_Rig;
+
+	private VRTK.VRTK_SDKManager sdkManager;
+
+	public AssetMaster.StarterEnvironment environment;
+	public AssetMaster.SceneMod sceneMod;
+
+	public Dropdown dropdown;
+
+	public GameObject startScreen;
 
 	private Scene currentScene;
 
@@ -23,25 +38,59 @@ public class Director : MonoBehaviour {
 	void Start () {
 		timer = Random.Range (timerMin, timerMax);
 
+		sdkManager = VRTK.VRTK_SDKManager.instance;
+
 		sceneLoader = this.GetComponent<SceneLoader> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown (KeyCode.M)) {
+			GenerateNewWorld();
+			//StartCoroutine(sceneLoader.loadFinalArea());
+		}
+	}
 
-		/*timer -= Time.deltaTime;
+	public GameObject getPlayer(){
+		return player;
+	}
 
-		if (timer <= 0) {
-			AddScript ();
-			timer = Random.Range (timerMin, timerMax);
-		}*/
+	public void enableVR(){
+		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
+		sdkManager.TryLoadSDKSetup (0, true, setups);
+		player = VR_Rig;
+		startScreen.SetActive (false);
+		sceneLoader.loadFirstScene ();
+	}
 
+	public void enableSimulator(){
+		getEnvironmentChoice ();
+		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
+		sdkManager.TryLoadSDKSetup (1, true, setups);
+		player = simulator_Rig;
+		startScreen.SetActive (false);
+		sceneLoader.loadFirstScene ();
+	}
 
-		//Instantiates the crawler script. Used for testing purposes
-		/*if (Input.GetKeyDown (KeyCode.G)) {
-			Instantiate (dreamScripts [0], player.transform.position, Quaternion.identity, this.transform);
-		}*/
-		
+	public void getEnvironmentChoice(){
+		switch (dropdown.value)
+		{
+		case 0:
+			environment = AssetMaster.StarterEnvironment.forest;
+			break;
+		case 1:
+			environment = AssetMaster.StarterEnvironment.palm;
+			break;
+		case 2:
+			environment = AssetMaster.StarterEnvironment.furniture;
+			break;
+		case 3:
+			environment = AssetMaster.StarterEnvironment.urban;
+			break;
+		case 4:
+			environment = AssetMaster.StarterEnvironment.upsideDown;
+			break;
+		}
 	}
 
 	public void startPortalGeneration(){
@@ -53,7 +102,39 @@ public class Director : MonoBehaviour {
 	}
 
 	public void GenerateNewWorld(){
-		sceneLoader.loadNewScene ();
+		environment = (AssetMaster.StarterEnvironment)Random.Range (0, System.Enum.GetValues(typeof(AssetMaster.StarterEnvironment)).Length);
+		sceneNum++;
+	
+		if (sceneNum > 0)
+			sceneMod = (AssetMaster.SceneMod)Random.Range (0,System.Enum.GetValues(typeof(AssetMaster.SceneMod)).Length);
+
+		switch (sceneNum) {
+		case 1:
+			sceneMod = AssetMaster.SceneMod.bounce;
+			environment = AssetMaster.StarterEnvironment.furniture;
+			break;
+		
+		case 2:
+			sceneMod = AssetMaster.SceneMod.rotater;
+			environment = AssetMaster.StarterEnvironment.forest;
+			break;
+		case 3:
+			sceneMod = AssetMaster.SceneMod.none;
+			environment = AssetMaster.StarterEnvironment.upsideDown;
+			break;
+
+		}
+		
+
+		//sceneMod = AssetMaster.SceneMod.magnet;
+		//environment = AssetMaster.StarterEnvironment.furniture;
+
+		if (sceneNum == 4) {
+			StartCoroutine (sceneLoader.loadFinalArea ());
+		} else {
+			Debug.Log ("Scene mod: " + sceneMod);
+			sceneLoader.loadNewScene ();
+		}
 	}
 
 	//This code is kind of basic and should be updated to reflect player movement, not time elapsed
@@ -71,6 +152,13 @@ public class Director : MonoBehaviour {
 
 		//Debug.Log ("Door spawned: " + doorPos);
 		StartCoroutine (GeneratePortal ());
+	}
+
+	public void spawnInitialDoor(){
+		Vector3 pos = doorPortal.transform.position;
+		pos.z = 21.3f;
+
+		GameObject spawnedDoor = Instantiate (doorPortal, pos, doorPortal.transform.rotation, mapGenerator.transform);
 	}
 		
 
