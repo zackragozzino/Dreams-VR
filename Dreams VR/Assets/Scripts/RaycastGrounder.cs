@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class RaycastGrounder : MonoBehaviour {
 
-	void Start(){
+	bool grounded;
+
+	// Use this for initialization
+	void Start () {
 
 	}
 
-	// Use this for initialization
-	void Update () {
-		RaycastHit hit;
-		if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
-		{
-			//Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-			this.transform.position = hit.point;
+	void Update(){
+		if (!grounded) {
+			RaycastHit hit;
+			if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
+			{
+				//Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+				this.transform.position = hit.point;
+				this.transform.eulerAngles = hit.normal;
+				grounded = true;
+			}
 		}
 	}
 

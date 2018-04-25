@@ -88,9 +88,11 @@ public class AssetMaster : MonoBehaviour {
 	public void generateObject(int x, int y, int width, int height, Transform parent, float noiseVal, float heightVal){
 		
 		if (starterEnvironment == StarterEnvironment.forest) {
-			/*if (noiseVal > 0.7f) {
+			if (noiseVal > 0.7f) {
 				GameObject asset = starterEnvironmentAssets [Random.Range (0, starterEnvironmentAssets.Length)];
-				asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y+ heightVal, parent.position.z + y - (height / 2f)), asset.transform.rotation, parent);
+				asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y + 10, parent.position.z + y - (height / 2f)), asset.transform.rotation, parent);
+				asset.AddComponent<RaycastGrounder> ();
+
 				asset.tag = "EnvironmentObject";
 				asset.transform.localScale = asset.transform.localScale * (5 * Random.value + 4);
 
@@ -99,7 +101,7 @@ public class AssetMaster : MonoBehaviour {
 				//asset.transform.position = new Vector3(asset.transform.position.x, Random.Range (5, 15), asset.transform.position.z);
 				//asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 			}
-			*/
+
 			/*
 			if (noiseVal < 0) {
 				GameObject asset2 = urbanAssets [Random.Range (0, urbanAssets.Length)];
@@ -108,8 +110,8 @@ public class AssetMaster : MonoBehaviour {
 			}
 			*/
 
-			if (noiseVal < 0.03) {
-				GameObject asset2 = Instantiate (grass, new Vector3 (parent.position.x + x - (width/2f), parent.position.y + heightVal + 10, parent.position.z + y - (height/2f)), grass.transform.rotation, parent);
+			if (noiseVal < 0.08) {
+				GameObject asset2 = Instantiate (grass, new Vector3 (parent.position.x + x - (width/2f), parent.position.y + 10, parent.position.z + y - (height/2f)), grass.transform.rotation, parent);
 				asset2.AddComponent<RaycastGrounder> ();
 			}
 
