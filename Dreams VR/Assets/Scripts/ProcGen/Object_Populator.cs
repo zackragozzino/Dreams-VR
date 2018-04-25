@@ -91,7 +91,7 @@ public class Object_Populator : MonoBehaviour {
 					
 				assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y], meshHeightMap[x,y]);
 
-					if(heightMap.values[x,y] < 0.0){
+					/*if(heightMap.values[x,y] < 0.0){
 						
 						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), Random.Range(20,100), this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
 
@@ -102,7 +102,7 @@ public class Object_Populator : MonoBehaviour {
 
 						asset.transform.localScale = asset.transform.localScale * 10 * Random.value;
 
-					}
+					}*/
 				}
 			}
 		}

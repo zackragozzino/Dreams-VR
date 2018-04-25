@@ -145,8 +145,9 @@ public class Director : MonoBehaviour {
 		float xPos = player.transform.position.x + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
 		float zPos = player.transform.position.z + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
 
-		Vector3 doorPos = new Vector3 (xPos, doorPortal.transform.position.y, zPos);
+		Vector3 doorPos = new Vector3 (xPos, doorPortal.transform.position.y + 10, zPos);
 		GameObject spawnedDoor = Instantiate (doorPortal, doorPos, doorPortal.transform.rotation, mapGenerator.transform);
+		spawnedDoor.AddComponent<RaycastGrounder> ();
 		spawnedDoor.transform.LookAt (player.transform.position);
 		spawnedDoor.transform.rotation = Quaternion.Euler (0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
