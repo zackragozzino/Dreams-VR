@@ -82,7 +82,9 @@ public class AssetMaster : MonoBehaviour {
 	}
 
 	void generateStartingRoom(){
-		Instantiate (startingRoom, startingRoom.transform.position, startingRoom.transform.rotation, this.transform);
+		Vector3 pos = startingRoom.transform.position;
+		pos.y = 3;
+		Instantiate (startingRoom, pos, startingRoom.transform.rotation, this.transform);
 	}
 
 	public void generateObject(int x, int y, int width, int height, Transform parent, float noiseVal, float heightVal){

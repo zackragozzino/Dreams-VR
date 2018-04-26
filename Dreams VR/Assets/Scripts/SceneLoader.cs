@@ -88,12 +88,12 @@ public class SceneLoader : MonoBehaviour {
 		//director.player = GameObject.FindGameObjectWithTag ("Player");
 		director.mapGenerator = GameObject.FindGameObjectWithTag ("MapGenerator");
 		director.mapGenerator.GetComponent<TerrainGenerator> ().viewer = director.getPlayer ().transform;
-		director.getPlayer ().transform.position = new Vector3 (0, 0.01f, 0);
+		director.getPlayer ().transform.position = new Vector3 (0, 3f, 0);
 		//Start producing portals now that the scene is loaded
 		director.startPortalGeneration ();
 
-		if (director.sceneNum == 0)
-			director.spawnInitialDoor ();
+		//if (director.sceneNum == 0)
+			//director.spawnInitialDoor ();
 	}
 
 	IEnumerator DestroyAndQueueScene(){
