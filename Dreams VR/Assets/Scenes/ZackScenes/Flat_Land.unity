@@ -257,7 +257,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &337387395
+--- !u!43 &210403273
 Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -659,7 +659,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 522957207}
-  m_Mesh: {fileID: 337387395}
+  m_Mesh: {fileID: 210403273}
 --- !u!4 &522957210
 Transform:
   m_ObjectHideFlags: 0
@@ -1329,6 +1329,15 @@ MonoBehaviour:
   - {fileID: 161618, guid: 03566e50eb2d319468a8720030b6bcf6, type: 2}
   - {fileID: 155934, guid: 2ed7cc7e3c944414d8f3fabb4d533018, type: 2}
   - {fileID: 137888, guid: ecc2762d91d3584429565bde5fbede9e, type: 2}
+  - {fileID: 100000, guid: d9c3d22cdfbbcfd4f8d8019ff97a0f2e, type: 2}
+  rockAssets:
+  - {fileID: 100008, guid: 54a9cf01843431742a3126013891032d, type: 2}
+  - {fileID: 100000, guid: d9c3d22cdfbbcfd4f8d8019ff97a0f2e, type: 2}
+  - {fileID: 100000, guid: f282d9fb9b399dd4384b20aba08642fb, type: 2}
+  - {fileID: 100000, guid: 940d55d4117386f4f9398ea3ff52d4cd, type: 2}
+  - {fileID: 100000, guid: d209be13548e70947bc39053977ce977, type: 2}
+  - {fileID: 100008, guid: 6b9fd6eae9eb0d546ae14cdaee6d1156, type: 2}
+  - {fileID: 100008, guid: f20a15ee7150fd647af421022dde4d44, type: 2}
   subProps:
   - {fileID: 155624, guid: f4a8f092e071624499a23e0e7dc3b309, type: 2}
   - {fileID: 117514, guid: 3b0ff3d7b2afcd3458db36094a47184a, type: 2}

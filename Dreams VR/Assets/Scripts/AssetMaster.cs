@@ -15,6 +15,7 @@ public class AssetMaster : MonoBehaviour {
 	public GameObject[] urbanAssets;
 	public GameObject[] furnitureAssets;
 	public GameObject[] palmTreeAssets;
+	public GameObject[] rockAssets;
 	public GameObject[] subProps;
 
 	public GameObject grass;
@@ -115,6 +116,12 @@ public class AssetMaster : MonoBehaviour {
 			if (noiseVal < 0.08) {
 				GameObject asset2 = Instantiate (grass, new Vector3 (parent.position.x + x - (width/2f), parent.position.y + 10, parent.position.z + y - (height/2f)), grass.transform.rotation, parent);
 				asset2.AddComponent<RaycastGrounder> ();
+			}
+
+			if (noiseVal > 0.08 && noiseVal < 0.0805) {
+				GameObject asset3 = rockAssets [Random.Range (0, rockAssets.Length)];
+				asset3 = Instantiate (asset3, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y + 10, parent.position.z + y - (height / 2f)), asset3.transform.rotation, parent);
+				asset3.AddComponent<RaycastGrounder> ();
 			}
 
 
