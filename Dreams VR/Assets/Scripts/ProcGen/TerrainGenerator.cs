@@ -86,7 +86,7 @@ public class TerrainGenerator : MonoBehaviour {
 						newChunk.onVisibilityChanged += OnTerrainChunkVisibilityChanged;
 						newChunk.Load ();
 						numChunks++;
-						Debug.Log (numChunks);
+						//Debug.Log (numChunks);
 					}
 				}
 

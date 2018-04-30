@@ -66,6 +66,7 @@ public class AssetMaster : MonoBehaviour {
 		case SceneMod.rotater:
 			Vector3 dir = new Vector3 (Random.Range (-5, 5), Random.Range (-5, 5), Random.Range (-5, 5));
 			asset.AddComponent<Rotater> ().RotationPerSecond = dir;
+			asset.GetComponent<Rotater> ().enablePivot = true;
 			break;
 		case SceneMod.magnet:
 			asset.AddComponent<Magnetism> ().player = director.getPlayer ();
@@ -97,7 +98,7 @@ public class AssetMaster : MonoBehaviour {
 				asset.AddComponent<RaycastGrounder> ();
 
 				asset.tag = "EnvironmentObject";
-				asset.transform.localScale = asset.transform.localScale * (5 * Random.value + 4);
+				asset.transform.localScale = asset.transform.localScale * (5 * Random.value + 2);
 
 				setSceneMod (asset);
 			
@@ -121,6 +122,8 @@ public class AssetMaster : MonoBehaviour {
 			if (noiseVal > 0.08 && noiseVal < 0.0805) {
 				GameObject asset3 = rockAssets [Random.Range (0, rockAssets.Length)];
 				asset3 = Instantiate (asset3, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y + 10, parent.position.z + y - (height / 2f)), asset3.transform.rotation, parent);
+				asset3.transform.localScale = asset3.transform.localScale * ( 1.5f * Random.value + 0.1f);
+				asset3.transform.eulerAngles = new Vector3 (0, Random.Range (0, 360), 0);
 				asset3.AddComponent<RaycastGrounder> ();
 			}
 
@@ -157,13 +160,19 @@ public class AssetMaster : MonoBehaviour {
 			setSceneMod (asset);
 		} 
 
-		else if (starterEnvironment == StarterEnvironment.upsideDown && noiseVal < 0.01f) {
-			GameObject asset = urbanAssets [Random.Range (0, urbanAssets.Length)];
-			asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width/2f), Random.Range(20,100), parent.position.z + y - (height/2f)), asset.transform.rotation, parent);
-			//asset.tag = "EnvironmentObject";
-			asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
+		else if (starterEnvironment == StarterEnvironment.upsideDown) {
+			if (noiseVal < 0.02f) {
+				GameObject asset = urbanAssets [Random.Range (0, urbanAssets.Length)];
+				asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width / 2f), Random.Range (20, 100), parent.position.z + y - (height / 2f)), asset.transform.rotation, parent);
+				//asset.tag = "EnvironmentObject";
+				asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
+				setSceneMod (asset);
+			}
 
-			setSceneMod (asset);
+			if (noiseVal < 0.08) {
+				GameObject asset2 = Instantiate (grass, new Vector3 (parent.position.x + x - (width/2f), parent.position.y + 10, parent.position.z + y - (height/2f)), grass.transform.rotation, parent);
+				asset2.AddComponent<RaycastGrounder> ();
+			}
 		}
 			
 
