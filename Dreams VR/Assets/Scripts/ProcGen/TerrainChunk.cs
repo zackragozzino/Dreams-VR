@@ -37,10 +37,10 @@ public class TerrainChunk {
 		this.heightMapSettings = heightMapSettings;
 		this.meshSettings = meshSettings;
 		this.viewer = viewer;
-
+		
 		sampleCentre = coord * meshSettings.meshWorldSize / meshSettings.meshScale;
 		Vector2 position = coord * meshSettings.meshWorldSize ;
-		bounds = new Bounds(position,Vector2.one * meshSettings.meshWorldSize );
+		bounds = new Bounds(position,Vector2.one * meshSettings.meshWorldSize);
 
 
 		meshObject = new GameObject("Terrain Chunk");
@@ -48,11 +48,10 @@ public class TerrainChunk {
 		meshFilter = meshObject.AddComponent<MeshFilter>();
 		meshCollider = meshObject.AddComponent<MeshCollider>();
 		meshRenderer.material = material;
-		
+		meshObject.layer = 9;
 
 		meshObject.transform.position = new Vector3(position.x,parent.position.y,position.y);
 		meshObject.transform.parent = parent;
-		InitObjectPopulator ();
 		SetVisible(false);
 
 		lodMeshes = new LODMesh[detailLevels.Length];
@@ -78,6 +77,7 @@ public class TerrainChunk {
 
 		ObjectPopulator.meshSettings = parentPopulator.meshSettings;
 		ObjectPopulator.heightMapSettings = parentPopulator.heightMapSettings;
+		ObjectPopulator.meshHeightMap = heightMap.values;
 		ObjectPopulator.textureData = parentPopulator.textureData;
 		ObjectPopulator.testMesh = parentPopulator.testMesh;
 	}
@@ -91,7 +91,7 @@ public class TerrainChunk {
 	void OnHeightMapReceived(object heightMapObject) {
 		this.heightMap = (HeightMap)heightMapObject;
 		heightMapReceived = true;
-
+		InitObjectPopulator ();
 		UpdateTerrainChunk ();
 	}
 

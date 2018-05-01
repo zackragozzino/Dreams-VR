@@ -9,7 +9,8 @@ public class Object_Populator : MonoBehaviour {
 	public MeshSettings meshSettings;
 	public HeightMapSettings heightMapSettings;
 	public TextureData textureData;
-
+	//public HeightMap meshHeightMap;
+	public float[,] meshHeightMap;
 
 	public GameObject testMesh;
 
@@ -65,16 +66,16 @@ public class Object_Populator : MonoBehaviour {
 	}
 
 	public void Populate() {
-		int width = heightMap.values.GetLength (0);
-		int height = heightMap.values.GetLength (1);
+		//int width = heightMap.values.GetLength (0);
+		//int height = heightMap.values.GetLength (1);
+		int numVertsPerLine = meshSettings.numVertsPerLine;
 		AssetMaster assetMaster = transform.GetComponentInParent<AssetMaster> ();
-
+		
 		GameObject[] urbanAssets = assetMaster.urbanAssets;
 
 		if (heightMapReceived && assetMaster.generateAssets) {
-			float[] noiseMap = new float[width * height];
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
+			for (int y = 0; y < numVertsPerLine; y++) {
+				for (int x = 0; x < numVertsPerLine; x++) {
 					/*if (heightMap.values [x, y] < 0.01f && assetMaster.starterEnvironment == AssetMaster.StarterEnvironment.upsideDown) {
 						GameObject asset = Instantiate (assetMaster.urbanAssets[Random.Range(0, urbanAssets.Length)], new Vector3 (this.transform.position.x + x - (width/2f), Random.Range(5,15), this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
 						asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
@@ -88,9 +89,9 @@ public class Object_Populator : MonoBehaviour {
 						assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y]);
 					}*/
 					
-					assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y]);
+				assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y], meshHeightMap[x,y]);
 
-					if(heightMap.values[x,y] < 0.0){
+					/*if(heightMap.values[x,y] < 0.0){
 						
 						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), Random.Range(20,100), this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
 
@@ -101,7 +102,7 @@ public class Object_Populator : MonoBehaviour {
 
 						asset.transform.localScale = asset.transform.localScale * 10 * Random.value;
 
-					}
+					}*/
 				}
 			}
 		}
