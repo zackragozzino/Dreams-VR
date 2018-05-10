@@ -103,9 +103,10 @@ public class Director : MonoBehaviour {
 
 	public void GenerateNewWorld(){
 		environment = (AssetMaster.StarterEnvironment)Random.Range (0, System.Enum.GetValues(typeof(AssetMaster.StarterEnvironment)).Length);
+		sceneMod = (AssetMaster.SceneMod)Random.Range (0, System.Enum.GetValues (typeof(AssetMaster.SceneMod)).Length);
 		sceneNum++;
 	
-		if (sceneNum > 0)
+		/*if (sceneNum > 0)
 			sceneMod = (AssetMaster.SceneMod)Random.Range (0,System.Enum.GetValues(typeof(AssetMaster.SceneMod)).Length);
 
 		switch (sceneNum) {
@@ -124,7 +125,7 @@ public class Director : MonoBehaviour {
 			break;
 
 		}
-		
+*/		
 
 		//sceneMod = AssetMaster.SceneMod.magnet;
 		//environment = AssetMaster.StarterEnvironment.furniture;
