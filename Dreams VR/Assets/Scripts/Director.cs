@@ -110,8 +110,8 @@ public class Director : MonoBehaviour {
 
 		switch (sceneNum) {
 		case 1:
-			// sceneMod = AssetMaster.SceneMod.bounce;
-			// environment = AssetMaster.StarterEnvironment.furniture;
+			//sceneMod = AssetMaster.SceneMod.bounce;
+			//environment = AssetMaster.StarterEnvironment.furniture;
          environment = AssetMaster.StarterEnvironment.empty;
 			break;
 		
@@ -145,6 +145,7 @@ public class Director : MonoBehaviour {
 		//Random ranges between -80 to 80 but not within 50 units of the player
 		// float xPos = player.transform.position.x + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
 		// float zPos = player.transform.position.z + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+
       float xPos = player.transform.position.x + (Random.Range (5, 8) * ((Random.Range (0, 2) == 0) ? 1 : -1));
 		float zPos = player.transform.position.z + (Random.Range (5, 8) * ((Random.Range (0, 2) == 0) ? 1 : -1));
 
