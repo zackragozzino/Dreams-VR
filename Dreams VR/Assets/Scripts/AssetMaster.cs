@@ -6,7 +6,7 @@ public class AssetMaster : MonoBehaviour {
 
 	public Object_Populator ObjectPopulator;
 	public bool generateAssets;
-	public enum StarterEnvironment {forest, urban, furniture, palm, upsideDown};
+	public enum StarterEnvironment {forest, urban, furniture, palm, upsideDown, empty};
 	public enum SceneMod {none, rotater, bounce, magnet, implode};
 	public StarterEnvironment starterEnvironment;
 	public SceneMod sceneMod;
@@ -17,6 +17,7 @@ public class AssetMaster : MonoBehaviour {
 	public GameObject[] palmTreeAssets;
 	public GameObject[] rockAssets;
 	public GameObject[] subProps;
+   public GameObject[] noAssets;
 
 	public GameObject grass;
 
@@ -57,6 +58,9 @@ public class AssetMaster : MonoBehaviour {
 			break;
 		case StarterEnvironment.upsideDown:
 			starterEnvironmentAssets = urbanAssets;
+			break;
+		case StarterEnvironment.empty:
+			starterEnvironmentAssets = noAssets;
 			break;
 		}
 	}

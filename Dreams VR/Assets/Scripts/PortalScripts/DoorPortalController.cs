@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DoorPortalController : MonoBehaviour {
-
 	private Director director;
 
 	// Use this for initialization
