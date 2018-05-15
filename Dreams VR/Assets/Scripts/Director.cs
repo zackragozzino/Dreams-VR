@@ -34,6 +34,8 @@ public class Director : MonoBehaviour {
 
 	private Scene currentScene;
 
+	public GameObject claustrophobia;
+
 	// Use this for initialization
 	void Start () {
 		timer = Random.Range (timerMin, timerMax);
@@ -48,6 +50,10 @@ public class Director : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.M)) {
 			GenerateNewWorld();
 			//StartCoroutine(sceneLoader.loadFinalArea());
+		}
+
+		if (Input.GetKeyDown (KeyCode.J)) {
+			Instantiate (claustrophobia, transform);
 		}
 	}
 
@@ -103,17 +109,19 @@ public class Director : MonoBehaviour {
 
 	public void GenerateNewWorld(){
 		environment = (AssetMaster.StarterEnvironment)Random.Range (0, System.Enum.GetValues(typeof(AssetMaster.StarterEnvironment)).Length);
-		sceneMod = (AssetMaster.SceneMod)Random.Range (0, System.Enum.GetValues (typeof(AssetMaster.SceneMod)).Length);
+		//sceneMod = (AssetMaster.SceneMod)Random.Range (0, System.Enum.GetValues (typeof(AssetMaster.SceneMod)).Length);
 		sceneNum++;
 	
-		/*if (sceneNum > 0)
-			sceneMod = (AssetMaster.SceneMod)Random.Range (0,System.Enum.GetValues(typeof(AssetMaster.SceneMod)).Length);
+		//if (sceneNum > 0)
+			//sceneMod = (AssetMaster.SceneMod)Random.Range (0,System.Enum.GetValues(typeof(AssetMaster.SceneMod)).Length);
 
 		switch (sceneNum) {
 		case 1:
-			//sceneMod = AssetMaster.SceneMod.bounce;
-			//environment = AssetMaster.StarterEnvironment.furniture;
-         environment = AssetMaster.StarterEnvironment.empty;
+			sceneMod = AssetMaster.SceneMod.bounce;
+			environment = AssetMaster.StarterEnvironment.furniture;
+			//environment = AssetMaster.StarterEnvironment.empty;
+
+			//environment = AssetMaster.StarterEnvironment.empty;
 			break;
 		
 		case 2:
@@ -126,7 +134,7 @@ public class Director : MonoBehaviour {
 			break;
 
 		}
-*/		
+
 
 		//sceneMod = AssetMaster.SceneMod.magnet;
 		//environment = AssetMaster.StarterEnvironment.furniture;
@@ -151,10 +159,10 @@ public class Director : MonoBehaviour {
 		float zPos = player.transform.position.z + (Random.Range (5, 8) * ((Random.Range (0, 2) == 0) ? 1 : -1));
 
 		Vector3 doorPos = new Vector3 (xPos, doorPortal.transform.position.y + 10, zPos);
-		GameObject spawnedDoor = Instantiate (doorPortal, doorPos, doorPortal.transform.rotation, mapGenerator.transform);
-		spawnedDoor.AddComponent<RaycastGrounder> ();
-		spawnedDoor.transform.LookAt (player.transform.position);
-		spawnedDoor.transform.rotation = Quaternion.Euler (0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+		//GameObject spawnedDoor = Instantiate (doorPortal, doorPos, doorPortal.transform.rotation, mapGenerator.transform);
+		//spawnedDoor.AddComponent<RaycastGrounder> ();
+		//spawnedDoor.transform.LookAt (player.transform.position);
+		//spawnedDoor.transform.rotation = Quaternion.Euler (0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 
 		Debug.Log ("Door spawned: " + doorPos);
 		StartCoroutine (GeneratePortal ());

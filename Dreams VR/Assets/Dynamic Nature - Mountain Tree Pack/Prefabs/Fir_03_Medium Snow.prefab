@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 205884728037921322}
   m_Layer: 0
   m_Name: Fir_03_Medium Snow
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967279

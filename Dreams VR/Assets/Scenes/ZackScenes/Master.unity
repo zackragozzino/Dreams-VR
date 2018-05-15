@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -361,7 +361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &48258603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6554,7 +6554,13 @@ Prefab:
         type: 2}
       propertyPath: doorPortal
       value: 
-      objectReference: {fileID: 1002030854853264, guid: 630b03abfcec71849ad5bb35b0e66a0d,
+      objectReference: {fileID: 1338405348160412, guid: d13229d325e12a243816cbf98885fc19,
+        type: 2}
+    - target: {fileID: 114155551515776024, guid: 49e62a7e6abfa384bb0e62938c00df6d,
+        type: 2}
+      propertyPath: claustrophobia
+      value: 
+      objectReference: {fileID: 1839436137576648, guid: 397912b597753e740a79ddd550a87622,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 49e62a7e6abfa384bb0e62938c00df6d, type: 2}

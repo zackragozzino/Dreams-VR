@@ -73,6 +73,13 @@ public class Object_Populator : MonoBehaviour {
 		
 		GameObject[] urbanAssets = assetMaster.urbanAssets;
 
+		if(Random.Range(0, 5) == 0){
+			int x = Random.Range (0, numVertsPerLine);
+			int y = Random.Range (0, numVertsPerLine);
+
+			assetMaster.generateSweetSpot (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y]);
+		}
+
 		if (heightMapReceived && assetMaster.generateAssets) {
 			for (int y = 0; y < numVertsPerLine; y++) {
 				for (int x = 0; x < numVertsPerLine; x++) {
@@ -89,7 +96,7 @@ public class Object_Populator : MonoBehaviour {
 						assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y]);
 					}*/
 					
-				assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y], meshHeightMap[x,y]);
+				assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y]);
 
 					/*if(heightMap.values[x,y] < 0.0){
 						

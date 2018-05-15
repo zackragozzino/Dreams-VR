@@ -56,9 +56,10 @@ public class Claustrophobia : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		//player = GameObject.FindGameObjectWithTag("Player");
-		if (wall1 == null)
+		player = GameObject.FindGameObjectWithTag("Player");
+		if (!wall1)
 		{
+			Debug.Log ("test");
 			wall1 = (GameObject)Instantiate(WallPrefab, player.transform.position + new Vector3(0, wallHeight / 2, (wallWidth / 2 - wallDepth / 2)), Quaternion.identity);
 			wall1.transform.localScale += new Vector3(wallWidth, wallHeight, wallDepth);
 		}

@@ -17,7 +17,10 @@ public class AssetMaster : MonoBehaviour {
 	public GameObject[] palmTreeAssets;
 	public GameObject[] rockAssets;
 	public GameObject[] subProps;
-   public GameObject[] noAssets;
+	public GameObject[] noAssets;
+	public GameObject[] animals;
+
+	public GameObject[] sweetSpots;
 
 	public GameObject grass;
 
@@ -48,7 +51,7 @@ public class AssetMaster : MonoBehaviour {
 			starterEnvironmentAssets = forestAssets;
 			break;
 		case StarterEnvironment.furniture:
-			starterEnvironmentAssets = furnitureAssets;
+			starterEnvironmentAssets = animals;
 			break;
 		case StarterEnvironment.palm:
 			starterEnvironmentAssets = palmTreeAssets;
@@ -93,7 +96,12 @@ public class AssetMaster : MonoBehaviour {
 		Instantiate (startingRoom, pos, startingRoom.transform.rotation, this.transform);
 	}
 
-	public void generateObject(int x, int y, int width, int height, Transform parent, float noiseVal, float heightVal){
+	public void generateSweetSpot(int x, int y, int width, int height, Transform parent, float noiseVal){
+		GameObject sweetSpot = sweetSpots [Random.Range (0, sweetSpots.Length)];
+		sweetSpot = Instantiate (sweetSpot, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y, parent.position.z + y - (height / 2f)), sweetSpot.transform.rotation, parent);
+	}
+
+	public void generateObject(int x, int y, int width, int height, Transform parent, float noiseVal){
 		
 		if (starterEnvironment == StarterEnvironment.forest) {
 			if (noiseVal > 0.7f) {
