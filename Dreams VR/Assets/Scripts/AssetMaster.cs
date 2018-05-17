@@ -20,6 +20,8 @@ public class AssetMaster : MonoBehaviour {
 	public GameObject[] noAssets;
 	public GameObject[] animals;
 
+	private AssetProperties forestProperties;
+
 	public GameObject[] sweetSpots;
 
 	public GameObject grass;
@@ -43,6 +45,10 @@ public class AssetMaster : MonoBehaviour {
 	
 		if (director.sceneNum == 0)
 			generateStartingRoom ();
+
+		forestProperties = new AssetProperties (forestAssets, 0.0f, 0.08f);
+
+		Debug.Log(getNoiseThreshold(forestProperties));
 	}
 
 	void setStarterAssets(){
@@ -101,10 +107,23 @@ public class AssetMaster : MonoBehaviour {
 		sweetSpot = Instantiate (sweetSpot, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y, parent.position.z + y - (height / 2f)), sweetSpot.transform.rotation, parent);
 	}
 
+	//Remaps the the noise threshold based on the intensity level
+	private float getNoiseThreshold(AssetProperties assetProperties){
+		int intensityLevel = director.getIntensityLevel ();
+		int intensityMin = 0;
+		int intensityMax = 10;
+		float noiseMin = assetProperties.minNoiseVal;
+		float noiseMax = assetProperties.maxNoiseVal;
+
+		return (float)(noiseMin + (intensityLevel - intensityMin) * (noiseMax - noiseMin) / (intensityMax - intensityMin));
+	}
+
 	public void generateObject(int x, int y, int width, int height, Transform parent, float noiseVal){
 		
 		if (starterEnvironment == StarterEnvironment.forest) {
-			if (noiseVal > 0.7f) {
+			//Was originally if(noiseVal > 0.7)
+		    //Default is now 0.08f
+			if (noiseVal < getNoiseThreshold(forestProperties)) {
 				GameObject asset = starterEnvironmentAssets [Random.Range (0, starterEnvironmentAssets.Length)];
 				asset = Instantiate (asset, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y + 10, parent.position.z + y - (height / 2f)), asset.transform.rotation, parent);
 				asset.AddComponent<RaycastGrounder> ();
@@ -131,7 +150,7 @@ public class AssetMaster : MonoBehaviour {
 				asset2.AddComponent<RaycastGrounder> ();
 			}
 
-			if (noiseVal > 0.08 && noiseVal < 0.0805) {
+			if (noiseVal > 0.88 && noiseVal < 0.9) {
 				GameObject asset3 = rockAssets [Random.Range (0, rockAssets.Length)];
 				asset3 = Instantiate (asset3, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y + 10, parent.position.z + y - (height / 2f)), asset3.transform.rotation, parent);
 				asset3.transform.localScale = asset3.transform.localScale * ( 1.5f * Random.value + 0.1f);
@@ -195,4 +214,18 @@ public class AssetMaster : MonoBehaviour {
 		}*/
 
 	}
+		
+}
+
+public struct AssetProperties{
+	public readonly float minNoiseVal;
+	public readonly float maxNoiseVal;
+	public GameObject[] assetList;
+
+	public AssetProperties (GameObject[] assetList, float minNoiseVal, float maxNoiseVal){
+		this.assetList = assetList;
+		this.minNoiseVal = minNoiseVal;
+		this.maxNoiseVal = maxNoiseVal;
+	}
+
 }
