@@ -46,9 +46,7 @@ public class AssetMaster : MonoBehaviour {
 		if (director.sceneNum == 0)
 			generateStartingRoom ();
 
-		forestProperties = new AssetProperties (forestAssets, 0.0f, 0.08f);
-
-		Debug.Log(getNoiseThreshold(forestProperties));
+		forestProperties = new AssetProperties (forestAssets, 0.0f, 0.07f);
 	}
 
 	void setStarterAssets(){
