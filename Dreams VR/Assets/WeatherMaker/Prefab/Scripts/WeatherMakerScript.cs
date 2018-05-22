@@ -178,7 +178,7 @@ namespace DigitalRuby.WeatherMaker
 
         [Tooltip("Optional weather profile, used to set properties from a scriptable object.")]
         [SerializeField]
-        private WeatherMakerProfileScript _WeatherProfile;
+        public WeatherMakerProfileScript _WeatherProfile;
 
         /// <summary>
         /// Get / set the weather profile
