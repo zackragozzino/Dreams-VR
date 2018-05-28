@@ -5,15 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ZackScenes/Master.unity
     guid: 2666196c217a933488d3b7a07c9eb1d3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ZackScenes/Flat_Land.unity
     guid: 57a9637b501b4c64cb5edbc6cac0cea5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ZackScenes/Final_Area.unity
     guid: b06d946f9c8e2914ebab49631c3c87bb
-  - enabled: 1
+  - enabled: 0
     path: Assets/FacebookSDK/Examples/GraphRequest.unity
     guid: 444ae7ddf432b457a97bfe42021075e3
+  - enabled: 1
+    path: Assets/Scenes/PaulaScenes/Facebook.unity
+    guid: 793fb607c890ad040a008cc2b7da038b

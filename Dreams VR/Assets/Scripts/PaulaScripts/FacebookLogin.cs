@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Facebook.Unity;
+using Facebook.MiniJSON;
+using System;
 
 public class FacebookLogin : MonoBehaviour {
 
+   public GameObject canvas;
    public GameObject DialogLoggedIn;
    public GameObject DialogUsername;
    public GameObject DialogProfilePic;
    public GameObject DialogOtherPic;
    public GameObject DialogLoggedOut;
+   public GameObject cube;
 
    // Awake function from Unity's MonoBehavior
    void Awake ()
@@ -23,7 +27,7 @@ public class FacebookLogin : MonoBehaviour {
          FB.ActivateApp();
       }
    }
-
+   // activating app and setting up screens
    private void InitCallback ()
    {
       if (FB.IsLoggedIn) {
@@ -38,6 +42,7 @@ public class FacebookLogin : MonoBehaviour {
       toggleFBMenus(FB.IsLoggedIn);
    }
 
+   // Pauses if not shown (a function they said to have, not super sure why)
    private void OnHideUnity (bool isGameShown)
    {
       if (!isGameShown) {
@@ -50,13 +55,17 @@ public class FacebookLogin : MonoBehaviour {
    }
 
    public void FBLogin() {
+      // create list of permission strings
+      // https://developers.facebook.com/docs/facebook-login/permissions/v3.0
       List<string> permissions = new List<string>();
       permissions.Add("public_profile");
       permissions.Add("user_photos");
+      // built in function that gives us permissions added above
       FB.LogInWithReadPermissions(permissions, AuthCallback);
    }
 
 
+   // This will activate the application and set up the screen once authentication is confirmed
    private void AuthCallback (ILoginResult result) {
       if (result.Error != null) {
          Debug.Log(result.Error);
@@ -75,13 +84,14 @@ public class FacebookLogin : MonoBehaviour {
       }
    }
 
+   // handles getting info and passing off to desired screens
    void toggleFBMenus(bool isLoggedIn) {
       if (isLoggedIn) {
          DialogLoggedIn.SetActive(true);
          DialogLoggedOut.SetActive(false);
          FB.API("/me?fields=first_name", HttpMethod.GET, DisplayUserName);
          FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic);
-         FB.API("/1386208068111389?fields=picture", HttpMethod.GET, DisplayOtherPic);
+         FB.API("/me/photos?type=tagged&fields=images", HttpMethod.GET, LogResults);
       }
       else {
          DialogLoggedOut.SetActive(true);
@@ -89,6 +99,7 @@ public class FacebookLogin : MonoBehaviour {
       }
    }
 
+   /***** Facebook API Callback functions! *****/
    void DisplayUserName(IResult result) {
       Text Username = DialogUsername.GetComponent<Text>();
       if (result.Error == null) {
@@ -109,14 +120,34 @@ public class FacebookLogin : MonoBehaviour {
       }
    }
 
-   void DisplayOtherPic(IGraphResult result) {
-      if (result.Texture != null) {
-         Image OtherPic = DialogOtherPic.GetComponent<Image>();
-         OtherPic.sprite = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2());
+   void LogResults(IResult result) {
+      if (result.ResultDictionary.ContainsKey("error")) {
+         Debug.Log("Error returned from API call!");
       }
-      else {
-         Debug.Log(result.Error);
+      else if (result.ResultDictionary.ContainsKey("data")) {
+         for (int i = 0; i < 1/*((List<object>)result.ResultDictionary["data"]).Count*/; i++) {
+            // Basically we have to go through the FB Result Dictionary and cast the right type at every level to access the next level
+            Dictionary<string, object> images = (Dictionary<string, object>)((List<object>)result.ResultDictionary["data"])[i];
+            List<object> imageArray = (List<object>)images["images"];
+            Dictionary<string, object> smallestImg = (Dictionary<string, object>)imageArray[imageArray.Count - 1];
+            string url = (string)smallestImg["source"];
+            // Now that we have the Image url we want, we hand that to a function which pulls it and waits to get it back ~ then attaches it to a new Image
+            StartCoroutine(getFBImage(url, setSpriteCallback));
+         }
       }
+   }
+
+   // sets the image sprite to the new downloaded FB image sprite
+   void setSpriteCallback(Sprite outputSprite) {
+      Image img = DialogOtherPic.GetComponent<Image>();
+      img.sprite = outputSprite;
+   }
+
+   // This will download the image URL into a sprite and then hand the callback the sprite once the sprite is ready
+   IEnumerator getFBImage(string url, Action<Sprite> setImageCallback) {
+      WWW www = new WWW(url);
+      yield return www;
+      setSpriteCallback(Sprite.Create(www.texture, new Rect(0, 0, 128, 128), new Vector2(0, 0))); //www.texture.width, www.texture.height
    }
 }
  
