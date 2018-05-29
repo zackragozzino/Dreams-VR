@@ -62,6 +62,8 @@ public class FacebookLogin : Singleton<FacebookLogin> {
       }
    }
 
+   // This will prompt the user to login, using the Facebook SDK's built in dialog
+   // Here you can add the desired permissions
    public void FBLogin() {
       // create list of permission strings
       // https://developers.facebook.com/docs/facebook-login/permissions/v3.0
@@ -88,12 +90,15 @@ public class FacebookLogin : Singleton<FacebookLogin> {
          } else {
             Debug.Log("Is not logged in.");
          }
+         // This makes API calls to populate this singleton object with user info
          FB.API("/me?fields=first_name", HttpMethod.GET, setUserFirstNameCallback);
          FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, setUserProfilePicCallback);
          FB.API("/me/photos?type=uploaded&fields=images", HttpMethod.GET, setUserPhotosCallback);
       }
    }
 
+   // I created this to try to avoid the time wait in Director.cs, will work with it later.
+   // This function is called after every API call in the callback function to check that all the fields are populated
    private void checkAllParameters() {
       if (firstName != "" && profilePic != null && taggedPhotos.Count == 25) {
          Debug.Log("MAKING READY TRUE");
@@ -122,6 +127,7 @@ public class FacebookLogin : Singleton<FacebookLogin> {
       checkAllParameters();
    }
 
+   // This looks scary but just goes through each image in the result dictionary, downloads it, and adds it to the taggedPhotos list.
    void setUserPhotosCallback(IResult result) {
       if (result.ResultDictionary.ContainsKey("error")) {
          Debug.Log("Error returned from API call!");
@@ -153,12 +159,14 @@ public class FacebookLogin : Singleton<FacebookLogin> {
       setImageCallback(www.texture); //www.texture.width, www.texture.height
    }
 
+   // returns status of logged in
    public bool getLoggedIn() {
       return FB.IsLoggedIn;
    }
 
    public Texture getNextUserPhoto() {
       Texture photo;
+      // This just cycles through the same 25 photos
       if (nextPhotoIndex >= taggedPhotos.Count) {
          nextPhotoIndex = 0;
          // taggedPhotos.Clear();
