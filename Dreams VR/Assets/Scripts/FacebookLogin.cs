@@ -6,14 +6,15 @@ using Facebook.Unity;
 using Facebook.MiniJSON;
 using System;
 
-// The app's access token: EAAIAEhtLLU4BAN5erI9bAyN8fbm0jcC2SsPmSKdfguOokglV6ItiLGdrMgwinLIYTswPlvf2totzers6GZAjdFT9srRx3XejSh3POsc6mri60b0PppmoFpTsas1yE90s6ZAheH86Vkan8cyUDvxZCS82wAZBfMQt4aZCXyZAetZC4b2x5oM7ZC74ZC0G7N3ILFpMZD
+// The app's test user access token (Dorothy):
+// EAAIAEhtLLU4BADBGHfCK8mZC2w8oZBxwr2p6zb7ZBeAJTx3o3kdWRudoZBukdXMZBYQaRr3woEeB0WUj1NVY7Jn3vZCEVwD07xZARIaSvHYW5ACiXkEVPzwfz6Vcb3E1ZAretVckI7kyydejJ7ey9hMmwEwBQlhVPP7nlHzyWZCZAkLW76QAqx5Tl54K9OFsiVB74OQkgQAnPqnOb0aSi42V8cIuasGfVJsZCpcCNNqm6hGmvWLNvhE75ve
 public class FacebookLogin : Singleton<FacebookLogin> {
    
-   public GameObject cube;
    public String firstName = "";
    public String lastName = "";
    public Texture profilePic = null;
-   public List<Texture> taggedPhotos = null;
+   public List<Texture> taggedPhotos = new List<Texture>(25);
+   private int nextPhotoIndex = 0;
    private Texture tempTexture;
 
    public bool ready = false;
@@ -89,12 +90,12 @@ public class FacebookLogin : Singleton<FacebookLogin> {
          }
          FB.API("/me?fields=first_name", HttpMethod.GET, setUserFirstNameCallback);
          FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, setUserProfilePicCallback);
-         //FB.API("/me/photos?type=tagged&fields=images", HttpMethod.GET, setUserPhotosCallback);
+         FB.API("/me/photos?type=uploaded&fields=images", HttpMethod.GET, setUserPhotosCallback);
       }
    }
 
    private void checkAllParameters() {
-      if (firstName != "" && profilePic != null) {
+      if (firstName != "" && profilePic != null && taggedPhotos.Count == 25) {
          Debug.Log("MAKING READY TRUE");
          ready = true;
       }
@@ -104,7 +105,6 @@ public class FacebookLogin : Singleton<FacebookLogin> {
    private void setUserFirstNameCallback(IResult result) {
       if (result.Error == null) {
          firstName = (String)result.ResultDictionary["first_name"];
-         Debug.Log(firstName);
       }
       else {
          Debug.Log(result.Error);
@@ -134,30 +134,45 @@ public class FacebookLogin : Singleton<FacebookLogin> {
             Dictionary<string, object> smallestImg = (Dictionary<string, object>)imageArray[imageArray.Count - 1];
             string url = (string)smallestImg["source"];
             // Now that we have the Image url we want, we hand that to a function which pulls it and waits to get it back ~ then attaches it to a new Image
-            StartCoroutine(getFBImage(url, setSpriteCallback));
+            StartCoroutine(getFBImage(url, setTextureCallback));
          }
       }
    }
 
    // sets the image sprite to the new downloaded FB image sprite
-   void setSpriteCallback(Texture tex) {
-      GameObject newCube = Instantiate(cube, new Vector3(UnityEngine.Random.Range(-80, 80), UnityEngine.Random.Range(-40, 40), 100), cube.transform.rotation);
-      Renderer[] ts = newCube.GetComponentsInChildren<Renderer>();
-      foreach (Renderer r in ts) {
-         //Renderer r = t.GetComponent<Renderer>();
-         r.material.mainTexture = tex;
-      }
+   void setTextureCallback(Texture tex) {
+      Debug.Log("Adding a photo...");
+      taggedPhotos.Add(tex);
+      checkAllParameters();
    }
 
    // This will download the image URL into a sprite and then hand the callback the sprite once the sprite is ready
    IEnumerator getFBImage(string url, Action<Texture> setImageCallback) {
       WWW www = new WWW(url);
       yield return www;
-      setSpriteCallback(www.texture); //www.texture.width, www.texture.height
+      setImageCallback(www.texture); //www.texture.width, www.texture.height
    }
 
    public bool getLoggedIn() {
       return FB.IsLoggedIn;
+   }
+
+   public Texture getNextUserPhoto() {
+      Texture photo;
+      if (nextPhotoIndex >= taggedPhotos.Count) {
+         nextPhotoIndex = 0;
+         // taggedPhotos.Clear();
+         // nextPhotoIndex = 0;
+         // FB.API("/me/photos?type=tagged&fields=images", HttpMethod.GET, setUserPhotosCallback);
+         // StartCoroutine(Wait(10));
+      }    
+      photo = taggedPhotos[nextPhotoIndex];
+      nextPhotoIndex++;
+      return photo;
+   }
+
+   IEnumerator Wait(int seconds) {
+      yield return new WaitForSeconds(seconds);
    }
 }
  

@@ -30,7 +30,8 @@ public class Director : MonoBehaviour {
 
 	public Dropdown dropdown;
 
-	public GameObject startScreen;
+	public GameObject startScreenButtons;
+	public GameObject startScreenCamera;
 
 	private Scene currentScene;
 
@@ -59,7 +60,8 @@ public class Director : MonoBehaviour {
 		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
 		sdkManager.TryLoadSDKSetup (0, true, setups);
 		player = VR_Rig;
-		startScreen.SetActive (false);
+		startScreenButtons.SetActive (false);
+		startScreenCamera.SetActive (false);
 		sceneLoader.loadFirstScene ();
 	}
 
@@ -68,9 +70,28 @@ public class Director : MonoBehaviour {
 		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
 		sdkManager.TryLoadSDKSetup (1, true, setups);
 		player = simulator_Rig;
-		startScreen.SetActive (false);
+		startScreenButtons.SetActive (false);
+		startScreenCamera.SetActive (false);
 		sceneLoader.loadFirstScene ();
 	}
+
+   // This is triggered by the onClick on the Facebook Login button on the startscreen
+   // It calls the FB login function from the FacebookLogin Singleton object
+   // Then it waits so the Facebook user information can populate the Singleton object
+   // Sign in using the test user access token: 
+   // EAAIAEhtLLU4BADBGHfCK8mZC2w8oZBxwr2p6zb7ZBeAJTx3o3kdWRudoZBukdXMZBYQaRr3woEeB0WUj1NVY7Jn3vZCEVwD07xZARIaSvHYW5ACiXkEVPzwfz6Vcb3E1ZAretVckI7kyydejJ7ey9hMmwEwBQlhVPP7nlHzyWZCZAkLW76QAqx5Tl54K9OFsiVB74OQkgQAnPqnOb0aSi42V8cIuasGfVJsZCpcCNNqm6hGmvWLNvhE75ve
+   public void enableFacebookLogin() {
+      startScreenButtons.SetActive(false);
+      FacebookLogin.Instance.FBLogin();
+      StartCoroutine(waitForFacebook(10));
+   }
+
+   IEnumerator waitForFacebook(int seconds) {
+      yield return new WaitForSeconds(seconds);
+      startScreenButtons.SetActive(true);
+      Debug.Log("Hi, " + FacebookLogin.Instance.firstName);
+   }
+
 
 	public void getEnvironmentChoice(){
 		switch (dropdown.value)

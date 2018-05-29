@@ -73,8 +73,7 @@ public class DirectorFacebook : MonoBehaviour {
 		startScreenButtons.SetActive (false);
 		startScreenCamera.SetActive (false);
 		sceneLoader.loadFirstScene ();
-	}   
-
+	}
    public void enableFacebookLogin() {
       startScreenButtons.SetActive(false);
       FacebookLogin.Instance.FBLogin();
@@ -87,12 +86,6 @@ public class DirectorFacebook : MonoBehaviour {
       Debug.Log("Hi, " + FacebookLogin.Instance.firstName);
    }
 
-   IEnumerator Wait(int seconds)
-   {
-      print(Time.time);
-      yield return new WaitForSeconds(seconds);
-      print(Time.time);
-   }
 
 	public void getEnvironmentChoice(){
 		switch (dropdown.value)

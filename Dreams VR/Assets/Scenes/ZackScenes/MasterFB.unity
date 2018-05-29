@@ -4529,8 +4529,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2031212440}
-        m_MethodName: 
+      - m_Target: {fileID: 2031212441}
+        m_MethodName: enableFacebookLogin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6158,7 +6158,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2031212441}
+      - m_Target: {fileID: 0}
         m_MethodName: enableVR
         m_Mode: 1
         m_Arguments:
@@ -6466,7 +6466,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2031212441}
         m_MethodName: enableVR
         m_Mode: 1
         m_Arguments:
@@ -7191,7 +7191,8 @@ Prefab:
       value: 
       objectReference: {fileID: 1002030854853264, guid: 630b03abfcec71849ad5bb35b0e66a0d,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114155551515776024, guid: 49e62a7e6abfa384bb0e62938c00df6d, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 49e62a7e6abfa384bb0e62938c00df6d, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1957207986
@@ -7432,7 +7433,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2031212441}
         m_MethodName: enableSimulator
         m_Mode: 1
         m_Arguments:
@@ -7577,12 +7578,30 @@ GameObject:
   m_PrefabParentObject: {fileID: 1634333707919542, guid: 49e62a7e6abfa384bb0e62938c00df6d,
     type: 2}
   m_PrefabInternal: {fileID: 1953999093}
---- !u!114 &2031212441 stripped
+--- !u!114 &2031212441
 MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114155551515776024, guid: 49e62a7e6abfa384bb0e62938c00df6d,
-    type: 2}
-  m_PrefabInternal: {fileID: 1953999093}
-  m_Script: {fileID: 11500000, guid: 72c6497a0e2836e44a997ceb5c658211, type: 3}
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2031212440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb4f57715d7376b46ae13771ef9d35dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dreamScripts:
+  - {fileID: 0}
+  doorSpawnRate: 10
+  doorPortal: {fileID: 1002030854853264, guid: 630b03abfcec71849ad5bb35b0e66a0d, type: 2}
+  sceneNum: 0
+  mapGenerator: {fileID: 0}
+  VR_Rig: {fileID: 40872072}
+  simulator_Rig: {fileID: 1405353381}
+  environment: 0
+  sceneMod: 0
+  dropdown: {fileID: 2144779792}
+  startScreenButtons: {fileID: 832099361}
+  startScreenCamera: {fileID: 1613091072}
 --- !u!114 &2031212443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7839,7 +7858,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2031212441}
+      - m_Target: {fileID: 0}
         m_MethodName: enableSimulator
         m_Mode: 1
         m_Arguments:
