@@ -78,7 +78,6 @@ public class VRFootsteps : MonoBehaviour {
 		//m_AudioSource.clip = m_FootstepSounds[n];
 		//m_AudioSource.PlayOneShot(m_AudioSource.clip);
 		// move picked sound to index 0 so it's not picked next time
-		Debug.Log("bouta play a footstep");
 		Sound s = audm.FootStepSounds[n];
 
 		audm.PlayFS(n);
@@ -100,13 +99,11 @@ public class VRFootsteps : MonoBehaviour {
 		//if (Physics.SphereCast(transform.position, m_Capsule.radius *1000, Vector3.forward, out hitInfo,
 		//					   ((m_Capsule.height) * 5 ) + 0.1f, Physics.AllLayers, QueryTriggerInteraction.Ignore))
 		{
-			Debug.Log("grounded");
 			m_IsGrounded = true;
 			//m_GroundContactNormal = hitInfo.normal;
 		}
 		else
 		{
-			Debug.Log("not grounded");
 			m_IsGrounded = false;
 			//m_GroundContactNormal = Vector3.up;
 		}
