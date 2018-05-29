@@ -57,7 +57,7 @@ public class SceneLoader : MonoBehaviour {
 	IEnumerator LoadUsingSteamVR(){
 		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = false;
 
-		SteamVR_LoadLevel.Begin ("Flat_Land");
+		SteamVR_LoadLevel.Begin ("BlackSpace");
 		while (SteamVR_LoadLevel.loading) {
 			yield return null;
 		}
@@ -78,7 +78,7 @@ public class SceneLoader : MonoBehaviour {
 	}
 
 	IEnumerator LoadAsynchronously(){
-		AsyncOperation operation = SceneManager.LoadSceneAsync ("Flat_Land", LoadSceneMode.Additive);
+		AsyncOperation operation = SceneManager.LoadSceneAsync ("BlackSpace", LoadSceneMode.Additive);
 		while (!operation.isDone) {
 			float progress = Mathf.Clamp01 (operation.progress / .9f);
 			Debug.Log ("Loading ... " + progress * 100f + "%");
@@ -86,8 +86,8 @@ public class SceneLoader : MonoBehaviour {
 		}
 		//Reset player and map generator  reference
 		//director.player = GameObject.FindGameObjectWithTag ("Player");
-		director.mapGenerator = GameObject.FindGameObjectWithTag ("MapGenerator");
-		director.mapGenerator.GetComponent<TerrainGenerator> ().viewer = director.getPlayer ().transform;
+		//director.mapGenerator = GameObject.FindGameObjectWithTag ("MapGenerator");
+		//director.mapGenerator.GetComponent<TerrainGenerator> ().viewer = director.getPlayer ().transform;
 		director.getPlayer ().transform.position = new Vector3 (0, 3f, 0);
 		//Start producing portals now that the scene is loaded
 		director.startPortalGeneration ();

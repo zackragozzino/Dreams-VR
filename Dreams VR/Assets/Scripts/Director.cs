@@ -38,6 +38,7 @@ public class Director : MonoBehaviour {
 	public GameObject startScreen;
 
 	private Scene currentScene;
+	private IEnumerator currentPortalCoroutine;
 
 	// Use this for initialization
 	void Start () {
@@ -143,15 +144,16 @@ public class Director : MonoBehaviour {
 	}
 
 	public void startPortalGeneration(){
-		StartCoroutine (GeneratePortal ());
+		currentPortalCoroutine = GeneratePortal ();
+		StartCoroutine (currentPortalCoroutine);
 	}
 
 	public void stopPortalGeneration(){
-		StopCoroutine (GeneratePortal ());
+		StopCoroutine (currentPortalCoroutine);
 	}
 
 	public void GenerateNewWorld(){
-		//environment = (AssetMaster.StarterEnvironment)Random.Range (0, System.Enum.GetValues(typeof(AssetMaster.StarterEnvironment)).Length);
+		environment = (AssetMaster.StarterEnvironment)Random.Range (0, System.Enum.GetValues(typeof(AssetMaster.StarterEnvironment)).Length);
 		//sceneMod = (AssetMaster.SceneMod)Random.Range (0, System.Enum.GetValues (typeof(AssetMaster.SceneMod)).Length);
 		sceneNum++;
 	
@@ -208,9 +210,10 @@ public class Director : MonoBehaviour {
 		//spawnedDoor.AddComponent<RaycastGrounder> ();
 		//spawnedDoor.transform.LookAt (player.transform.position);
 		//spawnedDoor.transform.rotation = Quaternion.Euler (0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-
+		currentPortalCoroutine = GeneratePortal ();
 		Debug.Log ("Door spawned: " + doorPos);
-		StartCoroutine (GeneratePortal ());
+
+		StartCoroutine (currentPortalCoroutine);
 	}
 
 	public void spawnInitialDoor(){
