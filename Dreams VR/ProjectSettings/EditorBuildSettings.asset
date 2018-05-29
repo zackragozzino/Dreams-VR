@@ -20,3 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PaulaScenes/Facebook.unity
     guid: 793fb607c890ad040a008cc2b7da038b
+  - enabled: 1
+    path: Assets/Scenes/PaulaScenes/Flat_Land.unity
+    guid: 0482e87c9555a0e46b44f1bb5dd0fb44
+  - enabled: 1
+    path: Assets/Scenes/PaulaScenes/FB_Master.unity
+    guid: 70a8542f054195d4fa53be690b57d7a8

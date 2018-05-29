@@ -62,7 +62,6 @@ public class Object_Populator : MonoBehaviour {
 			heightMapSettings.OnValuesUpdated -= OnValuesUpdated;
 			heightMapSettings.OnValuesUpdated += OnValuesUpdated;
 		}
-
 	}
 
 	public void Populate() {
@@ -89,11 +88,12 @@ public class Object_Populator : MonoBehaviour {
 						assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y]);
 					}*/
 					
-				assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y], meshHeightMap[x,y]);
+				   assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y], meshHeightMap[x,y]);
 
-					/*if(heightMap.values[x,y] < 0.0){
-						
-						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), Random.Range(20,100), this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+					if (heightMap.values[x,y] < 0.02) {
+						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (numVertsPerLine/2f), Random.Range(20,100), this.transform.position.z + y - (numVertsPerLine/2f)), Quaternion.identity, this.transform);
+                  Renderer renderer = asset.GetComponent<Renderer>();
+                  renderer.material.mainTexture = FacebookLogin.Instance.profilePic; // TODO 
 
 						asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 
@@ -101,8 +101,7 @@ public class Object_Populator : MonoBehaviour {
 						asset.AddComponent<Rotater> ().RotationPerSecond = dir;
 
 						asset.transform.localScale = asset.transform.localScale * 10 * Random.value;
-
-					}*/
+					}
 				}
 			}
 		}

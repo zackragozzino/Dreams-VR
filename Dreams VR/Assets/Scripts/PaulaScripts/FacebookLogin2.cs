@@ -6,15 +6,20 @@ using Facebook.Unity;
 using Facebook.MiniJSON;
 using System;
 
-public class FacebookLogin : MonoBehaviour {
+public class FacebookLogin2 : MonoBehaviour {
 
+   public GameObject cube;
    public GameObject canvas;
    public GameObject DialogLoggedIn;
    public GameObject DialogUsername;
    public GameObject DialogProfilePic;
    public GameObject DialogOtherPic;
    public GameObject DialogLoggedOut;
-   public GameObject cube;
+   
+   public String firstName = "";
+   public String lastName = "";
+   public List<Texture> taggedPhotos = null;
+   private Texture tempTexture;
 
    // Awake function from Unity's MonoBehavior
    void Awake ()
@@ -33,6 +38,7 @@ public class FacebookLogin : MonoBehaviour {
       if (FB.IsLoggedIn) {
          // Signal an app activation App Event
          Debug.Log("Is logged in.");
+         Debug.Log(Facebook.Unity.AccessToken.CurrentAccessToken);
          FB.ActivateApp();
          // Continue with Facebook SDK
          // ...
@@ -80,7 +86,7 @@ public class FacebookLogin : MonoBehaviour {
          } else {
             Debug.Log("Is not logged in.");
          }
-         toggleFBMenus(FB.IsLoggedIn);
+         //toggleFBMenus(FB.IsLoggedIn);
       }
    }
 
@@ -97,6 +103,33 @@ public class FacebookLogin : MonoBehaviour {
          DialogLoggedOut.SetActive(true);
          DialogLoggedIn.SetActive(false);
       }
+   }
+
+   String getUserFirstName() {
+      if (FB.IsLoggedIn) {
+         if (firstName == "") {
+            FB.API("/me?fields=first_name", HttpMethod.GET, getUserFirstNameCallback);
+            Debug.Log("HI");
+            Debug.Log(firstName);
+         }
+      }
+      else {
+         Debug.Log("User is not signed in. Please have them sign in.");
+      }
+      return firstName;
+   }
+
+   private void getUserFirstNameCallback(IResult result) {
+      if (result.Error == null) {
+         firstName = (String)result.ResultDictionary["first_name"];
+      }
+      else {
+         Debug.Log(result.Error);
+      }
+   }
+   void CallDisplayUsername() {
+      Text Username = DialogUsername.GetComponent<Text>();
+      Username.text = "Hi there, " + getUserFirstName() + "!";
    }
 
    /***** Facebook API Callback functions! *****/
@@ -125,7 +158,7 @@ public class FacebookLogin : MonoBehaviour {
          Debug.Log("Error returned from API call!");
       }
       else if (result.ResultDictionary.ContainsKey("data")) {
-         for (int i = 0; i < 1/*((List<object>)result.ResultDictionary["data"]).Count*/; i++) {
+         for (int i = 0; i < ((List<object>)result.ResultDictionary["data"]).Count; i++) {
             // Basically we have to go through the FB Result Dictionary and cast the right type at every level to access the next level
             Dictionary<string, object> images = (Dictionary<string, object>)((List<object>)result.ResultDictionary["data"])[i];
             List<object> imageArray = (List<object>)images["images"];
@@ -138,16 +171,20 @@ public class FacebookLogin : MonoBehaviour {
    }
 
    // sets the image sprite to the new downloaded FB image sprite
-   void setSpriteCallback(Sprite outputSprite) {
-      Image img = DialogOtherPic.GetComponent<Image>();
-      img.sprite = outputSprite;
+   void setSpriteCallback(Texture tex) {
+      GameObject newCube = Instantiate(cube, new Vector3(UnityEngine.Random.Range(-80, 80), UnityEngine.Random.Range(-40, 40), 100), cube.transform.rotation);
+      Renderer[] ts = newCube.GetComponentsInChildren<Renderer>();
+      foreach (Renderer r in ts) {
+         //Renderer r = t.GetComponent<Renderer>();
+         r.material.mainTexture = tex;
+      }
    }
 
    // This will download the image URL into a sprite and then hand the callback the sprite once the sprite is ready
-   IEnumerator getFBImage(string url, Action<Sprite> setImageCallback) {
+   IEnumerator getFBImage(string url, Action<Texture> setImageCallback) {
       WWW www = new WWW(url);
       yield return www;
-      setSpriteCallback(Sprite.Create(www.texture, new Rect(0, 0, 128, 128), new Vector2(0, 0))); //www.texture.width, www.texture.height
+      setSpriteCallback(www.texture); //www.texture.width, www.texture.height
    }
 }
  

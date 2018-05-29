@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,12 +6,21 @@ using Facebook.Unity;
 using Facebook.MiniJSON;
 using System;
 
-public class FacebookAccount : MonoBehaviour {
-
+// The app's access token: EAAIAEhtLLU4BAN5erI9bAyN8fbm0jcC2SsPmSKdfguOokglV6ItiLGdrMgwinLIYTswPlvf2totzers6GZAjdFT9srRx3XejSh3POsc6mri60b0PppmoFpTsas1yE90s6ZAheH86Vkan8cyUDvxZCS82wAZBfMQt4aZCXyZAetZC4b2x5oM7ZC74ZC0G7N3ILFpMZD
+public class FacebookLogin : Singleton<FacebookLogin> {
+   
+   public GameObject cube;
    public String firstName = "";
    public String lastName = "";
+   public Texture profilePic = null;
    public List<Texture> taggedPhotos = null;
    private Texture tempTexture;
+
+   public bool ready = false;
+
+   protected FacebookLogin() {
+
+   }
 
    // Awake function from Unity's MonoBehavior
    void Awake ()
@@ -24,19 +33,20 @@ public class FacebookAccount : MonoBehaviour {
          FB.ActivateApp();
       }
    }
+
    // activating app and setting up screens
    private void InitCallback ()
    {
       if (FB.IsLoggedIn) {
          // Signal an app activation App Event
          Debug.Log("Is logged in.");
+         Debug.Log(Facebook.Unity.AccessToken.CurrentAccessToken);
          FB.ActivateApp();
          // Continue with Facebook SDK
          // ...
       } else {
          Debug.Log("Is not logged in.");
       }
-      toggleFBMenus(FB.IsLoggedIn);
    }
 
    // Pauses if not shown (a function they said to have, not super sure why)
@@ -77,55 +87,42 @@ public class FacebookAccount : MonoBehaviour {
          } else {
             Debug.Log("Is not logged in.");
          }
-         toggleFBMenus(FB.IsLoggedIn);
+         FB.API("/me?fields=first_name", HttpMethod.GET, setUserFirstNameCallback);
+         FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, setUserProfilePicCallback);
+         //FB.API("/me/photos?type=tagged&fields=images", HttpMethod.GET, setUserPhotosCallback);
       }
    }
 
-   // handles getting info and passing off to desired screens
-   void toggleFBMenus(bool isLoggedIn) {
-      if (isLoggedIn) {
-         FB.API("/me?fields=first_name", HttpMethod.GET, LogResults);
-         FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, LogResults);
-         FB.API("/me/photos?type=tagged&fields=images", HttpMethod.GET, LogResults);
-      }
-      else {
+   private void checkAllParameters() {
+      if (firstName != "" && profilePic != null) {
+         Debug.Log("MAKING READY TRUE");
+         ready = true;
       }
    }
 
    /***** Facebook API Callback functions! *****/
-   String getUserFirstName() {
-      if (FB.IsLoggedIn) {
-         if (firstName == null) {
-            FB.API("/me?fields=first_name", HttpMethod.GET, getUserFirstNameCallback);
-         }
-      }
-      else {
-         Debug.Log("User is not signed in. Please have them sign in.");
-      }
-      return firstName;
-   }
-
-   private void getUserFirstNameCallback(IResult result) {
+   private void setUserFirstNameCallback(IResult result) {
       if (result.Error == null) {
          firstName = (String)result.ResultDictionary["first_name"];
+         Debug.Log(firstName);
       }
       else {
          Debug.Log(result.Error);
       }
+      checkAllParameters();
    }
 
-   List<Texture> getUserPhotos() {
-      if (FB.IsLoggedIn) {
-         FB.API("/me?fields=first_name", HttpMethod.GET, LogResults);
+   private void setUserProfilePicCallback(IGraphResult result) {
+      if (result.Error == null) {
+         profilePic = result.Texture;
       }
       else {
-         Debug.Log("User is not signed in. Please have them sign in.");
+         Debug.Log(result.Error);
       }
-      return taggedPhotos;
+      checkAllParameters();
    }
 
-
-   void LogResults(IResult result) {
+   void setUserPhotosCallback(IResult result) {
       if (result.ResultDictionary.ContainsKey("error")) {
          Debug.Log("Error returned from API call!");
       }
@@ -137,21 +134,30 @@ public class FacebookAccount : MonoBehaviour {
             Dictionary<string, object> smallestImg = (Dictionary<string, object>)imageArray[imageArray.Count - 1];
             string url = (string)smallestImg["source"];
             // Now that we have the Image url we want, we hand that to a function which pulls it and waits to get it back ~ then attaches it to a new Image
-            StartCoroutine(getFBImage(url, returnTexture));
+            StartCoroutine(getFBImage(url, setSpriteCallback));
          }
       }
    }
 
    // sets the image sprite to the new downloaded FB image sprite
-   void returnTexture(Texture output) {
-      tempTexture = output;
+   void setSpriteCallback(Texture tex) {
+      GameObject newCube = Instantiate(cube, new Vector3(UnityEngine.Random.Range(-80, 80), UnityEngine.Random.Range(-40, 40), 100), cube.transform.rotation);
+      Renderer[] ts = newCube.GetComponentsInChildren<Renderer>();
+      foreach (Renderer r in ts) {
+         //Renderer r = t.GetComponent<Renderer>();
+         r.material.mainTexture = tex;
+      }
    }
 
    // This will download the image URL into a sprite and then hand the callback the sprite once the sprite is ready
-   IEnumerator getFBImage(string url, Action<Texture> imageCallback) {
+   IEnumerator getFBImage(string url, Action<Texture> setImageCallback) {
       WWW www = new WWW(url);
       yield return www;
-      imageCallback(www.texture); //www.texture.width, www.texture.height
+      setSpriteCallback(www.texture); //www.texture.width, www.texture.height
+   }
+
+   public bool getLoggedIn() {
+      return FB.IsLoggedIn;
    }
 }
  
