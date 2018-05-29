@@ -98,9 +98,9 @@ public class Object_Populator : MonoBehaviour {
 					
 				assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y]);
 
-					/*if(heightMap.values[x,y] < 0.0){
+					if(heightMap.values[x,y] < 0.02){
 						
-						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (width/2f), Random.Range(20,100), this.transform.position.z + y - (height/2f)), Quaternion.identity, this.transform);
+					GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (numVertsPerLine/2f), Random.Range(10,50), this.transform.position.z + y - (numVertsPerLine/2f)), Quaternion.identity, this.transform);
 
 						asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 
@@ -109,7 +109,7 @@ public class Object_Populator : MonoBehaviour {
 
 						asset.transform.localScale = asset.transform.localScale * 10 * Random.value;
 
-					}*/
+					}
 				}
 			}
 		}
