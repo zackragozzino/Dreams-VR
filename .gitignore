@@ -23,6 +23,7 @@ ExportedObj/
 *.booproj
 *.svd
 *.pdb
+*.icloud
 
 # Unity3D generated meta files
 *.pidb.meta
@@ -33,3 +34,6 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Examples for Facebook SDK
+*/FacebookSDK/Examples/*

@@ -9,7 +9,8 @@ using UnityStandardAssets.ImageEffects;
 public class Director : MonoBehaviour {
 
 	public GameObject[] dreamScripts;
-	public List<ColorCorrectionCurves> colorSchemes = new List<ColorCorrectionCurves>();
+	public List<ColorCorrectionCurves> colorSchemes_Pos = new List<ColorCorrectionCurves>();
+	public List<ColorCorrectionCurves> colorSchemes_Neg = new List<ColorCorrectionCurves>();
 	public float doorSpawnRate = 10f; 
 	public GameObject doorPortal;
 
@@ -35,10 +36,15 @@ public class Director : MonoBehaviour {
 
 	public Dropdown dropdown;
 
-	public GameObject startScreen;
+	public GameObject startScreenButtons;
+	public GameObject startScreenCamera;
 
 	private Scene currentScene;
 	private IEnumerator currentPortalCoroutine;
+
+	private float timeInSeconds = 300f;
+
+	public NickWeatherManager nickWeatherManager;
 
 	// Use this for initialization
 	void Start () {
@@ -47,10 +53,13 @@ public class Director : MonoBehaviour {
 
 		sceneLoader = this.GetComponent<SceneLoader> ();
 
-		//Build list of different color pallets
-		Transform colorParent = GameObject.Find ("ColorSchemes").transform;
-		foreach (Transform child in colorParent) {
-			colorSchemes.Add (child.GetComponent<ColorCorrectionCurves> ());
+		//Build list of different color palettes
+		foreach (Transform child in GameObject.Find ("ColorSchemes_Pos").transform) {
+			colorSchemes_Pos.Add (child.GetComponent<ColorCorrectionCurves> ());
+		}
+
+		foreach (Transform child in GameObject.Find ("ColorSchemes_Neg").transform) {
+			colorSchemes_Neg.Add (child.GetComponent<ColorCorrectionCurves> ());
 		}
 
 	}
@@ -95,6 +104,19 @@ public class Director : MonoBehaviour {
 	
 	}
 
+	public float getTimeLeft(){
+		return timeInSeconds;
+	}
+
+	IEnumerator dreamTimer(){
+		while (timeInSeconds >= 0) {
+			timeInSeconds -= Time.deltaTime;
+			yield return null;
+		}
+		//yield return new WaitForSeconds (timeInSeconds);
+		StartCoroutine (sceneLoader.loadFinalArea ());
+	}
+
 	public GameObject getPlayer(){
 		return player;
 	}
@@ -103,9 +125,16 @@ public class Director : MonoBehaviour {
 		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
 		sdkManager.TryLoadSDKSetup (0, true, setups);
 		player = VR_Rig;
+
 		playerCamera = VRCamera;
-		startScreen.SetActive (false);
+		//startScreen.SetActive (false);
+
+		startScreenButtons.SetActive (false);
+		startScreenCamera.SetActive (false);
+
 		sceneLoader.loadFirstScene ();
+
+		StartCoroutine (dreamTimer ());
 	}
 
 	public void enableSimulator(){
@@ -113,10 +142,35 @@ public class Director : MonoBehaviour {
 		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
 		sdkManager.TryLoadSDKSetup (1, true, setups);
 		player = simulator_Rig;
+
 		playerCamera = simulatorCamera;
-		startScreen.SetActive (false);
+		//startScreen.SetActive (false);
+
+		startScreenButtons.SetActive (false);
+		startScreenCamera.SetActive (false);
+
 		sceneLoader.loadFirstScene ();
+
+		StartCoroutine(dreamTimer ());
 	}
+
+   // This is triggered by the onClick on the Facebook Login button on the startscreen
+   // It calls the FB login function from the FacebookLogin Singleton object
+   // Then it waits so the Facebook user information can populate the Singleton object
+   // Sign in using the test user access token: 
+   // EAAIAEhtLLU4BADBGHfCK8mZC2w8oZBxwr2p6zb7ZBeAJTx3o3kdWRudoZBukdXMZBYQaRr3woEeB0WUj1NVY7Jn3vZCEVwD07xZARIaSvHYW5ACiXkEVPzwfz6Vcb3E1ZAretVckI7kyydejJ7ey9hMmwEwBQlhVPP7nlHzyWZCZAkLW76QAqx5Tl54K9OFsiVB74OQkgQAnPqnOb0aSi42V8cIuasGfVJsZCpcCNNqm6hGmvWLNvhE75ve
+   public void enableFacebookLogin() {
+      startScreenButtons.SetActive(false);
+      FacebookLogin.Instance.FBLogin();
+      StartCoroutine(waitForFacebook(10));
+   }
+
+   IEnumerator waitForFacebook(int seconds) {
+      yield return new WaitForSeconds(seconds);
+      startScreenButtons.SetActive(true);
+      Debug.Log("Hi, " + FacebookLogin.Instance.firstName);
+   }
+
 
 	public void getEnvironmentChoice(){
 		switch (dropdown.value)
@@ -143,6 +197,10 @@ public class Director : MonoBehaviour {
 		return intensitySpectrum;
 	}
 
+	public int getEmotionLevel(){
+		return emotionSpectrum;
+	}
+
 	public void startPortalGeneration(){
 		currentPortalCoroutine = GeneratePortal ();
 		StartCoroutine (currentPortalCoroutine);
@@ -153,14 +211,38 @@ public class Director : MonoBehaviour {
 	}
 
 	public void GenerateNewWorld(){
-		environment = (AssetMaster.StarterEnvironment)Random.Range (0, System.Enum.GetValues(typeof(AssetMaster.StarterEnvironment)).Length);
+		AssetMaster.StarterEnvironment newEnvironment = environment;
+
+		//Ensure the new environment isn't the same as the current environment
+		while (newEnvironment == environment) {
+			newEnvironment = (AssetMaster.StarterEnvironment)Random.Range (0, System.Enum.GetValues(typeof(AssetMaster.StarterEnvironment)).Length);
+		}
+		environment = newEnvironment;
+
+
 		//sceneMod = (AssetMaster.SceneMod)Random.Range (0, System.Enum.GetValues (typeof(AssetMaster.SceneMod)).Length);
 		sceneNum++;
 	
 		//if (sceneNum > 0)
 			//sceneMod = (AssetMaster.SceneMod)Random.Range (0,System.Enum.GetValues(typeof(AssetMaster.SceneMod)).Length);
 
-		playerCamera.GetComponent<ColorController> ().addColorScheme (colorSchemes [Random.Range(0, colorSchemes.Count)]);
+		//Apply a random change to the 2 spectrums
+		//Clamp the values so they can't go past 0 and 10
+		emotionSpectrum = (int)Mathf.Clamp(emotionSpectrum + Random.Range (-3, 3), 0f, 10f);
+		intensitySpectrum = (int)Mathf.Clamp(intensitySpectrum + Random.Range (-3, 3), 0f, 10f);
+
+
+		//Tying weather to basic emotion spectrums
+		if (emotionSpectrum < 5) {
+			playerCamera.GetComponent<ColorController> ().addColorScheme (colorSchemes_Neg [Random.Range (0, colorSchemes_Neg.Count)]);
+			nickWeatherManager.profile = NickWeatherManager.WeatherProfile.HeavyRain;
+		} else if (emotionSpectrum > 5) {
+			playerCamera.GetComponent<ColorController> ().addColorScheme (colorSchemes_Pos [Random.Range (0, colorSchemes_Pos.Count)]);
+			nickWeatherManager.profile = NickWeatherManager.WeatherProfile.Sunny;
+		}
+		else
+			nickWeatherManager.profile = NickWeatherManager.WeatherProfile.none;
+			
 
 		/*switch (sceneNum) {
 		case 1:
@@ -199,28 +281,19 @@ public class Director : MonoBehaviour {
 		yield return new WaitForSeconds(doorSpawnRate);
 
 		//Random ranges between -80 to 80 but not within 50 units of the player
-		 float xPos = player.transform.position.x + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
-		 float zPos = player.transform.position.z + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+		float xPos = player.transform.position.x + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+		float zPos = player.transform.position.z + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
 
-     	//float xPos = player.transform.position.x + (Random.Range (5, 8) * ((Random.Range (0, 2) == 0) ? 1 : -1));
-		//float zPos = player.transform.position.z + (Random.Range (5, 8) * ((Random.Range (0, 2) == 0) ? 1 : -1));
 
 		Vector3 doorPos = new Vector3 (xPos, doorPortal.transform.position.y + 10, zPos);
-		//GameObject spawnedDoor = Instantiate (doorPortal, doorPos, doorPortal.transform.rotation, mapGenerator.transform);
-		//spawnedDoor.AddComponent<RaycastGrounder> ();
-		//spawnedDoor.transform.LookAt (player.transform.position);
+		GameObject spawnedDoor = Instantiate (doorPortal, doorPos, doorPortal.transform.rotation, mapGenerator.transform);
+		spawnedDoor.AddComponent<RaycastGrounder> ();
+		spawnedDoor.transform.LookAt (player.transform.position);
 		//spawnedDoor.transform.rotation = Quaternion.Euler (0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
 		currentPortalCoroutine = GeneratePortal ();
 		Debug.Log ("Door spawned: " + doorPos);
 
 		StartCoroutine (currentPortalCoroutine);
-	}
-
-	public void spawnInitialDoor(){
-		Vector3 pos = doorPortal.transform.position;
-		pos.z = 21.3f;
-
-		GameObject spawnedDoor = Instantiate (doorPortal, pos, doorPortal.transform.rotation, mapGenerator.transform);
 	}
 		
 

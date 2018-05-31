@@ -62,7 +62,6 @@ public class Object_Populator : MonoBehaviour {
 			heightMapSettings.OnValuesUpdated -= OnValuesUpdated;
 			heightMapSettings.OnValuesUpdated += OnValuesUpdated;
 		}
-
 	}
 
 	public void Populate() {
@@ -71,8 +70,11 @@ public class Object_Populator : MonoBehaviour {
 		int numVertsPerLine = meshSettings.numVertsPerLine;
 		AssetMaster assetMaster = transform.GetComponentInParent<AssetMaster> ();
 		
-		GameObject[] urbanAssets = assetMaster.urbanAssets;
 
+		if (assetMaster.director.environment == AssetMaster.StarterEnvironment.urban)
+			textureRender.enabled = false;
+
+		//Each terrain chunk as a random chance of spawning a sweet spot
 		if(Random.Range(0, 5) == 0){
 			int x = Random.Range (0, numVertsPerLine);
 			int y = Random.Range (0, numVertsPerLine);
@@ -96,11 +98,20 @@ public class Object_Populator : MonoBehaviour {
 						assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y]);
 					}*/
 					
-				assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y]);
 
-					if(heightMap.values[x,y] < 0.02){
-						
-					GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (numVertsPerLine/2f), Random.Range(10,50), this.transform.position.z + y - (numVertsPerLine/2f)), Quaternion.identity, this.transform);
+					assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y]);
+
+
+					//assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y], meshHeightMap[x,y]);
+
+					if (heightMap.values[x,y] < 0.02) {
+						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (numVertsPerLine/2f), Random.Range(20,100), this.transform.position.z + y - (numVertsPerLine/2f)), Quaternion.identity, this.transform);
+                  // This checks is the Singleton facebook instance is logged in
+                  if (FacebookLogin.Instance.getLoggedIn()) {
+                     // If so, get the FB image and set the texture to it
+                     Renderer renderer = asset.GetComponent<Renderer>();
+                     renderer.material.mainTexture = FacebookLogin.Instance.getNextUserPhoto();
+                  }
 
 						asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 

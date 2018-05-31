@@ -14,15 +14,18 @@ public class RoomController : MonoBehaviour {
 		//StartCoroutine (waitAndOpenDoor ());
 		compass = GameObject.Find ("Compass 1");
 		compassStartPos = compass.transform.position;
+
+		doorAnimation.Play ("Door_open");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		/*
 		if(compass.transform.position != compassStartPos && !doorOpened){
 			doorAnimation.Play ("Door_open");
 			doorOpened = true;
-		}
+		}*/
+
 		
 	}
 
