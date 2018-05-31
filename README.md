@@ -40,3 +40,9 @@ Dreams-VR
 - if you have done "git commit -m 'MESSAGE HERE'" 
   - git revert DESIRED_COMMIT_ID
 
+## Starting Facebook Auth Server
+- install PHP (google how to do that for your system)
+- navigate to "Assets/Scripts/FacebookAuth/PHP
+- type the command *php -S localhost:8000*
+- go to test scene at "Assets/Scenes/PaulaScenes/FacebookTest
+
