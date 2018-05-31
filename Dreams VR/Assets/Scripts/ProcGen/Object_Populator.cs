@@ -70,7 +70,17 @@ public class Object_Populator : MonoBehaviour {
 		int numVertsPerLine = meshSettings.numVertsPerLine;
 		AssetMaster assetMaster = transform.GetComponentInParent<AssetMaster> ();
 		
-		GameObject[] urbanAssets = assetMaster.urbanAssets;
+
+		if (assetMaster.director.environment == AssetMaster.StarterEnvironment.urban)
+			textureRender.enabled = false;
+
+		//Each terrain chunk as a random chance of spawning a sweet spot
+		if(Random.Range(0, 5) == 0){
+			int x = Random.Range (0, numVertsPerLine);
+			int y = Random.Range (0, numVertsPerLine);
+
+			assetMaster.generateSweetSpot (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y]);
+		}
 
 		if (heightMapReceived && assetMaster.generateAssets) {
 			for (int y = 0; y < numVertsPerLine; y++) {
@@ -88,7 +98,11 @@ public class Object_Populator : MonoBehaviour {
 						assetMaster.generateObject (x, y, height, width, this.transform, heightMap.values[x,y]);
 					}*/
 					
-				   assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y], meshHeightMap[x,y]);
+
+					assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y]);
+
+
+					//assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y], meshHeightMap[x,y]);
 
 					if (heightMap.values[x,y] < 0.02) {
 						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (numVertsPerLine/2f), Random.Range(20,100), this.transform.position.z + y - (numVertsPerLine/2f)), Quaternion.identity, this.transform);
@@ -105,6 +119,7 @@ public class Object_Populator : MonoBehaviour {
 						asset.AddComponent<Rotater> ().RotationPerSecond = dir;
 
 						asset.transform.localScale = asset.transform.localScale * 10 * Random.value;
+
 					}
 				}
 			}

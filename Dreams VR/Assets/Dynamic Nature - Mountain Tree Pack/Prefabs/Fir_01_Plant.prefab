@@ -71,9 +71,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4428141364687994}
   - component: {fileID: 205191526581301100}
+  - component: {fileID: 136562138710448618}
   m_Layer: 0
   m_Name: Fir_01_Plant
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967279
@@ -98,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1862648418451654}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.7431, y: 0.0996027, z: -14.2187605}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4827296100534646}
@@ -258,6 +259,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1508400115823488}
   m_Mesh: {fileID: 4300000, guid: 039537bdfea72854fbb07af53912bb1b, type: 3}
+--- !u!136 &136562138710448618
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1862648418451654}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 5.28
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.2, z: 0}
 --- !u!205 &205191526581301100
 LODGroup:
   m_ObjectHideFlags: 1

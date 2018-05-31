@@ -54,9 +54,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4975862715486574}
   - component: {fileID: 205855054275415602}
+  - component: {fileID: 136787559259618292}
   m_Layer: 0
   m_Name: Fir_05_Standalone_cheap
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967279
@@ -404,6 +405,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1648840885462934}
   m_Mesh: {fileID: 4300008, guid: 16f3bdd56aa4205488ec0b8c2d93e411, type: 3}
+--- !u!136 &136787559259618292
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1492687703916904}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.6
+  m_Height: 19
+  m_Direction: 1
+  m_Center: {x: 0, y: 8, z: 0}
 --- !u!205 &205855054275415602
 LODGroup:
   m_ObjectHideFlags: 1

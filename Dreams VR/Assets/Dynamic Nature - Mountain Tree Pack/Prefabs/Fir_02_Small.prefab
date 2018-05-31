@@ -37,9 +37,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4730499349575226}
   - component: {fileID: 205753022939781226}
+  - component: {fileID: 136601000364903750}
   m_Layer: 0
   m_Name: Fir_02_Small
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967279
@@ -171,7 +172,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1601854496961328}
   m_LocalRotation: {x: 0.0015941841, y: -0.18596156, z: 0.00091900746, w: 0.98255527}
-  m_LocalPosition: {x: 71.001305, y: 31.73009, z: 33.787865}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4398741958553606}
@@ -404,6 +405,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1152450060248294}
   m_Mesh: {fileID: 4300004, guid: 7bdc686c097ae75468e7f33aab1aaa20, type: 3}
+--- !u!136 &136601000364903750
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1601854496961328}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 6
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.1, z: 0}
 --- !u!205 &205753022939781226
 LODGroup:
   m_ObjectHideFlags: 1
