@@ -7,10 +7,10 @@ public class FBCube : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		if (FacebookLogin.Instance.getLoggedIn()) {
+		if (FacebookLoginHybriona.Instance.readyToUse) {
 			// If so, get the FB image and set the texture to it
 			Renderer renderer = this.GetComponent<Renderer>();
-			renderer.material.mainTexture = FacebookLogin.Instance.getNextUserPhoto();
+			renderer.material.mainTexture = FacebookLoginHybriona.Instance.getNextUserPhoto();
 		}
 
 		
