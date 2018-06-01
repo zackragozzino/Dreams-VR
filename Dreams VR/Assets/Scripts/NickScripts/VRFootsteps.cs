@@ -5,7 +5,7 @@ using UnityEngine;
 public class VRFootsteps : MonoBehaviour {
 
 	public CapsuleCollider m_Capsule;
-	private Rigidbody m_rb;
+	//private Rigidbody m_rb;
 	private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
 	private Vector2 m_Input;
 
@@ -26,7 +26,7 @@ public class VRFootsteps : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_Capsule = GameObject.Find ("[VRTK][AUTOGEN][FootColliderContainer]").GetComponent<CapsuleCollider>();
-		m_rb = GetComponent<Rigidbody>();
+		//m_rb = GetComponent<Rigidbody>();
 		audm = FindObjectOfType<AudioManager>();
 	}
 
@@ -116,12 +116,16 @@ public class VRFootsteps : MonoBehaviour {
 
 	private void ProgressStepCycle(float speed)
 	{
-		if (m_rb.velocity.sqrMagnitude > 0 && (m_Input.x != 0 || m_Input.y != 0))
+		/*if (m_rb.velocity.sqrMagnitude > 0 && (m_Input.x != 0 || m_Input.y != 0))
 		{
 			m_StepCycle += (m_rb.velocity.magnitude + (speed * (m_IsWalking ? 1f : m_RunstepLenghten))) *
 						 Time.fixedDeltaTime;
+		}*/
+		if ((m_Input.x != 0 || m_Input.y != 0))
+		{
+			m_StepCycle += ((speed * (m_IsWalking ? 1f : m_RunstepLenghten))) *
+				Time.fixedDeltaTime;
 		}
-
 		if (!(m_StepCycle > m_NextStep))
 		{
 			return;

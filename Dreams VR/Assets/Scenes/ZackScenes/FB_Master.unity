@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2627,6 +2627,32 @@ GameObject:
   m_PrefabParentObject: {fileID: 1634333707919542, guid: 49e62a7e6abfa384bb0e62938c00df6d,
     type: 2}
   m_PrefabInternal: {fileID: 769476530}
+--- !u!114 &769476532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 769476531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb4f57715d7376b46ae13771ef9d35dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dreamScripts: []
+  colorSchemes: []
+  doorSpawnRate: 10
+  doorPortal: {fileID: 0}
+  sceneNum: 0
+  mapGenerator: {fileID: 0}
+  VR_Rig: {fileID: 0}
+  simulator_Rig: {fileID: 0}
+  VRCamera: {fileID: 0}
+  simulatorCamera: {fileID: 0}
+  environment: 0
+  sceneMod: 0
+  dropdown: {fileID: 0}
+  startScreenButtons: {fileID: 0}
+  startScreenCamera: {fileID: 0}
 --- !u!114 &769476533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2649,29 +2675,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ac4066ffc73d748957f68cbccd39fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &769476535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 769476531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 226164dbaaccafc48a61524cf20c6827, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dreamScripts: []
-  doorSpawnRate: 10
-  doorPortal: {fileID: 1002030854853264, guid: 630b03abfcec71849ad5bb35b0e66a0d, type: 2}
-  sceneNum: 0
-  mapGenerator: {fileID: 0}
-  VR_Rig: {fileID: 300215142}
-  simulator_Rig: {fileID: 1213900191}
-  environment: 0
-  sceneMod: 0
-  dropdown: {fileID: 56977412}
-  startScreenButtons: {fileID: 2013930881}
-  startScreenCamera: {fileID: 1669274153}
 --- !u!114 &769476536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2683,7 +2686,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d667a9725a4f749a4cabcf9d9686f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cube: {fileID: 0}
   firstName: 
   lastName: 
   profilePic: {fileID: 0}
@@ -3842,7 +3844,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 769476535}
+      - m_Target: {fileID: 0}
         m_MethodName: enableFacebookLogin
         m_Mode: 1
         m_Arguments:
@@ -5614,8 +5616,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 769476535}
-        m_MethodName: enableVR
+      - m_Target: {fileID: 769476531}
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7427,7 +7429,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 769476535}
+      - m_Target: {fileID: 0}
         m_MethodName: enableSimulator
         m_Mode: 1
         m_Arguments:

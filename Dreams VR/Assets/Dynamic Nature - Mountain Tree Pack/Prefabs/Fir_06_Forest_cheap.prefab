@@ -37,9 +37,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4585630187838670}
   - component: {fileID: 205632515316054554}
+  - component: {fileID: 136624491366503134}
   m_Layer: 0
   m_Name: Fir_06_Forest_cheap
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967279
@@ -404,6 +405,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1946430662101796}
   m_Mesh: {fileID: 4300006, guid: c52d771d2b1efde409bd03a615238243, type: 3}
+--- !u!136 &136624491366503134
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1215118662403220}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.6
+  m_Height: 17
+  m_Direction: 1
+  m_Center: {x: 0, y: 7.29, z: 0}
 --- !u!205 &205632515316054554
 LODGroup:
   m_ObjectHideFlags: 1

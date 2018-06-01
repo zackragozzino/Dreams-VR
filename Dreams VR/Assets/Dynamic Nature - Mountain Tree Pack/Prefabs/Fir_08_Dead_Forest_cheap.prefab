@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 205838414078788140}
   m_Layer: 0
   m_Name: Fir_08_Dead_Forest_cheap
-  m_TagString: Untagged
+  m_TagString: EnvironmentObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967279
