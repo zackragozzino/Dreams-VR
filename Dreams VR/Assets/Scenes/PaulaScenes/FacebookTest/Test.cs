@@ -34,7 +34,7 @@ public class Test : MonoBehaviour {
 	public Renderer profilePicRenderer;
 
 	void Start () {
-
+      // http://localhost:8000/fbapi/FBProcess.php
 		HybFacebookConstants.SetApiURL("http://localhost:8000/fbapi/FBProcess.php","rjproz_secret_temp");
 		HybFacebook.Instance.Init ("563027720744270","7e81ce67f67b22c7aebbe04be5f6d66c","email");
 
@@ -132,9 +132,6 @@ public class Test : MonoBehaviour {
 	#region Get Player's Info
 	void GetSelfName()
 	{
-
-
-
 		HybFacebook.Instance.API ("me?fields=name,email", HybFacebook.HTTPMethod.GET, delegate(FacebookResponse response) {
 			
 			if(response.error == null)
@@ -142,8 +139,6 @@ public class Test : MonoBehaviour {
 				Debug.Log(response.text);
 				Dictionary<string,object> res = (Dictionary<string,object> ) Hybriona.MiniJSON.Json.Deserialize( response.text );
 				text.text = res["name"].ToString() +"\n"+res["email"].ToString() +"\n";
-
-
 			}
 			else
 			{
@@ -151,10 +146,7 @@ public class Test : MonoBehaviour {
 				text.text = response.error;
 			}
 		}, null);
-
 		//GetTaggableFriends();
-
-
 	}
 	#endregion
 

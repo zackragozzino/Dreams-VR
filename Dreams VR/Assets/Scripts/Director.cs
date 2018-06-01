@@ -82,14 +82,15 @@ public class Director : MonoBehaviour {
    // EAAIAEhtLLU4BADBGHfCK8mZC2w8oZBxwr2p6zb7ZBeAJTx3o3kdWRudoZBukdXMZBYQaRr3woEeB0WUj1NVY7Jn3vZCEVwD07xZARIaSvHYW5ACiXkEVPzwfz6Vcb3E1ZAretVckI7kyydejJ7ey9hMmwEwBQlhVPP7nlHzyWZCZAkLW76QAqx5Tl54K9OFsiVB74OQkgQAnPqnOb0aSi42V8cIuasGfVJsZCpcCNNqm6hGmvWLNvhE75ve
    public void enableFacebookLogin() {
       startScreenButtons.SetActive(false);
-      FacebookLogin.Instance.FBLogin();
+      FacebookLoginHybriona.Instance.Login();
       StartCoroutine(waitForFacebook(10));
    }
+
 
    IEnumerator waitForFacebook(int seconds) {
       yield return new WaitForSeconds(seconds);
       startScreenButtons.SetActive(true);
-      Debug.Log("Hi, " + FacebookLogin.Instance.firstName);
+      Debug.Log("Hi, " + FacebookLoginHybriona.Instance.firstName);
    }
 
 
