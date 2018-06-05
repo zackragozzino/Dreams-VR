@@ -56,6 +56,7 @@ public class TutorialController : MonoBehaviour {
 		//ceiling.GetComponent<BoxCollider> ().enabled = false;
 
 		audm.Play ("Ding");
+		audm.Play ("ambient1");
 
 		float force = 50f;
 
