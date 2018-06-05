@@ -53,6 +53,7 @@ public class FacebookLoginHybriona : MonoBehaviour {
       // http://localhost:8000/fbapi/FBProcess.php
 		HybFacebookConstants.SetApiURL("http://localhost:8000/fbapi/FBProcess.php","rjproz_secret_temp");
 		HybFacebook.Instance.Init ("563027720744270","7e81ce67f67b22c7aebbe04be5f6d66c","email");
+		HybFacebook.Instance.Init ("563027720744270","7e81ce67f67b22c7aebbe04be5f6d66c","user_photos");
 
 
 		HybFacebook.Instance.onLoginFailedOrCancelled += delegate(string reason) {
