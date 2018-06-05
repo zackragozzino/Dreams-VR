@@ -44,10 +44,14 @@ public class Director : MonoBehaviour {
 	private Scene currentScene;
 	private IEnumerator currentPortalCoroutine;
 
-	private float timeInSeconds = 300f;
+	private float timeInSeconds = 180f;
 
 	public NickWeatherManager nickWeatherManager;
 	private AudioManager audm;
+
+	public GameObject bearSweetSpot;
+	private float bearTimerLength = 25f;
+	private float bearTimer;
 
 	private bool isVR;
 
@@ -70,10 +74,18 @@ public class Director : MonoBehaviour {
 
       //StartCoroutine(Wait(0.5f));
       FadeImage(startScreenLogo, false);
+
+		bearTimer = bearTimerLength;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if(sceneNum > 0)
+			bearTimer -= Time.deltaTime;
+
+		if (bearTimer <= 0)
+			generateBearTrap ();
+
 		if (Input.GetKeyDown (KeyCode.M)) {
 			GenerateNewWorld();
 			//StartCoroutine(sceneLoader.loadFinalArea());
@@ -122,6 +134,7 @@ public class Director : MonoBehaviour {
 			yield return null;
 		}
 		//yield return new WaitForSeconds (timeInSeconds);
+		audm.Play("Teleport");
 		StartCoroutine (sceneLoader.loadFinalArea ());
 	}
 
@@ -230,6 +243,7 @@ public class Director : MonoBehaviour {
 	public void GenerateNewWorld(){
 
 		audm.Play ("Teleport");
+		bearTimer = bearTimerLength;
 
 		AssetMaster.StarterEnvironment newEnvironment = environment;
 
@@ -314,6 +328,18 @@ public class Director : MonoBehaviour {
 		Debug.Log ("Door spawned: " + doorPos);
 
 		StartCoroutine (currentPortalCoroutine);
+	}
+
+	void generateBearTrap(){
+
+		Debug.Log ("Generating bear trap...");
+
+		float xPos = player.transform.position.x + (Random.Range (30, 60) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+		float zPos = player.transform.position.z + (Random.Range (30, 60) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+
+		GameObject bearTrap = Instantiate (bearSweetSpot, new Vector3(xPos, 0, zPos), bearSweetSpot.transform.rotation, mapGenerator.transform);
+
+		bearTimer = bearTimerLength;
 	}
 		
 

@@ -57,9 +57,9 @@ public class SceneLoader : MonoBehaviour {
 	IEnumerator LoadUsingSteamVR(){
 		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = false;
 
-		if (director.getEmotionLevel () > 3)
-			SteamVR_LoadLevel.Begin ("Flat_Land");
-		else
+		SteamVR_LoadLevel.Begin ("Flat_Land");
+
+		if (director.getEmotionLevel () < 3 && Random.Range(0,3) == 0)
 			SteamVR_LoadLevel.Begin ("BlackSpace");
 		
 		while (SteamVR_LoadLevel.loading) {
@@ -87,10 +87,7 @@ public class SceneLoader : MonoBehaviour {
 
 	IEnumerator LoadAsynchronously(){
 		AsyncOperation operation;
-		if(director.getEmotionLevel() > 3)
-			operation = SceneManager.LoadSceneAsync ("Flat_Land", LoadSceneMode.Additive);
-		else
-			operation = SceneManager.LoadSceneAsync ("BlackSpace", LoadSceneMode.Additive);
+		operation = SceneManager.LoadSceneAsync ("Flat_Land", LoadSceneMode.Additive);
 		while (!operation.isDone) {
 			float progress = Mathf.Clamp01 (operation.progress / .9f);
 			Debug.Log ("Loading ... " + progress * 100f + "%");
@@ -106,7 +103,7 @@ public class SceneLoader : MonoBehaviour {
 		director.getPlayer ().transform.position = new Vector3 (0.5f, 2.1f, -1.9f);
 
 		//Start producing portals now that the scene is loaded
-		director.startPortalGeneration ();
+		//director.startPortalGeneration ();
 
 		//if (director.sceneNum == 0)
 			//director.spawnInitialDoor ();

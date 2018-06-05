@@ -57,6 +57,7 @@ public class TutorialController : MonoBehaviour {
 
 		audm.Play ("Ding");
 		audm.Play ("ambient1");
+		audm.Play ("WindTrees");
 
 		float force = 50f;
 
