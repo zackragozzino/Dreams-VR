@@ -45,6 +45,9 @@ public class Director : MonoBehaviour {
 	private float timeInSeconds = 300f;
 
 	public NickWeatherManager nickWeatherManager;
+	private AudioManager audm;
+
+	private bool isVR;
 
 	// Use this for initialization
 	void Start () {
@@ -52,6 +55,8 @@ public class Director : MonoBehaviour {
 		sdkManager = VRTK.VRTK_SDKManager.instance;
 
 		sceneLoader = this.GetComponent<SceneLoader> ();
+
+		audm = FindObjectOfType<AudioManager>();
 
 		//Build list of different color palettes
 		foreach (Transform child in GameObject.Find ("ColorSchemes_Pos").transform) {
@@ -129,6 +134,8 @@ public class Director : MonoBehaviour {
 		playerCamera = VRCamera;
 		//startScreen.SetActive (false);
 
+		isVR = true;
+
 		startScreenButtons.SetActive (false);
 		startScreenCamera.SetActive (false);
 
@@ -146,12 +153,18 @@ public class Director : MonoBehaviour {
 		playerCamera = simulatorCamera;
 		//startScreen.SetActive (false);
 
+		isVR = false;
+
 		startScreenButtons.SetActive (false);
 		startScreenCamera.SetActive (false);
 
 		sceneLoader.loadFirstScene ();
 
 		StartCoroutine(dreamTimer ());
+	}
+
+	public bool getVRStatus(){
+		return isVR;
 	}
 
    // This is triggered by the onClick on the Facebook Login button on the startscreen
@@ -212,6 +225,9 @@ public class Director : MonoBehaviour {
 	}
 
 	public void GenerateNewWorld(){
+
+		audm.Play ("Teleport");
+
 		AssetMaster.StarterEnvironment newEnvironment = environment;
 
 		//Ensure the new environment isn't the same as the current environment

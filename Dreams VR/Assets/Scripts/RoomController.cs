@@ -12,8 +12,8 @@ public class RoomController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//StartCoroutine (waitAndOpenDoor ());
-		compass = GameObject.Find ("Compass 1");
-		compassStartPos = compass.transform.position;
+		//compass = GameObject.Find ("Compass 1");
+		//compassStartPos = compass.transform.position;
 
 		doorAnimation.Play ("Door_open");
 	}

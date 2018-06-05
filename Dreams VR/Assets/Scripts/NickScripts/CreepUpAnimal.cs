@@ -70,13 +70,14 @@ public class CreepUpAnimal : MonoBehaviour {
             if (!lastViewBegin)
             {
                 FindObjectOfType<AudioManager>().Play("BearAttack");
-                timer = 5.0f;
+                timer = 1.5f;
                 lastViewBegin = true;
             }
             anim.Play("attack");
             timer -= Time.deltaTime;
 			if (timer <= 0) {
 				Destroy (gameObject);
+				director.GenerateNewWorld();
 			}
 		}
 	}

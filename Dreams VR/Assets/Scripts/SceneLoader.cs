@@ -102,7 +102,9 @@ public class SceneLoader : MonoBehaviour {
 		director.mapGenerator = GameObject.FindGameObjectWithTag ("MapGenerator");
 		director.mapGenerator.GetComponent<TerrainGenerator> ().viewer = director.getPlayer ().transform;
 
-		director.getPlayer ().transform.position = new Vector3 (0, 3f, 0);
+		//director.getPlayer ().transform.position = new Vector3 (0, 3f, 0);
+		director.getPlayer ().transform.position = new Vector3 (0.5f, 2.1f, -1.9f);
+
 		//Start producing portals now that the scene is loaded
 		director.startPortalGeneration ();
 

@@ -8,7 +8,7 @@ public class StairSpawner : MonoBehaviour {
 	public GameObject stairMiddlePrefab;
 	public GameObject stairTopPrefab;
 	public int maxFloors;
-	
+
 	private static float offsetAmount = 3.11f;
 	private static float transitionHeight = 5f;
 	private float verticalOffset;
@@ -53,7 +53,7 @@ public class StairSpawner : MonoBehaviour {
 			else
 				yRotation = 0;
 
-			Instantiate (stairMiddlePrefab, new Vector3 (transform.position.x, verticalOffset, transform.position.y), Quaternion.Euler (transform.eulerAngles.x, yRotation, transform.eulerAngles.z), transform);
+			Instantiate (stairMiddlePrefab, new Vector3 (transform.position.x, verticalOffset, transform.position.z), Quaternion.Euler (transform.eulerAngles.x, yRotation, transform.eulerAngles.z), transform);
 
 			flipDirection = !flipDirection;
 			floorNum++;
@@ -65,7 +65,7 @@ public class StairSpawner : MonoBehaviour {
 			else
 				yRotation = 0;
 
-			Instantiate (stairTopPrefab, new Vector3 (transform.position.x, verticalOffset, transform.position.y), Quaternion.Euler (transform.eulerAngles.x, yRotation, transform.eulerAngles.z), transform);
+			Instantiate (stairTopPrefab, new Vector3 (transform.position.x, verticalOffset, transform.position.z), Quaternion.Euler (transform.eulerAngles.x, yRotation, transform.eulerAngles.z), transform);
 
 			floorNum++;
 		}

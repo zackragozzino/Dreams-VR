@@ -103,7 +103,7 @@ public class AssetMaster : MonoBehaviour {
 
 	void generateStartingRoom(){
 		Vector3 pos = startingRoom.transform.position;
-		pos.y = 3;
+		pos.y = 2;
 		Instantiate (startingRoom, pos, startingRoom.transform.rotation, this.transform);
 	}
 
@@ -111,8 +111,10 @@ public class AssetMaster : MonoBehaviour {
 		/*
 		 * ToDo: Add sweet spots and get test them in the different environments
 		 * */
-		//GameObject sweetSpot = sweetSpots [Random.Range (0, sweetSpots.Length)];
-		//sweetSpot = Instantiate (sweetSpot, new Vector3 (parent.position.x + x - (width / 2f), parent.position.y, parent.position.z + y - (height / 2f)), sweetSpot.transform.rotation, parent);
+		GameObject sweetSpot = sweetSpots [Random.Range (0, sweetSpots.Length)];
+		sweetSpot = Instantiate (sweetSpot, new Vector3 (parent.position.x + x - (width / 2f), sweetSpot.transform.position.y, parent.position.z + y - (height / 2f)), sweetSpot.transform.rotation, parent);
+		sweetSpot.tag = "EnvironmentObject";
+		//sweetSpot.AddComponent<RaycastGrounder> ();
 	}
 
 	//Remaps the the noise threshold based on the intensity level

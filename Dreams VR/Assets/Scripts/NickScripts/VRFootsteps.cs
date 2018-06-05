@@ -28,11 +28,13 @@ public class VRFootsteps : MonoBehaviour {
 		m_Capsule = GameObject.Find ("[VRTK][AUTOGEN][FootColliderContainer]").GetComponent<CapsuleCollider>();
 		//m_rb = GetComponent<Rigidbody>();
 		audm = FindObjectOfType<AudioManager>();
+
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
+
 		if (!m_PreviouslyGrounded && m_IsGrounded)
 		{
 			//m_AudioSource.clip = m_LandSound;
@@ -139,7 +141,8 @@ public class VRFootsteps : MonoBehaviour {
 	{
 		// Read input
 		float horizontal = Input.GetAxis("Horizontal");
-		float vertical = Input.GetAxis("Vertical");
+		float vertical = Input.GetAxis("Vertical"); 
+
 
 		bool waswalking = m_IsWalking;
 

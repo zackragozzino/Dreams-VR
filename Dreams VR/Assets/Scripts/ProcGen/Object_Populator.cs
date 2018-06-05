@@ -75,7 +75,7 @@ public class Object_Populator : MonoBehaviour {
 			textureRender.enabled = false;
 
 		//Each terrain chunk as a random chance of spawning a sweet spot
-		if(Random.Range(0, 5) == 0){
+		if(Random.Range(0, 3) == 0){
 			int x = Random.Range (0, numVertsPerLine);
 			int y = Random.Range (0, numVertsPerLine);
 
