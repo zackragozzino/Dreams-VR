@@ -36,6 +36,8 @@ public class Director : MonoBehaviour {
 
 	public Dropdown dropdown;
 
+   public RawImage startScreenBackground;
+   public RawImage startScreenLogo;
 	public GameObject startScreenButtons;
 	public GameObject startScreenCamera;
 
@@ -51,7 +53,6 @@ public class Director : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
 		sdkManager = VRTK.VRTK_SDKManager.instance;
 
 		sceneLoader = this.GetComponent<SceneLoader> ();
@@ -67,6 +68,8 @@ public class Director : MonoBehaviour {
 			colorSchemes_Neg.Add (child.GetComponent<ColorCorrectionCurves> ());
 		}
 
+      //StartCoroutine(Wait(0.5f));
+      FadeImage(startScreenLogo, false);
 	}
 	
 	// Update is called once per frame
@@ -324,4 +327,34 @@ public class Director : MonoBehaviour {
 		yield return new WaitForSeconds (waitTime);
 		Destroy (gameObject);
 	}
+
+   IEnumerator Wait(float seconds) {
+      yield return new WaitForSeconds(seconds);
+   }
+
+   IEnumerator FadeImage(RawImage img, bool fadeAway)
+    {
+        // fade from opaque to transparent
+        if (fadeAway)
+        {
+            // loop over 1 second backwards
+            for (float i = 1; i >= 0; i -= Time.deltaTime)
+            {
+                // set color with i as alpha
+                img.color = new Color(1, 1, 1, i);
+                yield return null;
+            }
+        }
+        // fade from transparent to opaque
+        else
+        {
+            // loop over 1 second
+            for (float i = 0; i <= 1; i += Time.deltaTime)
+            {
+                // set color with i as alpha
+                img.color = new Color(1, 1, 1, i);
+                yield return null;
+            }
+        }
+    }
 }
