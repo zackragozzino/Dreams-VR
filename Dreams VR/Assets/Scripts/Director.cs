@@ -11,7 +11,7 @@ public class Director : MonoBehaviour {
 	public GameObject[] dreamScripts;
 	public List<ColorCorrectionCurves> colorSchemes_Pos = new List<ColorCorrectionCurves>();
 	public List<ColorCorrectionCurves> colorSchemes_Neg = new List<ColorCorrectionCurves>();
-	public float doorSpawnRate = 10f; 
+	public float doorSpawnRate = 5f; 
 	public GameObject doorPortal;
 
 	public int sceneNum = 0;
@@ -44,7 +44,7 @@ public class Director : MonoBehaviour {
 	private Scene currentScene;
 	private IEnumerator currentPortalCoroutine;
 
-	private float timeInSeconds = 180f;
+	private float timeInSeconds = 300f;
 
 	public NickWeatherManager nickWeatherManager;
 	private AudioManager audm;
@@ -237,7 +237,7 @@ public class Director : MonoBehaviour {
 	}
 
 	public void stopPortalGeneration(){
-		StopCoroutine (currentPortalCoroutine);
+		//StopCoroutine (currentPortalCoroutine);
 	}
 
 	public void GenerateNewWorld(){
@@ -315,8 +315,8 @@ public class Director : MonoBehaviour {
 		yield return new WaitForSeconds(doorSpawnRate);
 
 		//Random ranges between -80 to 80 but not within 50 units of the player
-		float xPos = player.transform.position.x + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
-		float zPos = player.transform.position.z + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+		float xPos = player.transform.position.x + (Random.Range (15, 40) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+		float zPos = player.transform.position.z + (Random.Range (15, 40) * ((Random.Range (0, 2) == 0) ? 1 : -1));
 
 
 		Vector3 doorPos = new Vector3 (xPos, doorPortal.transform.position.y + 10, zPos);

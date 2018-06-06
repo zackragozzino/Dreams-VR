@@ -3876,6 +3876,7 @@ GameObject:
   - component: {fileID: 65808948772210334}
   - component: {fileID: 54869753522607694}
   - component: {fileID: 114608118068113876}
+  - component: {fileID: 114477041579837688}
   m_Layer: 0
   m_Name: house
   m_TagString: Untagged
@@ -8020,7 +8021,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1485515821368490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4899048077110598}
@@ -24760,6 +24761,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e537dbb49fb50e041b5b7a7bfc1b46b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114477041579837688
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1485515821368490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2d07a994e793942b77b7bd22bd47ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114491543872762804
