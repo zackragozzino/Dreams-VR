@@ -109,7 +109,7 @@ public class TutorialController : MonoBehaviour {
 		StartCoroutine (fadeInText (3f));
 		yield return new WaitForSeconds (3f);
 		//Let the player read it
-		yield return new WaitForSeconds (5f);
+		yield return new WaitForSeconds (3f);
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
 		yield return new WaitForSeconds(1.5f);
@@ -218,7 +218,7 @@ public class TutorialController : MonoBehaviour {
 		StartCoroutine (fadeInText (3f));
 		yield return new WaitForSeconds (3f);
 		//Let the player read it
-		yield return new WaitForSeconds (5f);
+		yield return new WaitForSeconds (3f);
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
 		yield return new WaitForSeconds(1.5f);

@@ -50,7 +50,7 @@ public class Director : MonoBehaviour {
 	private AudioManager audm;
 
 	public GameObject bearSweetSpot;
-	private float bearTimerLength = 25f;
+	private float bearTimerLength = 45f;
 	private float bearTimer;
 
 	private bool isVR;
