@@ -84,7 +84,8 @@ public class TutorialController : MonoBehaviour {
 
 	IEnumerator tutorialRoutine(){
 		tutorialText.text = "";
-		yield return new WaitForSeconds (5f);
+        doorAnimator.Play("Door_close");
+        yield return new WaitForSeconds (5f);
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		tutorialText.text = "Welcome to DreamWalker VR.";
@@ -92,7 +93,7 @@ public class TutorialController : MonoBehaviour {
 		StartCoroutine (fadeInText (3f));
 		yield return new WaitForSeconds (3f);
 		//Let the player read it
-		yield return new WaitForSeconds (5f);
+		yield return new WaitForSeconds (3f);
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
 		yield return new WaitForSeconds(1.5f);
@@ -225,7 +226,9 @@ public class TutorialController : MonoBehaviour {
 
 		doorAnimator.Play ("Door_open");
 		audm.Play ("DoorOpen");
-		director.startPortalGeneration ();
+        collapseWalls();
+   
+        director.startPortalGeneration ();
 	}
 
 	IEnumerator fadeInText(float duration){
