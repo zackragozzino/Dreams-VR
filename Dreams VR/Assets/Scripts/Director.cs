@@ -11,7 +11,7 @@ public class Director : MonoBehaviour {
 	public GameObject[] dreamScripts;
 	public List<ColorCorrectionCurves> colorSchemes_Pos = new List<ColorCorrectionCurves>();
 	public List<ColorCorrectionCurves> colorSchemes_Neg = new List<ColorCorrectionCurves>();
-	public float doorSpawnRate = 10f; 
+	public float doorSpawnRate = 5f; 
 	public GameObject doorPortal;
 
 	public int sceneNum = 0;
@@ -36,6 +36,8 @@ public class Director : MonoBehaviour {
 
 	public Dropdown dropdown;
 
+   public RawImage startScreenBackground;
+   public RawImage startScreenLogo;
 	public GameObject startScreenButtons;
 	public GameObject startScreenCamera;
 
@@ -45,13 +47,21 @@ public class Director : MonoBehaviour {
 	private float timeInSeconds = 300f;
 
 	public NickWeatherManager nickWeatherManager;
+	private AudioManager audm;
+
+	public GameObject bearSweetSpot;
+	private float bearTimerLength = 25f;
+	private float bearTimer;
+
+	private bool isVR;
 
 	// Use this for initialization
 	void Start () {
-
 		sdkManager = VRTK.VRTK_SDKManager.instance;
 
 		sceneLoader = this.GetComponent<SceneLoader> ();
+
+		audm = FindObjectOfType<AudioManager>();
 
 		//Build list of different color palettes
 		foreach (Transform child in GameObject.Find ("ColorSchemes_Pos").transform) {
@@ -62,10 +72,20 @@ public class Director : MonoBehaviour {
 			colorSchemes_Neg.Add (child.GetComponent<ColorCorrectionCurves> ());
 		}
 
+      //StartCoroutine(Wait(0.5f));
+      FadeImage(startScreenLogo, false);
+
+		bearTimer = bearTimerLength;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if(sceneNum > 0)
+			bearTimer -= Time.deltaTime;
+
+		if (bearTimer <= 0)
+			generateBearTrap ();
+
 		if (Input.GetKeyDown (KeyCode.M)) {
 			GenerateNewWorld();
 			//StartCoroutine(sceneLoader.loadFinalArea());
@@ -114,6 +134,7 @@ public class Director : MonoBehaviour {
 			yield return null;
 		}
 		//yield return new WaitForSeconds (timeInSeconds);
+		audm.Play("Teleport");
 		StartCoroutine (sceneLoader.loadFinalArea ());
 	}
 
@@ -128,6 +149,8 @@ public class Director : MonoBehaviour {
 
 		playerCamera = VRCamera;
 		//startScreen.SetActive (false);
+
+		isVR = true;
 
 		startScreenButtons.SetActive (false);
 		startScreenCamera.SetActive (false);
@@ -146,12 +169,18 @@ public class Director : MonoBehaviour {
 		playerCamera = simulatorCamera;
 		//startScreen.SetActive (false);
 
+		isVR = false;
+
 		startScreenButtons.SetActive (false);
 		startScreenCamera.SetActive (false);
 
 		sceneLoader.loadFirstScene ();
 
 		StartCoroutine(dreamTimer ());
+	}
+
+	public bool getVRStatus(){
+		return isVR;
 	}
 
    // This is triggered by the onClick on the Facebook Login button on the startscreen
@@ -161,14 +190,15 @@ public class Director : MonoBehaviour {
    // EAAIAEhtLLU4BADBGHfCK8mZC2w8oZBxwr2p6zb7ZBeAJTx3o3kdWRudoZBukdXMZBYQaRr3woEeB0WUj1NVY7Jn3vZCEVwD07xZARIaSvHYW5ACiXkEVPzwfz6Vcb3E1ZAretVckI7kyydejJ7ey9hMmwEwBQlhVPP7nlHzyWZCZAkLW76QAqx5Tl54K9OFsiVB74OQkgQAnPqnOb0aSi42V8cIuasGfVJsZCpcCNNqm6hGmvWLNvhE75ve
    public void enableFacebookLogin() {
       startScreenButtons.SetActive(false);
-      FacebookLogin.Instance.FBLogin();
+      FacebookLoginHybriona.Instance.Login();
       StartCoroutine(waitForFacebook(10));
    }
+
 
    IEnumerator waitForFacebook(int seconds) {
       yield return new WaitForSeconds(seconds);
       startScreenButtons.SetActive(true);
-      Debug.Log("Hi, " + FacebookLogin.Instance.firstName);
+      Debug.Log("Hi, " + FacebookLoginHybriona.Instance.firstName);
    }
 
 
@@ -207,10 +237,14 @@ public class Director : MonoBehaviour {
 	}
 
 	public void stopPortalGeneration(){
-		StopCoroutine (currentPortalCoroutine);
+		//StopCoroutine (currentPortalCoroutine);
 	}
 
 	public void GenerateNewWorld(){
+
+		audm.Play ("Teleport");
+		bearTimer = bearTimerLength;
+
 		AssetMaster.StarterEnvironment newEnvironment = environment;
 
 		//Ensure the new environment isn't the same as the current environment
@@ -281,8 +315,8 @@ public class Director : MonoBehaviour {
 		yield return new WaitForSeconds(doorSpawnRate);
 
 		//Random ranges between -80 to 80 but not within 50 units of the player
-		float xPos = player.transform.position.x + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
-		float zPos = player.transform.position.z + (Random.Range (50, 80) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+		float xPos = player.transform.position.x + (Random.Range (15, 40) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+		float zPos = player.transform.position.z + (Random.Range (15, 40) * ((Random.Range (0, 2) == 0) ? 1 : -1));
 
 
 		Vector3 doorPos = new Vector3 (xPos, doorPortal.transform.position.y + 10, zPos);
@@ -294,6 +328,18 @@ public class Director : MonoBehaviour {
 		Debug.Log ("Door spawned: " + doorPos);
 
 		StartCoroutine (currentPortalCoroutine);
+	}
+
+	void generateBearTrap(){
+
+		Debug.Log ("Generating bear trap...");
+
+		float xPos = player.transform.position.x + (Random.Range (30, 60) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+		float zPos = player.transform.position.z + (Random.Range (30, 60) * ((Random.Range (0, 2) == 0) ? 1 : -1));
+
+		GameObject bearTrap = Instantiate (bearSweetSpot, new Vector3(xPos, 0, zPos), bearSweetSpot.transform.rotation, mapGenerator.transform);
+
+		bearTimer = bearTimerLength;
 	}
 		
 
@@ -307,4 +353,34 @@ public class Director : MonoBehaviour {
 		yield return new WaitForSeconds (waitTime);
 		Destroy (gameObject);
 	}
+
+   IEnumerator Wait(float seconds) {
+      yield return new WaitForSeconds(seconds);
+   }
+
+   IEnumerator FadeImage(RawImage img, bool fadeAway)
+    {
+        // fade from opaque to transparent
+        if (fadeAway)
+        {
+            // loop over 1 second backwards
+            for (float i = 1; i >= 0; i -= Time.deltaTime)
+            {
+                // set color with i as alpha
+                img.color = new Color(1, 1, 1, i);
+                yield return null;
+            }
+        }
+        // fade from transparent to opaque
+        else
+        {
+            // loop over 1 second
+            for (float i = 0; i <= 1; i += Time.deltaTime)
+            {
+                // set color with i as alpha
+                img.color = new Color(1, 1, 1, i);
+                yield return null;
+            }
+        }
+    }
 }
