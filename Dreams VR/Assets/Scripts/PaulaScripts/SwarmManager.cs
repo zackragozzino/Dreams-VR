@@ -4,12 +4,13 @@ using System.Collections;
 using System;
 
 public class SwarmManager : MonoBehaviour {
-
    public GameObject crawler;
    public GameObject player;
    public string script;
    public float radius = 5.0f;
    public float timeUntilDisperse = 10;
+
+   public float maxHeight = 0.0f;
    private int numStartCrawlers = 0;
    private int maxCrawlers = 10;
    private List<GameObject> swarm;
@@ -38,7 +39,8 @@ public class SwarmManager : MonoBehaviour {
             float r = UnityEngine.Random.Range(-1.0f, 1.0f);
             float x = Mathf.Sin(crawlerAngle  + r) * this.radius + this.player.transform.position.x;
             float z = Mathf.Cos(crawlerAngle + r) * this.radius + this.player.transform.position.z;
-            Vector3 newPos = new Vector3(x + r, 0.0f, z + r);
+            float y = UnityEngine.Random.Range(0.0f, this.maxHeight);
+            Vector3 newPos = new Vector3(x + r, y + r, z + r);
             // get rotation to face towards player
             Quaternion newRotation = Quaternion.LookRotation(player.transform.position - newPos);
 
@@ -50,8 +52,13 @@ public class SwarmManager : MonoBehaviour {
             crawlerAngle += angleIncrement;
 
             crawlThing.AddComponent(Type.GetType(script));
+            Wait(0.5f);
          }
       }
+   }
+
+   IEnumerator Wait(float seconds) {
+      yield return new WaitForSeconds(seconds);
    }
 
    private void setGenerateToFalse() {

@@ -88,7 +88,13 @@ public class TutorialController : MonoBehaviour {
         yield return new WaitForSeconds (5f);
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-		tutorialText.text = "Welcome to DreamWalker VR.";
+      if (FacebookLoginHybriona.Instance.firstName != "") {
+         tutorialText.text = "Hi " + FacebookLoginHybriona.Instance.firstName + ",\n" + 
+         "Welcome to DreamWalker VR.";
+      }
+      else {
+		   tutorialText.text = "Welcome to DreamWalker VR.";
+      }
 		//Fade in
 		StartCoroutine (fadeInText (3f));
 		yield return new WaitForSeconds (3f);

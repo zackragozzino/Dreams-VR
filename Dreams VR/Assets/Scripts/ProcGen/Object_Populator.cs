@@ -107,10 +107,10 @@ public class Object_Populator : MonoBehaviour {
 					if (heightMap.values[x,y] < 0.02) {
 						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (numVertsPerLine/2f), Random.Range(20,100), this.transform.position.z + y - (numVertsPerLine/2f)), Quaternion.identity, this.transform);
                   // This checks is the Singleton facebook instance is logged in
-                  if (FacebookLoginHybriona.Instance.readyToUse) {
+                  if (FacebookLoginHybriona.Instance.profilePic) {
                      // If so, get the FB image and set the texture to it
                      Renderer renderer = asset.GetComponent<Renderer>();
-                     renderer.material.mainTexture = FacebookLoginHybriona.Instance.getNextUserPhoto();
+                     renderer.material.mainTexture = FacebookLoginHybriona.Instance.profilePic;
                   }
 
 						asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
