@@ -36,8 +36,6 @@ public class Director : MonoBehaviour {
 
 	public Dropdown dropdown;
 
-   public RawImage startScreenBackground;
-   public RawImage startScreenLogo;
 	public GameObject startScreenButtons;
 	public GameObject startScreenCamera;
 
@@ -70,10 +68,7 @@ public class Director : MonoBehaviour {
 
 		foreach (Transform child in GameObject.Find ("ColorSchemes_Neg").transform) {
 			colorSchemes_Neg.Add (child.GetComponent<ColorCorrectionCurves> ());
-		}
-
-      //StartCoroutine(Wait(0.5f));
-      FadeImage(startScreenLogo, false);
+      }
 
 		bearTimer = bearTimerLength;
 	}
@@ -353,34 +348,4 @@ public class Director : MonoBehaviour {
 		yield return new WaitForSeconds (waitTime);
 		Destroy (gameObject);
 	}
-
-   IEnumerator Wait(float seconds) {
-      yield return new WaitForSeconds(seconds);
-   }
-
-   IEnumerator FadeImage(RawImage img, bool fadeAway)
-    {
-        // fade from opaque to transparent
-        if (fadeAway)
-        {
-            // loop over 1 second backwards
-            for (float i = 1; i >= 0; i -= Time.deltaTime)
-            {
-                // set color with i as alpha
-                img.color = new Color(1, 1, 1, i);
-                yield return null;
-            }
-        }
-        // fade from transparent to opaque
-        else
-        {
-            // loop over 1 second
-            for (float i = 0; i <= 1; i += Time.deltaTime)
-            {
-                // set color with i as alpha
-                img.color = new Color(1, 1, 1, i);
-                yield return null;
-            }
-        }
-    }
 }

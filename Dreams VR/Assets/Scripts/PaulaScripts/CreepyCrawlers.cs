@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class CreepyCrawlers : MonoBehaviour {
-
    public GameObject crawler;
    public GameObject center;
-   public int numStartCrawlers = 0;
-   public int maxCrawlers = 10;
+   private int numStartCrawlers = 0;
+   private int maxCrawlers = 10;
    public float radius = 5.0f;
    public float speed = 1.0f;
    public float restTime = 0.3f;
    public float timeUntilDisperse = 10.0f;
    private List<GameObject> crawlers;
+   private List<Vector3> crawlerDirections;
    private float closest = 0.3f;
    private bool moveCloser;
    private bool disperse;
@@ -21,6 +21,7 @@ public class CreepyCrawlers : MonoBehaviour {
 
    public CreepyCrawlers() {
       this.crawlers  = new List<GameObject>();
+      this.crawlerDirections  = new List<Vector3>();
       this.moveCloser = true;
       this.generate = true;
       this.crawl = false;
@@ -47,10 +48,11 @@ public class CreepyCrawlers : MonoBehaviour {
                float r = Random.Range(-1.0f, 1.0f);
                float x = Mathf.Sin(crawlerAngle  + r) * this.radius + this.center.transform.position.x;
                float z = Mathf.Cos(crawlerAngle + r) * this.radius + this.center.transform.position.z;
-               Vector3 newPos = new Vector3(x + r, 0.3f, z + r);
+               Vector3 newPos = new Vector3(x + r, 0.0f, z + r);
                GameObject crawlThing = (GameObject)Instantiate(this.crawler, newPos, Quaternion.identity);
-         crawlThing.transform.parent = transform;
+               crawlThing.transform.parent = transform;
                crawlers.Add(crawlThing);
+               crawlerDirections.Add(new Vector3());
                crawlerAngle += angleIncrement;
          }
       }
@@ -58,7 +60,9 @@ public class CreepyCrawlers : MonoBehaviour {
    
    void Update () {  
       // for each crawler
-      foreach (GameObject c in crawlers.ToArray()) {
+      GameObject c;
+      for (int i = 0; i < crawlers.Count; i++) {
+         c = crawlers[i];
          // if super far away from player, just delete
          if (c.transform.position.y > center.transform.position.y * 3) {
             Destroy(c, 0.2f);
@@ -72,7 +76,7 @@ public class CreepyCrawlers : MonoBehaviour {
          }
          // else we want to move closer or circle the player
          else {
-            moveCrawler(c, towardsCenter);
+            moveCrawler(c, towardsCenter, crawlerDirections[i]);
          }
       }
       // wait for a little before moving again
@@ -83,7 +87,7 @@ public class CreepyCrawlers : MonoBehaviour {
          FindObjectOfType<AudioManager> ().Pause("Creepy Crawlies");
    }
 
-   private void moveCrawler(GameObject c, Vector3 towardsCenter) {
+   private void moveCrawler(GameObject c, Vector3 towardsCenter, Vector3 existingDirection) {
       float r = Random.Range(-1.0f, 1.0f);
       // if in radius and moveCloser == true
       if (towardsCenter.magnitude > closest && this.moveCloser) {
@@ -93,20 +97,34 @@ public class CreepyCrawlers : MonoBehaviour {
       // if this object isn't in the radius, we want to move in a circle around the player
       else {
          this.moveCloser = false;
-         // all of this is just math to get the correct tangent direction
-         Vector3 tangent;
-         Vector3 t1 = Vector3.Cross( towardsCenter, Vector3.forward );
-         Vector3 t2 = Vector3.Cross( towardsCenter, Vector3.up );
-         if (t1.magnitude > t2.magnitude) {
-               tangent = t2;
-         } else {
-               tangent = t2;
+         Vector3 newDir;
+         Debug.Log(existingDirection);
+         if (existingDirection.x == 0 && existingDirection.y == 0 && existingDirection.z == 0) {
+            Debug.Log("GETTING NEW DIR");
+            // all of this is just math to get the correct tangent direction
+            Vector3 tangent;
+            Vector3 t1 = Vector3.Cross( towardsCenter, Vector3.forward );
+            Vector3 t2 = Vector3.Cross( towardsCenter, Vector3.up );
+            if (t1.magnitude > t2.magnitude) {
+                  tangent = t2;
+            } else {
+                  tangent = t2;
+            }
+            tangent = tangent * Random.Range(-1, 1);
+            // we get the new direction
+            
+            existingDirection = new Vector3(tangent.x + r*2, 0.0f, tangent.z + r*2);
          }
-         Vector3 newDir = new Vector3(tangent.x + r*2, 0.0f, tangent.z + r*2);
-         Vector3 translate = newDir * this.speed * Time.deltaTime;
+         else {
+            Debug.Log("USING OLD DIR");
+            newDir = existingDirection;
+         }
+         Vector3 translate = existingDirection * this.speed * Time.deltaTime;
+         // then translate
          c.transform.Translate(translate);
       }
    }
+   
 
    private IEnumerator Wait(float timeWait) {
       this.moveCloser = false;
