@@ -9160,7 +9160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb4f57715d7376b46ae13771ef9d35dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dreamScripts: []
+  dreamScripts:
+  - {fileID: 1558408340925878, guid: f6164f9d80f53c7419c3fbcd4d43baf0, type: 2}
   colorSchemes_Pos: []
   colorSchemes_Neg: []
   doorSpawnRate: 10
@@ -9174,8 +9175,6 @@ MonoBehaviour:
   environment: 0
   sceneMod: 0
   dropdown: {fileID: 1394694655}
-  startScreenBackground: {fileID: 0}
-  startScreenLogo: {fileID: 0}
   startScreenButtons: {fileID: 1395532608}
   startScreenCamera: {fileID: 1992790897}
   nickWeatherManager: {fileID: 1785134000}

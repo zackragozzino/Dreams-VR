@@ -52,7 +52,8 @@ public class SwarmManager : MonoBehaviour {
             crawlerAngle += angleIncrement;
 
             crawlThing.AddComponent(Type.GetType(script));
-            Wait(0.5f);
+            swarm.Add(crawlThing);
+            StartCoroutine(Wait(0.5f));
          }
       }
    }
@@ -63,5 +64,11 @@ public class SwarmManager : MonoBehaviour {
 
    private void setGenerateToFalse() {
       this.generate = false;
+   }
+
+   public void stop() {
+      foreach (GameObject o in this.swarm) {
+         Destroy(o, 0.2f);
+      }
    }
 }

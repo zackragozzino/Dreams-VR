@@ -259,7 +259,7 @@ public class Director : MonoBehaviour {
 		//Clamp the values so they can't go past 0 and 10
 		emotionSpectrum = (int)Mathf.Clamp(emotionSpectrum + Random.Range (-3, 3), 0f, 10f);
 		intensitySpectrum = (int)Mathf.Clamp(intensitySpectrum + Random.Range (-3, 3), 0f, 10f);
-
+      AddScript();
 
 		//Tying weather to basic emotion spectrums
 		if (emotionSpectrum < 5) {
@@ -340,7 +340,7 @@ public class Director : MonoBehaviour {
 
 	void AddScript(){
 		GameObject dreamScript = Instantiate (dreamScripts [Random.Range (0, dreamScripts.Length)], this.transform.position, Quaternion.identity, this.transform);
-		float waitTime = Random.Range (5, 10);
+		float waitTime = Random.Range (20, 30);
 		StartCoroutine (WaitAndKillGameObject(dreamScript, waitTime));
 	}
 
@@ -348,4 +348,9 @@ public class Director : MonoBehaviour {
 		yield return new WaitForSeconds (waitTime);
 		Destroy (gameObject);
 	}
+
+   IEnumerator WaitAndStopGameObject(GameObject gameObject, float waitTime) {
+      yield return new WaitForSeconds(waitTime);
+      //gameObject.stop();
+   }
 }

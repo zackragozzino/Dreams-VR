@@ -21,7 +21,7 @@ public class ButterflyEffect : MonoBehaviour {
    // Use this for initialization
    void Start () {
       // set timer until dispersal
-      Invoke("setDisperseToTrue", this.timeUntilDisperse);
+      //Invoke("setDisperseToTrue", this.timeUntilDisperse);
       if (player == null)
          player = GameObject.FindGameObjectWithTag ("Player");
    }
@@ -77,7 +77,7 @@ public class ButterflyEffect : MonoBehaviour {
       //this.moveCloser = true;
    }
 
-   private void setDisperseToTrue() {
+   public void setDisperseToTrue() {
       this.moveAway = true;
    }
 
