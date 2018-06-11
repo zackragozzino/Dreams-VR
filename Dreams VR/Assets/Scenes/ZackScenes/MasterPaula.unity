@@ -9162,6 +9162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dreamScripts:
   - {fileID: 1558408340925878, guid: f6164f9d80f53c7419c3fbcd4d43baf0, type: 2}
+  - {fileID: 1495646026997688, guid: b9b318e869f67eb4891df6a4e7196934, type: 2}
   colorSchemes_Pos: []
   colorSchemes_Neg: []
   doorSpawnRate: 10
