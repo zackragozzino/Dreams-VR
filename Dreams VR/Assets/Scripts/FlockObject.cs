@@ -60,7 +60,7 @@ public class FlockObject : MonoBehaviour {
 					groupSize++;
 
 					//If you're about to hit a neighbor
-					if (dist < 1.0f) {
+					if (dist < 3.0f) {
 						vAvoid += (this.transform.position - go.transform.position);
 					}
 					FlockObject anotherFlock = go.GetComponent<FlockObject> ();
