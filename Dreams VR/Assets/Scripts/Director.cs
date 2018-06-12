@@ -44,6 +44,7 @@ public class Director : MonoBehaviour {
 
 	private float timeInSeconds = 300f;
 
+		
 	public NickWeatherManager nickWeatherManager;
 	private AudioManager audm;
 
@@ -259,7 +260,8 @@ public class Director : MonoBehaviour {
 		//Clamp the values so they can't go past 0 and 10
 		emotionSpectrum = (int)Mathf.Clamp(emotionSpectrum + Random.Range (-3, 3), 0f, 10f);
 		intensitySpectrum = (int)Mathf.Clamp(intensitySpectrum + Random.Range (-3, 3), 0f, 10f);
-      AddScript();
+      	
+		//AddScript();
 
 		//Tying weather to basic emotion spectrums
 		if (emotionSpectrum < 5) {

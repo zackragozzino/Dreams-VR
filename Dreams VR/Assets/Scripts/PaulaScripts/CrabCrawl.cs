@@ -9,7 +9,7 @@ public class CrabCrawl : MonoBehaviour {
    public float speed = 0.5f;
    public float restTime = 0.3f;
    public float timeUntilDisperse = 10.0f;
-   private float closest = 0.3f;
+   private float closest = 2f;
    private bool moveCloser;
    private bool moveAway;
 
@@ -24,6 +24,7 @@ public class CrabCrawl : MonoBehaviour {
       Invoke("setDisperseToTrue", this.timeUntilDisperse);
       if (player == null)
          player = GameObject.FindGameObjectWithTag ("Player");
+		Physics.IgnoreLayerCollision (0, 8);
    }
    
    void Update () {  

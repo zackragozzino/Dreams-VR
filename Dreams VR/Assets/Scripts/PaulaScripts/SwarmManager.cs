@@ -39,18 +39,19 @@ public class SwarmManager : MonoBehaviour {
             float r = UnityEngine.Random.Range(-1.0f, 1.0f);
             float x = Mathf.Sin(crawlerAngle  + r) * this.radius + this.player.transform.position.x;
             float z = Mathf.Cos(crawlerAngle + r) * this.radius + this.player.transform.position.z;
-            float y = UnityEngine.Random.Range(0.0f, this.maxHeight);
+			float y = this.maxHeight;
             Vector3 newPos = new Vector3(x + r, y + r, z + r);
             // get rotation to face towards player
             Quaternion newRotation = Quaternion.LookRotation(player.transform.position - newPos);
 
             // instantiate
             GameObject crawlThing = (GameObject)Instantiate(this.crawler, newPos, newRotation);
+			
 
 
             crawlThing.transform.parent = transform;
             crawlerAngle += angleIncrement;
-
+			
             crawlThing.AddComponent(Type.GetType(script));
             swarm.Add(crawlThing);
             StartCoroutine(Wait(0.5f));
