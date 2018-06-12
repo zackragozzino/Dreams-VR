@@ -6,10 +6,11 @@ public class HouseController : MonoBehaviour {
 
 	private bool alreadySpawned;
 	public GameObject snakeGroup;
+	public Animator doorAnim;
 
 	// Use this for initialization
 	void Start () {
-		
+		doorAnim.Play ("Door_open");
 	}
 	
 	// Update is called once per frame

@@ -35,6 +35,8 @@ public class AssetMaster : MonoBehaviour {
 
 	public Director director;
 
+	public GameObject flockManager;
+
 	void Start(){
 		director = GameObject.FindGameObjectWithTag ("GameController").GetComponent<Director> ();
 

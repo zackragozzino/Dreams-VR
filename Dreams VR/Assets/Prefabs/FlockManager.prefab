@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1024590897103940}
+  m_IsPrefabParent: 1
+--- !u!1 &1024590897103940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4198981047402790}
+  - component: {fileID: 114958777787257266}
+  m_Layer: 0
+  m_Name: FlockManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4198981047402790
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1024590897103940}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.71, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114958777787257266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1024590897103940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd66e28a53e336146af83a7d2c3b763e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomFlockObjects:
+  - {fileID: 1173761903933556, guid: 0914c3491eaad8448a04c9540f74c595, type: 2}
+  - {fileID: 1202746229704134, guid: ce2222fb4ffeed748afc3f579cb11c8e, type: 2}
+  - {fileID: 1195435655340148, guid: 69d6721e871186c4fa5a5601e95cd5f0, type: 2}
+  - {fileID: 1686500042346250, guid: 546ad294fc62a96489698c98eeb0f5b4, type: 2}
+  - {fileID: 1594285148269652, guid: cf5c39e1c11e880498e3783780d37634, type: 2}
+  - {fileID: 1292646418201216, guid: 6c5129dc68950b5409d0f97888f941fa, type: 2}
+  - {fileID: 1160585422715556, guid: db3b74a2c243e72449ab9d1128cd3daa, type: 2}
+  - {fileID: 1732387304381690, guid: 3cb8ab547dbe31d4d8aab1334a56e14a, type: 2}
+  - {fileID: 1147745482578506, guid: dc2af1947fc2e3545a7920bcaf5e22d8, type: 2}
+  - {fileID: 1995274023882220, guid: 16b3d35b69e14f94e830e7bd60d27c31, type: 2}
+  - {fileID: 1417981328435196, guid: 41d84b178fcfa6c4f97d6cc70025f8ab, type: 2}
+  swarmSize: 5
+  goalPos: {x: 0, y: 0, z: 0}

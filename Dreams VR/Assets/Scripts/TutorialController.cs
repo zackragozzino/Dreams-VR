@@ -13,6 +13,8 @@ public class TutorialController : MonoBehaviour {
 	private GameObject rTrackPad;
 	private GameObject rTrigger;
 
+	private Material trackpadMaterial;
+	private Material triggerMaterial;
 	public Material attentionMaterial;
 
 	private VRTK.VRTK_ControllerEvents leftControllerEvents;
@@ -40,10 +42,9 @@ public class TutorialController : MonoBehaviour {
 		if (director.getVRStatus ()) {
 			StartCoroutine (tutorialRoutine ());
 		} else {
-			//collapseWalls ();
+			collapseWalls ();
 			doorAnimator.Play ("Door_open");
 			audm.Play ("DoorOpen");
-			director.startPortalGeneration ();
 		}
 	}
 	
@@ -56,22 +57,32 @@ public class TutorialController : MonoBehaviour {
 	}
 
 	void getViveControllers(){
-		Transform lController = GameObject.Find ("Controller (left)").transform.GetChild (0);
-		if (lController != null && lController.childCount > 0) {
-			leftControllerEvents = GameObject.Find ("Controller (left)").transform.GetChild (1).GetComponent<VRTK.VRTK_ControllerEvents>();
-			leftInteractGrab = GameObject.Find ("Controller (left)").transform.GetChild (1).GetComponent<VRTK.VRTK_InteractGrab> ();
+		if (GameObject.Find ("Controller (left)") != null) {
+			Transform lController = GameObject.Find ("Controller (left)").transform.GetChild (0);
+			if (lController != null && lController.childCount > 0) {
+				leftControllerEvents = GameObject.Find ("Controller (left)").transform.GetChild (1).GetComponent<VRTK.VRTK_ControllerEvents> ();
+				leftInteractGrab = GameObject.Find ("Controller (left)").transform.GetChild (1).GetComponent<VRTK.VRTK_InteractGrab> ();
 
-			lTrackPad = lController.GetChild (12).gameObject;
-			lTrigger = lController.GetChild (15).gameObject;
+				lTrackPad = lController.GetChild (12).gameObject;
+				lTrigger = lController.GetChild (15).gameObject;
+
+				trackpadMaterial = lTrackPad.GetComponent<Renderer> ().material;
+				triggerMaterial = lTrigger.GetComponent<Renderer> ().material;
+			}
 		}
+			
+		if (GameObject.Find ("Controller (right)") != null) {
+			Transform rController = GameObject.Find ("Controller (right)").transform.GetChild (0);
+			if (rController != null && rController.childCount > 0) {
+				rightControllerEvents = GameObject.Find ("Controller (right)").transform.GetChild (1).GetComponent<VRTK.VRTK_ControllerEvents> ();
+				rightInteractGrab = GameObject.Find ("Controller (right)").transform.GetChild (1).GetComponent<VRTK.VRTK_InteractGrab> ();
 
-		Transform rController = GameObject.Find ("Controller (right)").transform.GetChild (0);
-		if (rController != null && rController.childCount > 0) {
-			rightControllerEvents = GameObject.Find ("Controller (right)").transform.GetChild (1).GetComponent<VRTK.VRTK_ControllerEvents>();
-			rightInteractGrab = GameObject.Find ("Controller (right)").transform.GetChild (1).GetComponent<VRTK.VRTK_InteractGrab> ();
+				rTrackPad = rController.GetChild (12).gameObject;
+				rTrigger = rController.GetChild (15).gameObject;
 
-			rTrackPad = rController.GetChild (12).gameObject;
-			rTrigger = rController.GetChild (15).gameObject;
+				trackpadMaterial = rTrackPad.GetComponent<Renderer> ().material;
+				triggerMaterial = rTrigger.GetComponent<Renderer> ().material;
+			}
 		}
 	}
 
@@ -86,7 +97,7 @@ public class TutorialController : MonoBehaviour {
 
 		//ceiling.AddComponent<Rigidbody> ();
 		//ceiling.GetComponent<Rigidbody> ().AddExplosionForce (500f, new Vector3 (0.5f, 2.1f, -1.9f), 100, 3000.0f);
-		//Destroy (ceiling, 1.5f);
+		Destroy (ceiling);
 
 		backWall.AddComponent<Rigidbody> ();
 		backWall.GetComponent<Rigidbody> ().AddForce (new Vector3 (0, 5, -force));
@@ -103,31 +114,33 @@ public class TutorialController : MonoBehaviour {
 		rightWall.AddComponent<Rigidbody> ();
 		rightWall.GetComponent<Rigidbody> ().AddForce (new Vector3 (force, 5, 0));
 		//rightWall.GetComponent<Rigidbody> ().AddExplosionForce (100f, new Vector3 (0.5f, 2.1f, -1.9f), 100, 3.0f);
+
+		director.startPortalGeneration ();
+		director.startDreamTimer ();
 	}
 
 	IEnumerator tutorialRoutine(){
 		tutorialText.text = "";
         doorAnimator.Play("Door_close");
-        yield return new WaitForSeconds (5f);
+        yield return new WaitForSeconds (2f);
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
       if (FacebookLoginHybriona.Instance.firstName != "") {
          tutorialText.text = "Hi " + FacebookLoginHybriona.Instance.firstName + ",\n" + 
-         "Welcome to DreamWalker VR.";
+				"Welcome to DreamWalker VR tutorial."; 
       }
       else {
-		   tutorialText.text = "Welcome to DreamWalker VR.";
+			tutorialText.text = "Welcome to DreamWalker VR tutorial."; 
       }
 		//Fade in
 		StartCoroutine (fadeInText (3f));
 		yield return new WaitForSeconds (3f);
 		//Let the player read it
-		yield return new WaitForSeconds (3f);
+		yield return new WaitForSeconds (1f);
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
 		yield return new WaitForSeconds(1.5f);
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -138,7 +151,7 @@ public class TutorialController : MonoBehaviour {
 		StartCoroutine (fadeInText (3f));
 		yield return new WaitForSeconds (3f);
 		//Let the player read it
-		yield return new WaitForSeconds (3f);
+		yield return new WaitForSeconds (1f);
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
 		yield return new WaitForSeconds(1.5f);
@@ -148,39 +161,69 @@ public class TutorialController : MonoBehaviour {
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		tutorialText.text = 
-		"Place your thumb on the " +
+		/*"Place your thumb on the " +
 		"\ntrack pad located on the" +
 		"\ncontroller to move in" +
-		"\ndifferent directions.";
+		"\ndifferent directions.";*/
+
+		"You can move forwards, backwards, " +
+		"\nleft, and right by touching" +
+		"\nthe circular trackpad on the" +
+		"\ncontroller in the" + 
+		"\ncorresponding direction. " +
+		"\nTry it out now.";
 
 		getViveControllers();
-		//trackpad = GameObject.Find ("trackpad");
-		Renderer lTrackpadRenderer = lTrackPad.GetComponent<Renderer> ();
-		Renderer rTrackpadRenderer = rTrackPad.GetComponent<Renderer> ();
-		//Save the trackpad material for later
-		Material trackpadMaterial = lTrackpadRenderer.material;
 
 		//Turn the trackpad on the controllers red
-		lTrackpadRenderer.material = attentionMaterial;
-		rTrackpadRenderer.material = attentionMaterial;
+		if(lTrackPad != null)
+			lTrackPad.GetComponent<Renderer>().material = attentionMaterial;
+		if(rTrackPad != null)
+			rTrackPad.GetComponent<Renderer>().material = attentionMaterial;
 
 		//Fade in
 		StartCoroutine (fadeInText (3f));
 		yield return new WaitForSeconds (3f);
 
-		while (!leftControllerEvents.touchpadTouched && !rightControllerEvents.touchpadTouched) {
-			//Let the player read it
+		bool touchpadPressed = false;
+
+		while (!touchpadPressed) {
+			if (leftControllerEvents != null && leftControllerEvents.touchpadTouched)
+				touchpadPressed = true;
+			if (rightControllerEvents != null && rightControllerEvents.touchpadTouched)
+				touchpadPressed = true;
 			yield return null;
 		}
 
 		//Return the trackpad to its original color
-		lTrackpadRenderer.material = trackpadMaterial;
-		rTrackpadRenderer.material = trackpadMaterial;
+		if(lTrackPad != null)
+			lTrackPad.GetComponent<Renderer>().material = trackpadMaterial;
+		if(rTrackPad != null)
+			rTrackPad.GetComponent<Renderer>().material = trackpadMaterial;
 
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
 		yield return new WaitForSeconds(1.5f);
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		tutorialText.text = 
+		"To avoid getting sick, " +
+		"\nwe recommend looking" +
+		"\nin the direction you" +
+		"\nwish to move.";
+
+		StartCoroutine (fadeInText (1.5f));
+		yield return new WaitForSeconds (1.5f);
+
+		yield return new WaitForSeconds (3f);
+		//Fade out
+		StartCoroutine (fadeOutText (1.5f));
+		yield return new WaitForSeconds(1.5f);
+
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -189,53 +232,64 @@ public class TutorialController : MonoBehaviour {
 		"\nunderside of your controller." +
 		"\nTry pressing it.";
 
-		//trigger = GameObject.Find ("trigger");
-		Renderer lTriggerRenderer = lTrigger.GetComponent<Renderer> ();
-		Renderer rTriggerRenderer = rTrigger.GetComponent<Renderer> ();
-		//Save the trigger material for later
-		Material triggerMaterial = lTriggerRenderer.material;
 		//Turn the trigger on the controllers red
-		lTriggerRenderer.material = attentionMaterial;
-		rTriggerRenderer.material = attentionMaterial;
+		if (lTrigger != null)
+			lTrigger.GetComponent<Renderer>().material = attentionMaterial;
+		if(rTrigger != null)
+			rTrigger.GetComponent<Renderer>().material = attentionMaterial;
 
 		//Fade in
-		StartCoroutine (fadeInText (3f));
-		yield return new WaitForSeconds (3f);
+		StartCoroutine (fadeInText (1.5f));
+		yield return new WaitForSeconds (1.5f);
 
-		while (!leftControllerEvents.triggerPressed && !rightControllerEvents.triggerPressed) {
+		bool triggerPressed = false;
+
+		while (!triggerPressed) {
+			if (leftControllerEvents != null && leftControllerEvents.triggerPressed)
+				triggerPressed = true;
+			if (rightControllerEvents != null && rightControllerEvents.triggerPressed)
+				triggerPressed = true;
 			yield return null;
 		}
 			
 		//Return the trigger to its original color
-		lTriggerRenderer.material = triggerMaterial;
-		rTriggerRenderer.material = triggerMaterial;
+		if (lTrigger != null)
+			lTrigger.GetComponent<Renderer>().material = triggerMaterial;
+		if(rTrigger != null)
+			rTrigger.GetComponent<Renderer>().material = triggerMaterial;
 
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
 		yield return new WaitForSeconds(1.5f);
-		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-
-
-		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		tutorialText.text = 
-		"Certain objects can be grabbed" +
-		"\nby hovering over them and " +
-		"\nholding the trigger." +
-		"\nTry picking up a small item.";
+			"You can also pick up objects " +
+			"\nby reaching out to touch them " +
+			"\nwith the controller." +
+			"\nThen hold the trigger" + 
+			"\nto pick it up." + 
+			"\nTry it now.";
 		
 		//Fade in
-		StartCoroutine (fadeInText (3f));
-		yield return new WaitForSeconds (3f);
+		StartCoroutine (fadeInText (1.5f));
+		yield return new WaitForSeconds (1.5f);
 
-		while (leftInteractGrab.GetGrabbedObject() == null && rightInteractGrab.GetGrabbedObject() == null) {
+		bool objectGrabbed = false;
+
+		while (!objectGrabbed) {
+			if (leftInteractGrab != null && leftInteractGrab.GetGrabbedObject () != null)
+				objectGrabbed = true;
+			if (rightInteractGrab != null && rightInteractGrab.GetGrabbedObject () != null)
+				objectGrabbed = true;
 			yield return null;
 		}
+			
 
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
 		yield return new WaitForSeconds(1.5f);
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		tutorialText.text = 
@@ -246,7 +300,7 @@ public class TutorialController : MonoBehaviour {
 		StartCoroutine (fadeInText (1.5f));
 		yield return new WaitForSeconds (1.5f);
 		//Let the player read it
-		yield return new WaitForSeconds (3f);
+		yield return new WaitForSeconds (1.5f);
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
 		yield return new WaitForSeconds(1.5f);

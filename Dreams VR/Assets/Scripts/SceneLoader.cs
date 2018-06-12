@@ -58,11 +58,13 @@ public class SceneLoader : MonoBehaviour {
 
 	IEnumerator LoadUsingSteamVR(){
 		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = false;
+	
 
-		SteamVR_LoadLevel.Begin ("Flat_Land");
-
-		if (director.getEmotionLevel () < 3 && Random.Range(0,3) == 0)
+		if (Random.Range (0, 10) == 0) {
+			Debug.Log ("Loading black space");
 			SteamVR_LoadLevel.Begin ("BlackSpace");
+		} else
+			SteamVR_LoadLevel.Begin ("Flat_Land");
 		
 		while (SteamVR_LoadLevel.loading) {
 			yield return null;

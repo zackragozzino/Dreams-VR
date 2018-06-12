@@ -11,6 +11,7 @@ public class Director : MonoBehaviour {
 	public GameObject[] dreamScripts;
 	public List<ColorCorrectionCurves> colorSchemes_Pos = new List<ColorCorrectionCurves>();
 	public List<ColorCorrectionCurves> colorSchemes_Neg = new List<ColorCorrectionCurves>();
+
 	public float doorSpawnRate = 5f; 
 	public GameObject doorPortal;
 
@@ -38,13 +39,14 @@ public class Director : MonoBehaviour {
 
 	public GameObject startScreenButtons;
 	public GameObject startScreenCamera;
+	public GameObject startScreenBench;
 
 	private Scene currentScene;
 	private IEnumerator currentPortalCoroutine;
 
 	private float timeInSeconds = 300f;
 
-		
+
 	public NickWeatherManager nickWeatherManager;
 	private AudioManager audm;
 
@@ -138,6 +140,10 @@ public class Director : MonoBehaviour {
 		return player;
 	}
 
+	public void startDreamTimer(){
+		StartCoroutine (dreamTimer ());
+	}
+
 	public void enableVR(){
 		VRTK.VRTK_SDKSetup[] setups = sdkManager.setups;
 		sdkManager.TryLoadSDKSetup (0, true, setups);
@@ -150,10 +156,11 @@ public class Director : MonoBehaviour {
 
 		startScreenButtons.SetActive (false);
 		startScreenCamera.SetActive (false);
+		startScreenBench.SetActive (false);
 
 		sceneLoader.loadFirstScene ();
 
-		StartCoroutine (dreamTimer ());
+		//StartCoroutine (dreamTimer ());
 	}
 
 	public void enableSimulator(){
@@ -169,10 +176,11 @@ public class Director : MonoBehaviour {
 
 		startScreenButtons.SetActive (false);
 		startScreenCamera.SetActive (false);
+		startScreenBench.SetActive (false);
 
 		sceneLoader.loadFirstScene ();
 
-		StartCoroutine(dreamTimer ());
+		//StartCoroutine(dreamTimer ());
 	}
 
 	public bool getVRStatus(){

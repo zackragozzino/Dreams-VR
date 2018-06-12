@@ -2233,7 +2233,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4058404333524314, guid: bd0a697e3d94ddf4b8c07adaa5c64066, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.41
+      value: -0.89
       objectReference: {fileID: 0}
     - target: {fileID: 4058404333524314, guid: bd0a697e3d94ddf4b8c07adaa5c64066, type: 2}
       propertyPath: m_LocalPosition.y
@@ -2241,7 +2241,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4058404333524314, guid: bd0a697e3d94ddf4b8c07adaa5c64066, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: 4058404333524314, guid: bd0a697e3d94ddf4b8c07adaa5c64066, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2268,6 +2268,10 @@ Prefab:
       value: Room (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1690662234991162, guid: bd0a697e3d94ddf4b8c07adaa5c64066, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1061182881444356, guid: bd0a697e3d94ddf4b8c07adaa5c64066, type: 2}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -4037,7 +4041,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1735090964}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.43}
+  m_LocalPosition: {x: 0, y: 0, z: -1.559}
   m_LocalScale: {x: 0.0077139386, y: 0.0077139395, z: 0.0077139395}
   m_Children:
   - {fileID: 471518992}
@@ -4046,7 +4050,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.14, y: 2.5134048}
+  m_AnchoredPosition: {x: 1.355, y: 1.692}
   m_SizeDelta: {x: 724, y: 528}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1760618648

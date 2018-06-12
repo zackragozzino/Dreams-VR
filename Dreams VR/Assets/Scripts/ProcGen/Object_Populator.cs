@@ -105,20 +105,24 @@ public class Object_Populator : MonoBehaviour {
 					//assetMaster.generateObject (x, y, numVertsPerLine, numVertsPerLine, this.transform, heightMap.values[x,y], meshHeightMap[x,y]);
 
 					if (heightMap.values[x,y] < 0.02) {
-						GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (numVertsPerLine/2f), Random.Range(20,100), this.transform.position.z + y - (numVertsPerLine/2f)), Quaternion.identity, this.transform);
-                  // This checks is the Singleton facebook instance is logged in
-                  if (FacebookLoginHybriona.Instance.profilePic) {
-                     // If so, get the FB image and set the texture to it
-                     Renderer renderer = asset.GetComponent<Renderer>();
-                     renderer.material.mainTexture = FacebookLoginHybriona.Instance.profilePic;
-                  }
+						if (Random.Range (0, 10) != 0) {
+							GameObject asset = Instantiate (testMesh, new Vector3 (this.transform.position.x + x - (numVertsPerLine / 2f), Random.Range (20, 100), this.transform.position.z + y - (numVertsPerLine / 2f)), Quaternion.identity, this.transform);
+							// This checks is the Singleton facebook instance is logged in
+							if (FacebookLoginHybriona.Instance.profilePic) {
+								// If so, get the FB image and set the texture to it
+								Renderer renderer = asset.GetComponent<Renderer> ();
+								renderer.material.mainTexture = FacebookLoginHybriona.Instance.profilePic;
+							}
 
-						asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
+							asset.transform.eulerAngles = new Vector3 (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 
-						Vector3 dir = new Vector3 (20, 0, 0);
-						asset.AddComponent<Rotater> ().RotationPerSecond = dir;
+							Vector3 dir = new Vector3 (20, 0, 0);
+							asset.AddComponent<Rotater> ().RotationPerSecond = dir;
 
-						asset.transform.localScale = asset.transform.localScale * 10 * Random.value;
+							asset.transform.localScale = asset.transform.localScale * 10 * Random.value;
+						} else {
+						GameObject asset = Instantiate(assetMaster.flockManager, new Vector3 (this.transform.position.x + x - (numVertsPerLine / 2f), Random.Range (4, 10), this.transform.position.z + y - (numVertsPerLine / 2f)), Quaternion.identity, this.transform);
+						}
 
 					}
 				}
