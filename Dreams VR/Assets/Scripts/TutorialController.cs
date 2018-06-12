@@ -8,13 +8,17 @@ public class TutorialController : MonoBehaviour {
 	public Text tutorialText;
 	private AudioManager audm;
 
-	private GameObject trackpad;
-	private GameObject trigger;
+	private GameObject lTrackPad;
+	private GameObject lTrigger;
+	private GameObject rTrackPad;
+	private GameObject rTrigger;
 
 	public Material attentionMaterial;
 
-	private VRTK.VRTK_ControllerEvents vrControllerEvents;
-	private VRTK.VRTK_InteractGrab vrInteractGrab;
+	private VRTK.VRTK_ControllerEvents leftControllerEvents;
+	private VRTK.VRTK_ControllerEvents rightControllerEvents;
+	private VRTK.VRTK_InteractGrab leftInteractGrab;
+	private VRTK.VRTK_InteractGrab rightInteractGrab;
 
 	private Director director;
 
@@ -31,15 +35,12 @@ public class TutorialController : MonoBehaviour {
 		audm = FindObjectOfType<AudioManager>();
 		director = GameObject.FindGameObjectWithTag ("GameController").GetComponent<Director> ();
 
-		//director.getPlayer ().transform.position = new Vector3 (0.5f, 2.1f, -1.9f);
+		//StartCoroutine (fadeOutCeiling (3f));
 
 		if (director.getVRStatus ()) {
-			vrControllerEvents = FindObjectOfType<VRTK.VRTK_ControllerEvents> ();
-			vrInteractGrab = FindObjectOfType<VRTK.VRTK_InteractGrab> ();
-
 			StartCoroutine (tutorialRoutine ());
 		} else {
-			collapseWalls ();
+			//collapseWalls ();
 			doorAnimator.Play ("Door_open");
 			audm.Play ("DoorOpen");
 			director.startPortalGeneration ();
@@ -48,8 +49,30 @@ public class TutorialController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.P))
+		if (Input.GetKeyDown (KeyCode.P)) {
 			collapseWalls ();
+			StartCoroutine (fadeOutCeiling (1.5f));
+		}
+	}
+
+	void getViveControllers(){
+		Transform lController = GameObject.Find ("Controller (left)").transform.GetChild (0);
+		if (lController != null && lController.childCount > 0) {
+			leftControllerEvents = GameObject.Find ("Controller (left)").transform.GetChild (1).GetComponent<VRTK.VRTK_ControllerEvents>();
+			leftInteractGrab = GameObject.Find ("Controller (left)").transform.GetChild (1).GetComponent<VRTK.VRTK_InteractGrab> ();
+
+			lTrackPad = lController.GetChild (12).gameObject;
+			lTrigger = lController.GetChild (15).gameObject;
+		}
+
+		Transform rController = GameObject.Find ("Controller (right)").transform.GetChild (0);
+		if (rController != null && rController.childCount > 0) {
+			rightControllerEvents = GameObject.Find ("Controller (right)").transform.GetChild (1).GetComponent<VRTK.VRTK_ControllerEvents>();
+			rightInteractGrab = GameObject.Find ("Controller (right)").transform.GetChild (1).GetComponent<VRTK.VRTK_InteractGrab> ();
+
+			rTrackPad = rController.GetChild (12).gameObject;
+			rTrigger = rController.GetChild (15).gameObject;
+		}
 	}
 
 	void collapseWalls(){
@@ -61,9 +84,9 @@ public class TutorialController : MonoBehaviour {
 
 		float force = 50f;
 
-		ceiling.AddComponent<Rigidbody> ();
-		ceiling.GetComponent<Rigidbody> ().AddExplosionForce (500f, new Vector3 (0.5f, 2.1f, -1.9f), 100, 3000.0f);
-		Destroy (ceiling, 1.5f);
+		//ceiling.AddComponent<Rigidbody> ();
+		//ceiling.GetComponent<Rigidbody> ().AddExplosionForce (500f, new Vector3 (0.5f, 2.1f, -1.9f), 100, 3000.0f);
+		//Destroy (ceiling, 1.5f);
 
 		backWall.AddComponent<Rigidbody> ();
 		backWall.GetComponent<Rigidbody> ().AddForce (new Vector3 (0, 5, -force));
@@ -124,33 +147,29 @@ public class TutorialController : MonoBehaviour {
 		"\ncontroller to move in" +
 		"\ndifferent directions.";
 
-		trackpad = GameObject.Find ("trackpad");
-		Renderer trackpadRenderer = trackpad.GetComponent<Renderer> ();
+		getViveControllers();
+		//trackpad = GameObject.Find ("trackpad");
+		Renderer lTrackpadRenderer = lTrackPad.GetComponent<Renderer> ();
+		Renderer rTrackpadRenderer = rTrackPad.GetComponent<Renderer> ();
 		//Save the trackpad material for later
-		Material trackpadMaterial = trackpadRenderer.material;
-		//Turn the trackpad on the controller red
-		trackpadRenderer.material = attentionMaterial;
+		Material trackpadMaterial = lTrackpadRenderer.material;
+
+		//Turn the trackpad on the controllers red
+		lTrackpadRenderer.material = attentionMaterial;
+		rTrackpadRenderer.material = attentionMaterial;
 
 		//Fade in
 		StartCoroutine (fadeInText (3f));
 		yield return new WaitForSeconds (3f);
 
-		float horizontal = 0;
-		float vertical = 0; 
-
-		while (horizontal == 0 && vertical == 0) {
-			
-			horizontal = Input.GetAxis("Horizontal");
-			vertical = Input.GetAxis("Vertical"); 
+		while (!leftControllerEvents.touchpadTouched && !rightControllerEvents.touchpadTouched) {
 			//Let the player read it
-
 			yield return null;
 		}
 
-		yield return new WaitForSeconds (1.5f);
-
 		//Return the trackpad to its original color
-		trackpadRenderer.material = trackpadMaterial;
+		lTrackpadRenderer.material = trackpadMaterial;
+		rTrackpadRenderer.material = trackpadMaterial;
 
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
@@ -163,24 +182,27 @@ public class TutorialController : MonoBehaviour {
 		"The trigger is located on the" +
 		"\nunderside of your controller." +
 		"\nTry pressing it.";
-		trigger = GameObject.Find ("trigger");
-		Renderer triggerRenderer = trigger.GetComponent<Renderer> ();
+
+		//trigger = GameObject.Find ("trigger");
+		Renderer lTriggerRenderer = lTrigger.GetComponent<Renderer> ();
+		Renderer rTriggerRenderer = rTrigger.GetComponent<Renderer> ();
 		//Save the trigger material for later
-		Material triggerMaterial = triggerRenderer.material;
-		//Turn the trigger on the controller red
-		triggerRenderer.material = attentionMaterial;
+		Material triggerMaterial = lTriggerRenderer.material;
+		//Turn the trigger on the controllers red
+		lTriggerRenderer.material = attentionMaterial;
+		rTriggerRenderer.material = attentionMaterial;
 
 		//Fade in
 		StartCoroutine (fadeInText (3f));
 		yield return new WaitForSeconds (3f);
 
-		while (!vrControllerEvents.triggerPressed) {
+		while (!leftControllerEvents.triggerPressed && !rightControllerEvents.triggerPressed) {
 			yield return null;
 		}
-
-		yield return new WaitForSeconds (1.5f);
+			
 		//Return the trigger to its original color
-		triggerRenderer.material = triggerMaterial;
+		lTriggerRenderer.material = triggerMaterial;
+		rTriggerRenderer.material = triggerMaterial;
 
 		//Fade out
 		StartCoroutine (fadeOutText (1.5f));
@@ -200,7 +222,7 @@ public class TutorialController : MonoBehaviour {
 		StartCoroutine (fadeInText (3f));
 		yield return new WaitForSeconds (3f);
 
-		while (vrInteractGrab.GetGrabbedObject() == null) {
+		while (leftInteractGrab.GetGrabbedObject() == null && rightInteractGrab.GetGrabbedObject() == null) {
 			yield return null;
 		}
 
@@ -215,8 +237,8 @@ public class TutorialController : MonoBehaviour {
 			"\nto explore the world of" +
 			"\nDreamWalker VR. Have fun!";
 		//Fade in
-		StartCoroutine (fadeInText (3f));
-		yield return new WaitForSeconds (3f);
+		StartCoroutine (fadeInText (1.5f));
+		yield return new WaitForSeconds (1.5f);
 		//Let the player read it
 		yield return new WaitForSeconds (3f);
 		//Fade out
@@ -224,8 +246,8 @@ public class TutorialController : MonoBehaviour {
 		yield return new WaitForSeconds(1.5f);
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-		doorAnimator.Play ("Door_open");
-		audm.Play ("DoorOpen");
+		//doorAnimator.Play ("Door_open");
+		//audm.Play ("DoorOpen");
         collapseWalls();
    
         director.startPortalGeneration ();
@@ -256,5 +278,22 @@ public class TutorialController : MonoBehaviour {
 			tutorialText.color = fadeColor;
 			yield return null;
 		}
+	}
+
+	IEnumerator fadeOutCeiling(float duration){
+		Material ceilingMat = ceiling.GetComponent<MeshRenderer> ().material;
+		Color ceilingColor = ceilingMat.color;
+		float timer = 0f;
+
+		Debug.Log (ceilingColor);
+
+		Destroy (ceiling.GetComponent<BoxCollider> ());
+		while (timer < duration) {
+			ceilingColor.a = 1f - timer / duration;
+			timer += Time.deltaTime;
+			yield return null;
+		}
+
+		//Destroy (ceiling);
 	}
 }
