@@ -90,10 +90,12 @@ public class TutorialController : MonoBehaviour {
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
       if (FacebookLoginHybriona.Instance.firstName != "") {
          tutorialText.text = "Hi " + FacebookLoginHybriona.Instance.firstName + ",\n" + 
-         "Welcome to DreamWalker VR.";
+         "Welcome to DreamWalker VR.\n" + 
+         "Please read the tutorial that follows.";
       }
       else {
-		   tutorialText.text = "Welcome to DreamWalker VR.";
+		   tutorialText.text = "Welcome to DreamWalker VR." + 
+         "Please read the tutorial that follows.";
       }
 		//Fade in
 		StartCoroutine (fadeInText (3f));
@@ -106,29 +108,13 @@ public class TutorialController : MonoBehaviour {
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 
-
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		tutorialText.text = 
-		"Before we begin, " +					
-		"\nlet's go over the controls.";
-		//Fade in
-		StartCoroutine (fadeInText (3f));
-		yield return new WaitForSeconds (3f);
-		//Let the player read it
-		yield return new WaitForSeconds (5f);
-		//Fade out
-		StartCoroutine (fadeOutText (1.5f));
-		yield return new WaitForSeconds(1.5f);
-		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-
-
-		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-		tutorialText.text = 
-		"Place your thumb on the " +
-		"\ntrack pad located on the" +
-		"\ncontroller to move in" +
-		"\ndifferent directions.";
+		"You can move forwards, backwards, " +
+		"\nleft, and right by touching" +
+		"\nthe circular trackpad on the controller" +
+		"\nin the corresponding" + 
+      "\ndirection. Try it out now.";
 
 		trackpad = GameObject.Find ("trackpad");
 		Renderer trackpadRenderer = trackpad.GetComponent<Renderer> ();
@@ -166,9 +152,31 @@ public class TutorialController : MonoBehaviour {
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		tutorialText.text = 
-		"The trigger is located on the" +
-		"\nunderside of your controller." +
-		"\nTry pressing it.";
+		"You will move based on where " +
+		"\nyou are looking. " +
+		"\nTo avoid getting sick, " +
+		"\nwe recommend not using the left " +
+      "\nand right movement, but to look " +
+      "\nin that direction to turn.";
+		
+		//Fade in
+		StartCoroutine (fadeInText (3f));
+		yield return new WaitForSeconds (3f);
+
+		//Fade out
+		StartCoroutine (fadeOutText (1.5f));
+		yield return new WaitForSeconds(1.5f);
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		tutorialText.text = 
+		"You can also pick up objects " +
+      "\nby reaching out to touch them " +
+		"\nwith the controller." +
+		"\nThen hold the trigger with " + 
+      "\nyour pointer finger to pick it up." + 
+      "\nTry it now.";
 		trigger = GameObject.Find ("trigger");
 		Renderer triggerRenderer = trigger.GetComponent<Renderer> ();
 		//Save the trigger material for later
@@ -188,23 +196,6 @@ public class TutorialController : MonoBehaviour {
 		//Return the trigger to its original color
 		triggerRenderer.material = triggerMaterial;
 
-		//Fade out
-		StartCoroutine (fadeOutText (1.5f));
-		yield return new WaitForSeconds(1.5f);
-		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-
-
-		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-		tutorialText.text = 
-		"Certain objects can be grabbed" +
-		"\nby hovering over them and " +
-		"\nholding the trigger." +
-		"\nTry picking up a small item.";
-		
-		//Fade in
-		StartCoroutine (fadeInText (3f));
-		yield return new WaitForSeconds (3f);
 
 		while (vrInteractGrab.GetGrabbedObject() == null) {
 			yield return null;
@@ -214,6 +205,7 @@ public class TutorialController : MonoBehaviour {
 		StartCoroutine (fadeOutText (1.5f));
 		yield return new WaitForSeconds(1.5f);
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		tutorialText.text = 
