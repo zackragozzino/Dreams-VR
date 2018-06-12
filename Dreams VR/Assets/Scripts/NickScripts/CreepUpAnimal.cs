@@ -49,7 +49,7 @@ public class CreepUpAnimal : MonoBehaviour {
 	{
 		// creep up
 		distance = Vector3.Distance (transform.position, playerT.position);
-		if (!visible && encountered && distance > 4 && !lastView) {
+		if (!visible && encountered && distance > 4 ) {
 			float step = moveSpeed * Time.deltaTime;
 			transform.position = Vector3.MoveTowards (transform.position, new Vector3(playerT.position.x, 0, playerT.position.z), step);
             Vector3 targetDir = playerT.position - transform.position;
@@ -66,7 +66,7 @@ public class CreepUpAnimal : MonoBehaviour {
             if (Vector3.Angle(newDir, targetDir) > 10)
                 anim.Play("walk");
         }
-        if (lastView || distance < 4) {
+		if (visible && distance < 4) {
             if (!lastViewBegin)
             {
                 FindObjectOfType<AudioManager>().Play("BearAttack");

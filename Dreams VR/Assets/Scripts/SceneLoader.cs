@@ -51,7 +51,9 @@ public class SceneLoader : MonoBehaviour {
 
 		director.getPlayer ().GetComponent<Rigidbody> ().useGravity = true;
 
-		director.getPlayer ().transform.position = new Vector3 (0, 0.01f, 0);
+		//director.getPlayer ().transform.position = new Vector3 (0, 0.01f, 0);
+		director.getPlayer ().transform.position = new Vector3 (0, 15f, 0);
+		Time.timeScale = 0.25f;
 	}
 
 	IEnumerator LoadUsingSteamVR(){

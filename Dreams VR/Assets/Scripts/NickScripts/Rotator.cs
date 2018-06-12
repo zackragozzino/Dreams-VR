@@ -19,9 +19,12 @@ public class Rotator : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Vector3 targetDir = player.transform.position - transform.position;
+		Vector3 targetDir = player.transform.position - transform.position;
         float step = rotateSpeed * Time.deltaTime;
-        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+		Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+		Debug.DrawRay (transform.position, newDir, Color.red);
         transform.rotation = Quaternion.LookRotation(newDir);
-    }
+		
+		//transform.eulerAngles = new Vector3 (transform.eulerAngles.x, -transform.eulerAngles.y, transform.eulerAngles.z);
+	}
 }
