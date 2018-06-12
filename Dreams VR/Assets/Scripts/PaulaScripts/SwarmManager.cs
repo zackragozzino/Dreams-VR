@@ -31,7 +31,7 @@ public class SwarmManager : MonoBehaviour {
    }
 
    void GenerateInCircle() {
-      if (this.generate == true) {
+      if (this.generate == true && this.swarm.Count < 50) {
          float crawlerAngle = 0;
          float angleIncrement = 2 * Mathf.PI / this.maxCrawlers;
          for (int i = 0; i < this.maxCrawlers; i++) {

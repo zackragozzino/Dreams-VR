@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18333495, g: 0.22895472, b: 0.30619958, a: 1}
+  m_IndirectSpecularColor: {r: 0.18333532, g: 0.22895542, b: 0.30620086, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -9161,8 +9161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dreamScripts:
-  - {fileID: 1558408340925878, guid: f6164f9d80f53c7419c3fbcd4d43baf0, type: 2}
-  - {fileID: 1495646026997688, guid: b9b318e869f67eb4891df6a4e7196934, type: 2}
+  - {fileID: 1902580504610570, guid: f6164f9d80f53c7419c3fbcd4d43baf0, type: 2}
+  - {fileID: 1856049133530612, guid: b9b318e869f67eb4891df6a4e7196934, type: 2}
   colorSchemes_Pos: []
   colorSchemes_Neg: []
   doorSpawnRate: 10

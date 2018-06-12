@@ -65,7 +65,7 @@ public class ButterflyEffect : MonoBehaviour {
       }
       // we get the new direction
       newDir = new Vector3(tangent.x + r, tangent.y + r, tangent.z + r);
-      Vector3 translate = newDir * this.speed * Time.deltaTime;
+      Vector3 translate = newDir * (this.speed / 2.0f) * Time.deltaTime;
       // then translate
       c.transform.Translate(translate, Space.World);
    }
