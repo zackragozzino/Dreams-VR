@@ -36,8 +36,6 @@ public class Director : MonoBehaviour {
 
 	public Dropdown dropdown;
 
-   public RawImage startScreenBackground;
-   public RawImage startScreenLogo;
 	public GameObject startScreenButtons;
 	public GameObject startScreenCamera;
 
@@ -70,10 +68,7 @@ public class Director : MonoBehaviour {
 
 		foreach (Transform child in GameObject.Find ("ColorSchemes_Neg").transform) {
 			colorSchemes_Neg.Add (child.GetComponent<ColorCorrectionCurves> ());
-		}
-
-      //StartCoroutine(Wait(0.5f));
-      FadeImage(startScreenLogo, false);
+      }
 
 		bearTimer = bearTimerLength;
 	}
@@ -264,7 +259,7 @@ public class Director : MonoBehaviour {
 		//Clamp the values so they can't go past 0 and 10
 		emotionSpectrum = (int)Mathf.Clamp(emotionSpectrum + Random.Range (-3, 3), 0f, 10f);
 		intensitySpectrum = (int)Mathf.Clamp(intensitySpectrum + Random.Range (-3, 3), 0f, 10f);
-
+      AddScript();
 
 		//Tying weather to basic emotion spectrums
 		if (emotionSpectrum < 5) {
@@ -345,7 +340,7 @@ public class Director : MonoBehaviour {
 
 	void AddScript(){
 		GameObject dreamScript = Instantiate (dreamScripts [Random.Range (0, dreamScripts.Length)], this.transform.position, Quaternion.identity, this.transform);
-		float waitTime = Random.Range (5, 10);
+		float waitTime = Random.Range (20, 30);
 		StartCoroutine (WaitAndKillGameObject(dreamScript, waitTime));
 	}
 
@@ -354,33 +349,8 @@ public class Director : MonoBehaviour {
 		Destroy (gameObject);
 	}
 
-   IEnumerator Wait(float seconds) {
-      yield return new WaitForSeconds(seconds);
+   IEnumerator WaitAndStopGameObject(GameObject gameObject, float waitTime) {
+      yield return new WaitForSeconds(waitTime);
+      //gameObject.stop();
    }
-
-   IEnumerator FadeImage(RawImage img, bool fadeAway)
-    {
-        // fade from opaque to transparent
-        if (fadeAway)
-        {
-            // loop over 1 second backwards
-            for (float i = 1; i >= 0; i -= Time.deltaTime)
-            {
-                // set color with i as alpha
-                img.color = new Color(1, 1, 1, i);
-                yield return null;
-            }
-        }
-        // fade from transparent to opaque
-        else
-        {
-            // loop over 1 second
-            for (float i = 0; i <= 1; i += Time.deltaTime)
-            {
-                // set color with i as alpha
-                img.color = new Color(1, 1, 1, i);
-                yield return null;
-            }
-        }
-    }
 }
