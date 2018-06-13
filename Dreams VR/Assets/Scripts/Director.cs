@@ -12,7 +12,7 @@ public class Director : MonoBehaviour {
 	public List<ColorCorrectionCurves> colorSchemes_Pos = new List<ColorCorrectionCurves>();
 	public List<ColorCorrectionCurves> colorSchemes_Neg = new List<ColorCorrectionCurves>();
 
-	public float doorSpawnRate = 5f; 
+	public float doorSpawnRate = 10f; 
 	public GameObject doorPortal;
 
 	public int sceneNum = 0;
@@ -54,6 +54,9 @@ public class Director : MonoBehaviour {
 	private float bearTimerLength = 45f;
 	private float bearTimer;
 
+	private float dreamScriptLength = 25f;
+	private float dreamScriptTimer;
+
 	private bool isVR;
 
 	// Use this for initialization
@@ -74,15 +77,21 @@ public class Director : MonoBehaviour {
       }
 
 		bearTimer = bearTimerLength;
+		dreamScriptTimer = dreamScriptLength;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(sceneNum > 0)
+		if (sceneNum > 0) {
 			bearTimer -= Time.deltaTime;
+			dreamScriptTimer -= Time.deltaTime;
+		}
 
 		if (bearTimer <= 0)
 			generateBearTrap ();
+
+		if (dreamScriptTimer <= 0)
+			AddScript();
 
 		if (Input.GetKeyDown (KeyCode.M)) {
 			GenerateNewWorld();
@@ -248,6 +257,7 @@ public class Director : MonoBehaviour {
 
 		audm.Play ("Teleport");
 		bearTimer = bearTimerLength;
+		dreamScriptTimer = dreamScriptLength;
 
 		AssetMaster.StarterEnvironment newEnvironment = environment;
 
@@ -349,9 +359,11 @@ public class Director : MonoBehaviour {
 		
 
 	void AddScript(){
-		GameObject dreamScript = Instantiate (dreamScripts [Random.Range (0, dreamScripts.Length)], this.transform.position, Quaternion.identity, this.transform);
-		float waitTime = Random.Range (20, 30);
-		StartCoroutine (WaitAndKillGameObject(dreamScript, waitTime));
+		GameObject dreamScript = Instantiate (dreamScripts [Random.Range (0, dreamScripts.Length)], player.transform.position, Quaternion.identity, mapGenerator.transform);
+		//float waitTime = Random.Range (20, 30);
+		//StartCoroutine (WaitAndKillGameObject(dreamScript, waitTime));
+		Debug.Log("Generated dream script");
+		dreamScriptTimer = dreamScriptLength;
 	}
 
 	IEnumerator WaitAndKillGameObject(GameObject gameObject, float waitTime){

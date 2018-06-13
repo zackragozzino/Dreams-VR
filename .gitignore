@@ -38,5 +38,7 @@ sysinfo.txt
 # Examples for Facebook SDK
 */FacebookSDK/Examples/*
 
-# Facebook Auth Server Log files
-*/localhost_8000*
+# Facebook Auth Server files
+/localhost_8000/
+/PHP.zip
+
