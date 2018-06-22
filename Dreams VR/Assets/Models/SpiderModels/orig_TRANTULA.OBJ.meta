@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: c69a63c8e8f1e3743812174ede1559ee
-timeCreated: 1519712771
-licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -19,6 +17,7 @@ ModelImporter:
     3300002: trnt_eyes
     4300000: trnt_body
     4300002: trnt_eyes
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -38,6 +37,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5

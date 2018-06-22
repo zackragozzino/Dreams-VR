@@ -143,8 +143,11 @@ namespace VRTK.Highlighters
 
                     if (resetMainTexture && material.HasProperty("_MainTex"))
                     {
-                        renderer.material.SetTexture("_MainTex", new Texture());
-                    }
+						//Zack change for 2018 update
+                        //renderer.material.SetTexture("_MainTex", new Texture2D());
+						
+						Debug.Log ("Z ERROR");
+					}
 
                     if (material.HasProperty("_Color"))
                     {

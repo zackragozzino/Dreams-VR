@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: e4165436f535940fba219e78cec29b2a
-timeCreated: 1503240813
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: Armature
     100002: Bone
@@ -91,10 +89,58 @@ ModelImporter:
     13700000: GPVFX_Binoculars Hinge A
     13700002: GPVFX_Binoculars Hinge B
     13700004: GPVFX_Binoculars Hinge C
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GPVFX_Bino Center Shaft
+    second: {fileID: 2100000, guid: b77517b9911cc472286ff56dcc5e29cb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GPVFX_Eyepiece Map
+    second: {fileID: 2100000, guid: bdf39e7d4eb6d4bc69b1c30339d4de91, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GPVFX_Hinge A Map
+    second: {fileID: 2100000, guid: ebe8b397a73f34bd39e6c9c7fa4c3e4b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GPVFX_Hinge B Map
+    second: {fileID: 2100000, guid: b98d8a2ac2e41481db3334f8f0217918, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GPVFX_Hinge C_
+    second: {fileID: 2100000, guid: 97eff31e7eabf4385880afb52a9429b9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GPVFX_Hull Left Map
+    second: {fileID: 2100000, guid: 7413b6961da4a4fefa6f467bd021f215, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GPVFX_LENS
+    second: {fileID: 2100000, guid: 513bfb144f5ef4015b45896eb3c059f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GPVFX_Map Hull R
+    second: {fileID: 2100000, guid: bebd164553e24444985edecf15c648de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grip seamless
+    second: {fileID: 2100000, guid: c29f6b514b565440fa690d1b197d20ae, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -107,12 +153,15 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -120,13 +169,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 1
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -136,6 +190,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
